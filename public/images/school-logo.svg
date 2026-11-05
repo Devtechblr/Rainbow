@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 80" width="320" height="80" fill="none">
+  <defs>
+    <linearGradient id="logoRainbow" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ED8B37" />
+      <stop offset="50%" stop-color="#F5C94C" />
+      <stop offset="100%" stop-color="#38A169" />
+    </linearGradient>
+    <linearGradient id="crestGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#173D55" />
+      <stop offset="100%" stop-color="#0F2838" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Emblem Shield / Circle -->
+  <g transform="translate(10, 10)">
+    <circle cx="30" cy="30" r="28" fill="url(#crestGrad)" stroke="#F5C94C" stroke-width="2" />
+    <!-- Rainbow Arcs -->
+    <path d="M 12 33 A 18 18 0 0 1 48 33" stroke="#ED8B37" stroke-width="3" stroke-linecap="round" fill="none" />
+    <path d="M 16 33 A 14 14 0 0 1 44 33" stroke="#F5C94C" stroke-width="2.5" stroke-linecap="round" fill="none" />
+    <path d="M 20 33 A 10 10 0 0 1 40 33" stroke="#48BB78" stroke-width="2" stroke-linecap="round" fill="none" />
+    <path d="M 24 33 A 6 6 0 0 1 36 33" stroke="#4299E1" stroke-width="2" stroke-linecap="round" fill="none" />
+    <!-- Open Book -->
+    <path d="M 20 40 C 25 38 29 40 30 42 C 31 40 35 38 40 40 L 40 33 C 35 31 31 33 30 35 C 29 33 25 31 20 33 Z" fill="#FFFAF2" stroke="#F5C94C" stroke-width="1.2" />
+    <!-- Guiding Star -->
+    <polygon points="30,13 31.8,17.5 36.5,17.5 32.7,20.5 34.2,25 30,22 25.8,25 27.3,20.5 23.5,17.5 28.2,17.5" fill="#F5C94C" />
+  </g>
+  
+  <!-- School Name Typography -->
+  <text x="80" y="34" font-family="'Plus Jakarta Sans', 'Nunito', sans-serif" font-weight="800" font-size="20" fill="#173D55" letter-spacing="-0.02em">
+    RAINBOW
+  </text>
+  <text x="80" y="52" font-family="'Plus Jakarta Sans', 'Nunito', sans-serif" font-weight="700" font-size="14" fill="#ED8B37" letter-spacing="0.08em">
+    INNOVATIVE ACADEMY
+  </text>
+  <text x="80" y="66" font-family="'Nunito', sans-serif" font-weight="600" font-size="10" fill="#5A7184" letter-spacing="0.04em">
+    CBSE AFFILIATED · BENGALURU · ESTD. 2019
+  </text>
+</svg>
+
