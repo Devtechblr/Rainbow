@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { motion } from 'framer-motion';
-import { Camera, Maximize2, Tag, Eye } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { Camera, Maximize2, Tag, Calendar, GraduationCap, ArrowRight } from 'lucide-react';
 import { galleryItems } from '../data/schoolData';
-import ChalkHeading from '../components/ChalkHeading';
+import SectionHeader from '../components/SectionHeader';
 import Lightbox from '../components/Lightbox';
 
 export const Gallery = () => {
@@ -33,56 +33,49 @@ export const Gallery = () => {
   };
 
   return (
-    <div style={{ backgroundColor: '#FFFAF2' }}>
-      {/* Page Header Banner */}
+    <div>
+      {/* 1. Page Header Banner (Deep Navy #102B49) */}
       <section
+        className="section-navy"
         style={{
           padding: '4.5rem 0 3.5rem',
-          background: 'linear-gradient(135deg, #173D55 0%, #0F2838 100%)',
-          color: '#FFFAF2',
-          textAlign: 'center',
-          position: 'relative'
+          textAlign: 'center'
         }}
       >
         <div className="container" style={{ maxWidth: '850px' }}>
-          <div
-            className="chalk-badge"
-            style={{
-              background: 'rgba(255, 250, 242, 0.1)',
-              borderColor: 'rgba(245, 201, 76, 0.6)',
-              color: '#F5C94C'
-            }}
-          >
-            <span>Campus Visual Tour</span>
+          <div style={{ marginBottom: '1.25rem' }}>
+            <span className="badge-dark-gold">
+              <Camera size={14} color="#C5A880" />
+              Campus Visual Tour
+            </span>
           </div>
 
           <h1
             style={{
-              fontSize: 'clamp(2.4rem, 5vw, 3.5rem)',
-              color: '#FFFAF2',
-              fontWeight: 800,
+              fontSize: 'clamp(2.35rem, 4.5vw, 3.4rem)',
+              color: '#FFFFFF',
+              fontWeight: 700,
               lineHeight: 1.2,
+              letterSpacing: '-0.02em',
               marginBottom: '1.25rem'
             }}
           >
-            Photo & Event <span style={{ color: '#F5C94C' }}>Gallery</span>
+            Campus Visual Gallery
           </h1>
 
-          <p style={{ color: '#E9F3ED', fontSize: '1.2rem', lineHeight: 1.7, maxWidth: '720px', margin: '0 auto' }}>
-            Explore glimpses of our classrooms, science & computer labs, sports track, cultural festivals, and everyday
-            student life.
+          <p style={{ color: '#CBD5E1', fontSize: '1.15rem', lineHeight: 1.7, maxWidth: '720px', margin: '0 auto' }}>
+            Authentic photographs of smart classrooms, science and IT laboratories, athletics fields, performing arts, and student life at Rainbow Innovative Academy.
           </p>
         </div>
       </section>
 
-      {/* Gallery Filter Tabs & Responsive Grid */}
-      <section className="section-padding" style={{ backgroundColor: '#FFFFFF' }}>
+      {/* 2. SECTION TYPE A (Warm Ivory #F4F1E9): Editorial Gallery Grid */}
+      <section className="section-padding section-ivory">
         <div className="container">
-          <ChalkHeading
-            badge="Moments at RIA"
-            title="Life Across Our"
-            highlightWord="Campus Grounds"
-            subtitle="Click on any photograph to open full-screen view with keyboard arrow navigation."
+          <SectionHeader
+            badge="AUTHENTIC PHOTOGRAPHY"
+            title="Life Across Our 4,000+ sq. m Campus"
+            subtitle="Click or tap any photograph to open the high-resolution lightbox with keyboard arrow navigation."
           />
 
           {/* Category Filter Pills */}
@@ -91,7 +84,7 @@ export const Gallery = () => {
               display: 'flex',
               flexWrap: 'wrap',
               justifyContent: 'center',
-              gap: '0.75rem',
+              gap: '0.65rem',
               marginBottom: '3rem'
             }}
           >
@@ -100,18 +93,18 @@ export const Gallery = () => {
                 key={cat}
                 onClick={() => setActiveCategory(cat)}
                 style={{
-                  padding: '0.65rem 1.4rem',
-                  borderRadius: '9999px',
-                  fontFamily: "'Plus Jakarta Sans', sans-serif",
-                  fontWeight: 700,
-                  fontSize: '0.92rem',
-                  border: '2px solid',
-                  borderColor: activeCategory === cat ? '#ED8B37' : '#E2E8F0',
-                  backgroundColor: activeCategory === cat ? '#ED8B37' : '#FFFAF2',
-                  color: activeCategory === cat ? '#FFFFFF' : '#173D55',
+                  padding: '0.55rem 1.35rem',
+                  borderRadius: '6px',
+                  fontFamily: 'var(--font-heading)',
+                  fontWeight: 600,
+                  fontSize: '0.86rem',
+                  border: '1px solid',
+                  borderColor: activeCategory === cat ? 'var(--navy-primary)' : 'rgba(16, 43, 73, 0.15)',
+                  backgroundColor: activeCategory === cat ? 'var(--navy-primary)' : '#FFFFFF',
+                  color: activeCategory === cat ? '#FFFFFF' : 'var(--navy-primary)',
                   cursor: 'pointer',
                   transition: 'all 0.2s ease',
-                  boxShadow: activeCategory === cat ? '0 4px 14px rgba(237, 139, 55, 0.35)' : 'none'
+                  boxShadow: activeCategory === cat ? 'var(--shadow-sm)' : 'none'
                 }}
               >
                 {cat}
@@ -119,38 +112,50 @@ export const Gallery = () => {
             ))}
           </div>
 
-          {/* Image Grid */}
+          {/* Editorial Photographic Grid with Diverse Proportions */}
           <div
             style={{
               display: 'grid',
               gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))',
-              gap: '2rem'
+              gap: '1.75rem'
             }}
           >
-            {filteredItems.map((item, index) => (
-              <motion.div
-                key={item.id}
-                layout
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.95 }}
-                transition={{ duration: 0.35 }}
-                onClick={() => openLightbox(index)}
-                style={{
-                  borderRadius: '20px',
-                  overflow: 'hidden',
-                  backgroundColor: '#FFFFFF',
-                  boxShadow: 'var(--shadow-md)',
-                  border: '1px solid rgba(23, 61, 85, 0.08)',
-                  cursor: 'pointer',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  position: 'relative',
-                  group: 'true'
-                }}
-                className="gallery-card"
-              >
-                <div style={{ position: 'relative', height: '260px', overflow: 'hidden' }}>
+            {filteredItems.map((item, index) => {
+              // Create an editorial rhythm: first card and every 5th card can span slightly taller
+              const isFeatured = index % 5 === 0;
+
+              return (
+                <div
+                  key={item.id}
+                  onClick={() => openLightbox(index)}
+                  style={{
+                    position: 'relative',
+                    borderRadius: '12px',
+                    overflow: 'hidden',
+                    height: isFeatured ? '320px' : '260px',
+                    cursor: 'pointer',
+                    backgroundColor: '#0A1B2E',
+                    border: '1px solid rgba(16, 43, 73, 0.08)',
+                    boxShadow: 'var(--shadow-xs)',
+                    transition: 'all 0.25s ease'
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.transform = 'translateY(-3px)';
+                    e.currentTarget.style.boxShadow = 'var(--shadow-md)';
+                    const img = e.currentTarget.querySelector('img');
+                    if (img) img.style.transform = 'scale(1.04)';
+                    const overlay = e.currentTarget.querySelector('.zoom-hint');
+                    if (overlay) overlay.style.opacity = '1';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.transform = 'translateY(0)';
+                    e.currentTarget.style.boxShadow = 'var(--shadow-xs)';
+                    const img = e.currentTarget.querySelector('img');
+                    if (img) img.style.transform = 'scale(1)';
+                    const overlay = e.currentTarget.querySelector('.zoom-hint');
+                    if (overlay) overlay.style.opacity = '0';
+                  }}
+                >
                   <img
                     src={item.image}
                     alt={item.title}
@@ -160,92 +165,93 @@ export const Gallery = () => {
                       objectFit: 'cover',
                       transition: 'transform 0.4s ease'
                     }}
-                    className="gallery-thumb"
                   />
 
-                  {/* Category Pill Tag */}
-                  <span
-                    style={{
-                      position: 'absolute',
-                      top: '12px',
-                      left: '12px',
-                      background: 'rgba(23, 61, 85, 0.85)',
-                      color: '#FFFAF2',
-                      fontSize: '0.75rem',
-                      fontWeight: 700,
-                      padding: '0.25rem 0.7rem',
-                      borderRadius: '9999px',
-                      backdropFilter: 'blur(4px)',
-                      zIndex: 2
-                    }}
-                  >
-                    {item.category}
-                  </span>
-
-                  {/* Hover Overlay with expand icon */}
+                  {/* Gradient Overlay */}
                   <div
                     style={{
                       position: 'absolute',
                       inset: 0,
-                      backgroundColor: 'rgba(23, 61, 85, 0.4)',
-                      opacity: 0,
-                      transition: 'opacity 0.3s ease',
+                      background: 'linear-gradient(to top, rgba(7, 23, 44, 0.92) 0%, rgba(7, 23, 44, 0.25) 55%, transparent 100%)',
                       display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      color: '#FFFAF2'
+                      flexDirection: 'column',
+                      justifyContent: 'flex-end',
+                      padding: '1.35rem 1.5rem',
+                      color: '#FFFFFF'
                     }}
-                    className="gallery-overlay"
                   >
-                    <div
+                    <span
                       style={{
-                        width: '48px',
-                        height: '48px',
-                        borderRadius: '50%',
-                        backgroundColor: '#ED8B37',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        boxShadow: '0 4px 15px rgba(0,0,0,0.3)'
+                        fontSize: '0.72rem',
+                        color: 'var(--gold-accent)',
+                        fontWeight: 600,
+                        textTransform: 'uppercase',
+                        letterSpacing: '0.06em',
+                        marginBottom: '0.25rem'
                       }}
                     >
-                      <Maximize2 size={22} />
-                    </div>
-                  </div>
-                </div>
-
-                <div style={{ padding: '1.5rem', flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
-                  <div>
-                    <h3 style={{ fontSize: '1.15rem', color: '#173D55', marginBottom: '0.45rem' }}>
+                      {item.category}
+                    </span>
+                    <h3
+                      style={{
+                        fontSize: '1.02rem',
+                        fontWeight: 700,
+                        color: '#FFFFFF',
+                        lineHeight: 1.3
+                      }}
+                    >
                       {item.title}
                     </h3>
-                    <p style={{ color: '#4A5568', fontSize: '0.92rem', lineHeight: 1.5 }}>
-                      {item.description}
-                    </p>
                   </div>
 
-                  {item.tags && (
-                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.4rem', marginTop: '1rem' }}>
-                      {item.tags.map((t, i) => (
-                        <span
-                          key={i}
-                          style={{
-                            fontSize: '0.75rem',
-                            color: '#718096',
-                            background: '#FFFAF2',
-                            border: '1px solid #E2E8F0',
-                            padding: '0.15rem 0.5rem',
-                            borderRadius: '6px'
-                          }}
-                        >
-                          #{t}
-                        </span>
-                      ))}
-                    </div>
-                  )}
+                  {/* Zoom Hint Icon */}
+                  <div
+                    className="zoom-hint"
+                    style={{
+                      position: 'absolute',
+                      top: '12px',
+                      right: '12px',
+                      backgroundColor: 'rgba(7, 23, 44, 0.75)',
+                      padding: '0.45rem',
+                      borderRadius: '6px',
+                      color: '#FFFFFF',
+                      opacity: 0,
+                      transition: 'opacity 0.2s ease'
+                    }}
+                  >
+                    <Maximize2 size={16} />
+                  </div>
                 </div>
-              </motion.div>
-            ))}
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* 3. FEATURED SECTION (Deep Navy #102B49): Schedule Visit CTA Banner */}
+      <section
+        className="section-navy"
+        style={{
+          padding: '4rem 0',
+          textAlign: 'center'
+        }}
+      >
+        <div className="container" style={{ maxWidth: '750px' }}>
+          <h2 style={{ fontSize: '1.85rem', fontWeight: 700, color: '#FFFFFF', marginBottom: '0.85rem' }}>
+            Experience Our Campus in Person
+          </h2>
+          <p style={{ color: '#CBD5E1', fontSize: '1rem', lineHeight: 1.65, marginBottom: '2rem' }}>
+            We welcome prospective families to visit Rainbow Innovative Academy in Konadasapura, explore our classrooms and laboratories, and meet our faculty.
+          </p>
+          <div style={{ display: 'flex', justifyContent: 'center', gap: '1rem', flexWrap: 'wrap' }}>
+            <Link to="/contact" className="btn-gold">
+              <Calendar size={16} />
+              <span>Schedule Campus Tour</span>
+            </Link>
+            <Link to="/admissions" className="btn-outline-white">
+              <GraduationCap size={16} />
+              <span>Admissions 2026–27</span>
+            </Link>
           </div>
         </div>
       </section>
@@ -254,24 +260,15 @@ export const Gallery = () => {
       {selectedItemIndex !== null && (
         <Lightbox
           item={filteredItems[selectedItemIndex]}
+          total={filteredItems.length}
+          currentIndex={selectedItemIndex}
           onClose={closeLightbox}
           onPrev={handlePrev}
           onNext={handleNext}
         />
       )}
-
-      {/* Hover effect styling */}
-      <style>{`
-        .gallery-card:hover .gallery-thumb {
-          transform: scale(1.05);
-        }
-        .gallery-card:hover .gallery-overlay {
-          opacity: 1 !important;
-        }
-      `}</style>
     </div>
   );
 };
 
 export default Gallery;
-

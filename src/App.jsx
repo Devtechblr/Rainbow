@@ -1,13 +1,11 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
-import IntroVideo from './components/IntroVideo';
 import ScrollToTop from './components/ScrollToTop';
-import { RocketProvider } from './components/RocketAnimation';
 
-// Pages
+// Core Institutional Pages
 import Home from './pages/Home';
 import AboutUs from './pages/AboutUs';
 import Academics from './pages/Academics';
@@ -20,18 +18,17 @@ const AppContent = () => {
   const location = useLocation();
 
   return (
-    <div className="flex flex-col min-h-screen">
+    <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
       <Navbar />
 
-      <main style={{ minHeight: '80vh', overflow: 'hidden' }}>
+      <main style={{ flex: 1, minHeight: '80vh' }}>
         <AnimatePresence mode="wait">
-          {/* Smooth page transition: fades and rises into view */}
           <motion.div
             key={location.pathname}
-            initial={{ opacity: 0, y: 18 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -12 }}
-            transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.25, ease: 'easeOut' }}
           >
             <Routes location={location}>
               <Route path="/" element={<Home />} />
@@ -41,7 +38,7 @@ const AppContent = () => {
               <Route path="/admissions" element={<Admissions />} />
               <Route path="/gallery" element={<Gallery />} />
               <Route path="/contact" element={<Contact />} />
-              {/* Catch-all fallback */}
+              {/* Fallback */}
               <Route path="*" element={<Home />} />
             </Routes>
           </motion.div>
@@ -54,18 +51,10 @@ const AppContent = () => {
 };
 
 export const App = () => {
-  const [introFinished, setIntroFinished] = useState(false);
-
   return (
     <BrowserRouter>
-      <RocketProvider>
-        <ScrollToTop />
-
-        {/* Fullscreen Classroom Intro Video (shown once per browser session) */}
-        <IntroVideo onIntroComplete={() => setIntroFinished(true)} />
-
-        <AppContent />
-      </RocketProvider>
+      <ScrollToTop />
+      <AppContent />
     </BrowserRouter>
   );
 };

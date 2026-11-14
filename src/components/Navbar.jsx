@@ -1,14 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
-import { Menu, X, Phone, GraduationCap } from 'lucide-react';
-import { useRocket } from './RocketAnimation';
+import { Link, useLocation } from 'react-router-dom';
+import { Menu, X, Phone, Mail, ChevronRight, GraduationCap } from 'lucide-react';
 import { schoolInfo } from '../data/schoolData';
 
 export const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const location = useLocation();
-  const { rocketNavigate, launchingElementId } = useRocket();
 
   const navLinks = [
     { name: 'Home', path: '/' },
@@ -17,12 +15,12 @@ export const Navbar = () => {
     { name: 'Campus Life', path: '/campus-life' },
     { name: 'Admissions', path: '/admissions' },
     { name: 'Gallery', path: '/gallery' },
-    { name: 'Contact', path: '/contact' }
+    { name: 'Contact Us', path: '/contact' }
   ];
 
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > 40) {
+      if (window.scrollY > 25) {
         setIsScrolled(true);
       } else {
         setIsScrolled(false);
@@ -33,27 +31,21 @@ export const Navbar = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Close mobile menu on route change
+  // Close mobile drawer whenever route changes
   useEffect(() => {
     setMobileMenuOpen(false);
   }, [location.pathname]);
 
-  const handleNavClick = (path, e) => {
-    setMobileMenuOpen(false);
-    rocketNavigate(path, e, { id: path });
-  };
-
   return (
     <>
-      {/* Top Notification Announcement Bar */}
+      {/* Top Institutional Utility Bar */}
       <div
         style={{
-          background: 'linear-gradient(90deg, #173D55 0%, #0F2838 100%)',
-          color: '#FFFAF2',
-          padding: '0.45rem 1rem',
-          fontSize: '0.85rem',
-          fontWeight: 600,
-          borderBottom: '2px solid #ED8B37'
+          backgroundColor: '#07172C',
+          color: '#E2E8F0',
+          fontSize: '0.8rem',
+          fontWeight: 500,
+          borderBottom: '1px solid rgba(255, 255, 255, 0.08)'
         }}
       >
         <div
@@ -63,41 +55,70 @@ export const Navbar = () => {
             justifyContent: 'space-between',
             alignItems: 'center',
             flexWrap: 'wrap',
-            gap: '0.5rem'
+            padding: '0.4rem 1.5rem',
+            gap: '0.75rem'
           }}
         >
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+          {/* Left: CBSE Affiliation & Admissions Pill */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', flexWrap: 'wrap' }}>
             <span
               style={{
-                background: '#ED8B37',
-                color: '#fff',
+                display: 'inline-flex',
+                alignItems: 'center',
+                background: 'rgba(197, 168, 128, 0.22)',
+                color: '#E8D5B5',
+                border: '1px solid rgba(197, 168, 128, 0.45)',
                 fontSize: '0.72rem',
-                fontWeight: 800,
+                fontWeight: 600,
                 padding: '0.15rem 0.55rem',
-                borderRadius: '9999px',
-                textTransform: 'uppercase'
+                borderRadius: '3px',
+                letterSpacing: '0.04em',
+                textTransform: 'uppercase',
+                whiteSpace: 'nowrap'
               }}
             >
-              Admissions Open 2025-26
+              Admissions Open 2026–27
             </span>
-            <span style={{ opacity: 0.9 }}>CBSE Affiliation No: {schoolInfo.affiliation.affiliationNo}</span>
+            <span style={{ color: '#94A3B8', fontSize: '0.78rem', whiteSpace: 'nowrap' }} className="hide-sm">
+              CBSE Affiliation No: <strong style={{ color: '#F1F5F9' }}>{schoolInfo.affiliation.affiliationNo}</strong> · School Code: <strong style={{ color: '#F1F5F9' }}>{schoolInfo.affiliation.schoolCode}</strong>
+            </span>
           </div>
 
-          <div style={{ display: 'flex', alignItems: 'center', gap: '1.25rem', fontSize: '0.82rem' }}>
+          {/* Right: Verified Direct Contact & Email */}
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '1.25rem',
+              fontSize: '0.8rem',
+              color: '#CBD5E1',
+              whiteSpace: 'nowrap'
+            }}
+          >
             <a
               href={`tel:${schoolInfo.contact.phones[0].replace(/\s+/g, '')}`}
-              style={{ display: 'flex', alignItems: 'center', gap: '0.35rem', color: '#F5C94C' }}
+              style={{ display: 'inline-flex', alignItems: 'center', gap: '0.35rem', color: '#F1F5F9' }}
             >
-              <Phone size={13} />
+              <Phone size={13} style={{ color: '#C5A880' }} />
               <span>{schoolInfo.contact.phones[0]}</span>
             </a>
-            <span style={{ opacity: 0.5 }}>|</span>
-            <span style={{ color: '#E9F3ED' }}>Erappa Garden, Konadasapura, Bengaluru</span>
+            <span style={{ opacity: 0.3 }} className="hide-mobile">|</span>
+            <a
+              href={`mailto:${schoolInfo.contact.email}`}
+              style={{ display: 'inline-flex', alignItems: 'center', gap: '0.35rem', color: '#CBD5E1' }}
+              className="hide-mobile"
+            >
+              <Mail size={13} style={{ color: '#C5A880' }} />
+              <span>{schoolInfo.contact.email}</span>
+            </a>
           </div>
         </div>
+
+        {/* Subtle architectural hairline */}
+        <div className="brand-rainbow-line" style={{ height: '2.5px' }} />
       </div>
 
-      {/* Main Navigation Header */}
+      {/* Main Sticky Navigation Bar */}
       <header
         style={{
           position: 'sticky',
@@ -105,11 +126,10 @@ export const Navbar = () => {
           left: 0,
           right: 0,
           zIndex: 990,
-          transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)',
-          backgroundColor: isScrolled ? 'rgba(255, 250, 242, 0.96)' : 'rgba(255, 250, 242, 0.88)',
-          backdropFilter: 'blur(12px)',
-          boxShadow: isScrolled ? '0 8px 30px rgba(23, 61, 85, 0.08)' : 'none',
-          borderBottom: isScrolled ? '1px solid rgba(23, 61, 85, 0.08)' : '1px solid transparent'
+          backgroundColor: isScrolled ? 'rgba(255, 255, 255, 0.98)' : 'rgba(244, 241, 233, 0.98)',
+          backdropFilter: 'blur(10px)',
+          boxShadow: isScrolled ? '0 4px 20px rgba(16, 43, 73, 0.08)' : '0 1px 0 rgba(16, 43, 73, 0.08)',
+          transition: 'all 0.25s ease'
         }}
       >
         <div
@@ -119,224 +139,254 @@ export const Navbar = () => {
             alignItems: 'center',
             justifyContent: 'space-between',
             height: isScrolled ? '72px' : '82px',
-            transition: 'height 0.3s ease'
+            transition: 'height 0.25s ease'
           }}
         >
-          {/* Logo Brand with Real Official School Crest */}
-          <a
-            id="nav-logo"
-            href="/"
-            onClick={(e) => handleNavClick('/', e)}
+          {/* School Brand Identity (Logo + Name + Subtitle) */}
+          <Link
+            to="/"
             style={{
               display: 'flex',
               alignItems: 'center',
               gap: '0.85rem',
               textDecoration: 'none',
-              cursor: 'pointer',
-              transform: launchingElementId === '/' ? 'translateY(-3px) scale(1.04)' : 'none',
-              filter:
-                launchingElementId === '/'
-                  ? 'drop-shadow(0 0 12px rgba(245, 201, 76, 0.8))'
-                  : 'none',
-              transition: 'transform 0.25s ease, filter 0.25s ease'
+              flexShrink: 0,
+              whiteSpace: 'nowrap'
             }}
           >
             <img
               src="/images/school/ria-crest.svg"
-              alt="Rainbow Innovative Academy Official Logo Crest"
-              style={{ width: '48px', height: '48px', objectFit: 'contain', filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.12))' }}
+              alt="Rainbow Innovative Academy Crest"
+              style={{
+                width: isScrolled ? '48px' : '54px',
+                height: isScrolled ? '48px' : '54px',
+                objectFit: 'contain',
+                flexShrink: 0,
+                transition: 'all 0.25s ease'
+              }}
             />
-            <div>
+            <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
               <span
                 style={{
                   display: 'block',
-                  fontFamily: "'Plus Jakarta Sans', sans-serif",
-                  fontWeight: 800,
-                  fontSize: '1.28rem',
+                  fontFamily: 'var(--font-heading)',
+                  fontWeight: 700,
+                  fontSize: '1.18rem',
                   letterSpacing: '-0.02em',
-                  color: '#173D55',
-                  lineHeight: 1.1
+                  color: 'var(--navy-primary)',
+                  lineHeight: 1.15,
+                  whiteSpace: 'nowrap'
                 }}
               >
-                Rainbow
+                Rainbow Innovative Academy
               </span>
               <span
                 style={{
                   display: 'block',
-                  fontFamily: "'Plus Jakarta Sans', sans-serif",
-                  fontWeight: 700,
-                  fontSize: '0.82rem',
-                  letterSpacing: '0.08em',
-                  color: '#ED8B37',
-                  lineHeight: 1.1
+                  fontFamily: 'var(--font-body)',
+                  fontWeight: 500,
+                  fontSize: '0.74rem',
+                  letterSpacing: '0.03em',
+                  color: '#64748B',
+                  lineHeight: 1.2,
+                  whiteSpace: 'nowrap'
                 }}
+                className="hide-xs"
               >
-                INNOVATIVE ACADEMY
+                Affiliated to CBSE, New Delhi · Bengaluru
               </span>
             </div>
-          </a>
+          </Link>
 
           {/* Desktop Navigation Links */}
           <nav
             style={{
-              display: 'none',
+              display: 'flex',
               alignItems: 'center',
-              gap: '1.75rem'
+              gap: 'clamp(0.7rem, 1.1vw, 1.35rem)',
+              whiteSpace: 'nowrap'
             }}
             className="desktop-nav"
           >
             {navLinks.map((link) => {
               const isActive = location.pathname === link.path;
-              const isLaunching = launchingElementId === link.path;
-
               return (
-                <a
+                <Link
                   key={link.path}
-                  id={`nav-link-${link.path.replace('/', '') || 'home'}`}
-                  href={link.path}
-                  onClick={(e) => handleNavClick(link.path, e)}
+                  to={link.path}
                   style={{
+                    fontFamily: 'var(--font-heading)',
+                    fontSize: '0.88rem',
+                    fontWeight: isActive ? 600 : 500,
+                    color: isActive ? 'var(--navy-primary)' : '#334155',
+                    padding: '0.4rem 0',
                     position: 'relative',
-                    fontFamily: "'Plus Jakarta Sans', sans-serif",
-                    fontWeight: isActive || isLaunching ? 800 : 600,
-                    fontSize: '0.96rem',
-                    color: isLaunching ? '#ED8B37' : isActive ? '#ED8B37' : '#173D55',
+                    transition: 'color 0.2s ease',
                     textDecoration: 'none',
-                    padding: '0.5rem 0.4rem',
-                    borderRadius: '8px',
-                    transform: isLaunching ? 'translateY(-4px) scale(1.08)' : 'none',
-                    boxShadow: isLaunching
-                      ? '0 0 16px rgba(245, 201, 76, 0.75), 0 0 24px rgba(237, 139, 55, 0.4)'
-                      : 'none',
-                    backgroundColor: isLaunching ? 'rgba(255, 250, 242, 0.95)' : 'transparent',
-                    transition: 'all 0.25s cubic-bezier(0.16, 1, 0.3, 1)',
-                    cursor: 'pointer'
+                    whiteSpace: 'nowrap'
+                  }}
+                  onMouseEnter={(e) => {
+                    if (!isActive) e.currentTarget.style.color = 'var(--navy-primary)';
+                  }}
+                  onMouseLeave={(e) => {
+                    if (!isActive) e.currentTarget.style.color = '#334155';
                   }}
                 >
-                  <span>{link.name}</span>
-                  {isActive && !isLaunching && (
+                  {link.name}
+                  {isActive && (
                     <span
                       style={{
                         position: 'absolute',
-                        left: '0.4rem',
-                        right: '0.4rem',
-                        bottom: '-2px',
-                        height: '3px',
-                        borderRadius: '2px',
-                        background: 'linear-gradient(90deg, #ED8B37, #F5C94C)'
+                        bottom: 0,
+                        left: 0,
+                        right: 0,
+                        height: '2px',
+                        backgroundColor: 'var(--gold-rich)',
+                        borderRadius: '2px'
                       }}
                     />
                   )}
-                </a>
+                </Link>
               );
             })}
 
-            {/* Apply / Enroll CTA */}
-            <a
-              id="nav-apply-btn"
-              href="/admissions"
-              onClick={(e) => handleNavClick('/admissions', e)}
+            {/* Apply Now Action Button */}
+            <Link
+              to="/admissions"
               className="btn-primary"
               style={{
-                padding: '0.65rem 1.4rem',
-                fontSize: '0.92rem',
-                cursor: 'pointer',
-                transform:
-                  launchingElementId === '/admissions'
-                    ? 'translateY(-4px) scale(1.06)'
-                    : undefined,
-                boxShadow:
-                  launchingElementId === '/admissions'
-                    ? '0 0 20px rgba(245, 201, 76, 0.9), 0 0 30px rgba(237, 139, 55, 0.6)'
-                    : undefined
+                padding: '0.55rem 1.15rem',
+                fontSize: '0.84rem',
+                flexShrink: 0,
+                whiteSpace: 'nowrap',
+                gap: '0.45rem'
               }}
             >
-              <GraduationCap size={18} />
+              <GraduationCap size={15} />
               <span>Apply Now</span>
-            </a>
+            </Link>
           </nav>
 
-          {/* Mobile Menu Button */}
+          {/* Mobile Menu Toggle Button */}
           <button
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              width: '44px',
-              height: '44px',
-              borderRadius: '12px',
-              background: '#FFFAF2',
-              border: '2px solid #E2E8F0',
-              color: '#173D55'
-            }}
+            type="button"
             className="mobile-toggle"
-            aria-label="Toggle navigation menu"
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            aria-label={mobileMenuOpen ? 'Close Navigation Menu' : 'Open Navigation Menu'}
+            style={{
+              display: 'none',
+              padding: '0.5rem',
+              color: 'var(--navy-primary)',
+              cursor: 'pointer'
+            }}
           >
-            {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+            {mobileMenuOpen ? <X size={26} /> : <Menu size={26} />}
           </button>
         </div>
-
-        {/* Mobile Dropdown Menu */}
-        {mobileMenuOpen && (
-          <div
-            style={{
-              backgroundColor: '#FFFAF2',
-              borderTop: '1px solid #E2E8F0',
-              padding: '1.25rem 1.5rem 2rem',
-              boxShadow: '0 12px 30px rgba(23, 61, 85, 0.12)'
-            }}
-          >
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.85rem' }}>
-              {navLinks.map((link) => {
-                const isActive = location.pathname === link.path;
-                const isLaunching = launchingElementId === link.path;
-                return (
-                  <a
-                    key={link.path}
-                    href={link.path}
-                    onClick={(e) => handleNavClick(link.path, e)}
-                    style={{
-                      fontFamily: "'Plus Jakarta Sans', sans-serif",
-                      fontWeight: isActive || isLaunching ? 800 : 600,
-                      fontSize: '1.08rem',
-                      color: isLaunching ? '#ED8B37' : isActive ? '#ED8B37' : '#173D55',
-                      padding: '0.6rem 0.8rem',
-                      borderRadius: '8px',
-                      background: isLaunching ? '#FFF4E5' : isActive ? '#FFF4E5' : 'transparent',
-                      transform: isLaunching ? 'translateX(6px)' : 'none',
-                      textDecoration: 'none',
-                      cursor: 'pointer',
-                      transition: 'all 0.2s ease'
-                    }}
-                  >
-                    {link.name}
-                  </a>
-                );
-              })}
-              <div style={{ paddingTop: '0.75rem' }}>
-                <a
-                  href="/admissions"
-                  onClick={(e) => handleNavClick('/admissions', e)}
-                  className="btn-primary"
-                  style={{ width: '100%', boxSizing: 'border-box', cursor: 'pointer' }}
-                >
-                  <GraduationCap size={18} />
-                  <span>Admissions 2025-26</span>
-                </a>
-              </div>
-            </div>
-          </div>
-        )}
       </header>
 
-      {/* Media query styling for responsive nav */}
+      {/* Mobile Drawer Navigation */}
+      {mobileMenuOpen && (
+        <div
+          style={{
+            position: 'fixed',
+            top: '71px',
+            left: 0,
+            right: 0,
+            bottom: 0,
+            backgroundColor: 'rgba(7, 23, 44, 0.65)',
+            backdropFilter: 'blur(4px)',
+            zIndex: 980
+          }}
+          onClick={() => setMobileMenuOpen(false)}
+        >
+          <div
+            style={{
+              backgroundColor: '#FFFFFF',
+              width: '100%',
+              maxHeight: 'calc(100vh - 71px)',
+              overflowY: 'auto',
+              padding: '1.75rem 1.5rem 2.5rem',
+              boxShadow: '0 20px 40px rgba(0, 0, 0, 0.15)',
+              borderBottom: '1px solid #E2E8F0'
+            }}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.65rem', marginBottom: '1.5rem' }}>
+              {navLinks.map((link) => {
+                const isActive = location.pathname === link.path;
+                return (
+                  <Link
+                    key={link.path}
+                    to={link.path}
+                    onClick={() => setMobileMenuOpen(false)}
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'space-between',
+                      padding: '0.75rem 1rem',
+                      borderRadius: '8px',
+                      fontFamily: 'var(--font-heading)',
+                      fontWeight: isActive ? 600 : 500,
+                      fontSize: '0.98rem',
+                      color: isActive ? 'var(--navy-primary)' : '#334155',
+                      backgroundColor: isActive ? 'var(--navy-subtle)' : 'transparent',
+                      textDecoration: 'none'
+                    }}
+                  >
+                    <span>{link.name}</span>
+                    <ChevronRight size={16} color={isActive ? 'var(--navy-primary)' : '#94A3B8'} />
+                  </Link>
+                );
+              })}
+            </div>
+
+            <div style={{ borderTop: '1px solid #E2E8F0', paddingTop: '1.5rem', display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+              <Link
+                to="/admissions"
+                onClick={() => setMobileMenuOpen(false)}
+                className="btn-primary"
+                style={{ width: '100%', textAlign: 'center' }}
+              >
+                <GraduationCap size={17} />
+                <span>Enquire & Apply for 2026–27</span>
+              </Link>
+              
+              <a
+                href={`tel:${schoolInfo.contact.phones[0].replace(/\s+/g, '')}`}
+                className="btn-secondary"
+                style={{ width: '100%', textAlign: 'center' }}
+              >
+                <Phone size={15} />
+                <span>Call Admissions: {schoolInfo.contact.phones[0]}</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Responsive Styles for Navigation Bar */}
       <style>{`
-        @media (min-width: 992px) {
+        @media (max-width: 1140px) {
           .desktop-nav {
-            display: flex !important;
+            display: none !important;
           }
           .mobile-toggle {
+            display: block !important;
+          }
+        }
+        @media (max-width: 768px) {
+          .hide-mobile {
+            display: none !important;
+          }
+        }
+        @media (max-width: 600px) {
+          .hide-sm {
+            display: none !important;
+          }
+        }
+        @media (max-width: 480px) {
+          .hide-xs {
             display: none !important;
           }
         }

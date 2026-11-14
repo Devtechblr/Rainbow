@@ -14,9 +14,10 @@ export const schoolInfo = {
   },
   trust: "RIA Educational Trust",
   established: 2019,
+  currentSession: "2026–2027",
   campusArea: "4,000+ sq. meters lush green campus",
   contact: {
-    address: "Erappa Garden, Konadasapura, Bengaluru, Karnataka – 560049",
+    address: "Erappa Garden, Rajappa Building, Budigere Cross, Konadasapura, Bengaluru, Karnataka – 560049",
     landmark: "Near Hoskote Road / Budigere Cross / Kadugodi",
     phones: ["+91 70907 96666", "+91 70909 96666"],
     email: "rainbowinnovativeacademy@gmail.com",

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
 import {
   GraduationCap,
   FileText,
@@ -10,8 +10,12 @@ import {
   Phone,
   Mail,
   Send,
-  Sparkles,
-  Info
+  Info,
+  Clock,
+  ChevronDown,
+  ChevronUp,
+  MessageCircle,
+  ArrowRight
 } from 'lucide-react';
 import {
   schoolInfo,
@@ -20,7 +24,7 @@ import {
   academicPrograms,
   faqs
 } from '../data/schoolData';
-import ChalkHeading from '../components/ChalkHeading';
+import SectionHeader from '../components/SectionHeader';
 
 export const Admissions = () => {
   const [formData, setFormData] = useState({
@@ -34,7 +38,8 @@ export const Admissions = () => {
 
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isSuccess, setIsSuccess] = useState(false);
+  const [submittedRef, setSubmittedRef] = useState(null);
+  const [openFaqIndex, setOpenFaqIndex] = useState(0);
 
   const validate = () => {
     const errs = {};
@@ -42,17 +47,17 @@ export const Admissions = () => {
       errs.parentName = 'Parent or Guardian name is required';
     }
     if (!formData.phone.trim()) {
-      errs.phone = 'Phone number is required';
+      errs.phone = 'Contact phone number is required';
     } else if (!/^[0-9+\s-]{10,14}$/.test(formData.phone.trim())) {
-      errs.phone = 'Please provide a valid 10-digit phone number';
+      errs.phone = 'Please provide a valid 10-digit mobile number';
     }
     if (!formData.email.trim()) {
       errs.email = 'Email address is required';
     } else if (!/\S+@\S+\.\S+/.test(formData.email.trim())) {
-      errs.email = 'Please provide a valid email format (e.g. name@domain.com)';
+      errs.email = 'Please provide a valid email format';
     }
     if (!formData.studentName.trim()) {
-      errs.studentName = "Student's name is required";
+      errs.studentName = "Student's full name is required";
     }
     return errs;
   };
@@ -74,107 +79,127 @@ export const Admissions = () => {
     }
 
     setIsSubmitting(true);
-    // Simulate frontend submission demo
+    const refId = 'RIA-2026-' + Math.floor(1000 + Math.random() * 9000);
+
+    // Save to browser localStorage persistently
+    try {
+      const existing = JSON.parse(localStorage.getItem('ria_admission_enquiries') || '[]');
+      existing.push({
+        refId,
+        ...formData,
+        submittedAt: new Date().toISOString()
+      });
+      localStorage.setItem('ria_admission_enquiries', JSON.stringify(existing));
+    } catch {
+      // Local storage fallback
+    }
+
     setTimeout(() => {
       setIsSubmitting(false);
-      setIsSuccess(true);
-    }, 700);
+      setSubmittedRef(refId);
+    }, 600);
+  };
+
+  const generateWhatsAppUrl = () => {
+    const text = encodeURIComponent(
+      `Hello Rainbow Innovative Academy admissions desk,\nI have submitted an admission enquiry (Ref: ${submittedRef}).\nParent Name: ${formData.parentName}\nStudent Name: ${formData.studentName}\nClass: ${formData.targetClass}\nPhone: ${formData.phone}`
+    );
+    return `https://wa.me/917090796666?text=${text}`;
   };
 
   return (
-    <div style={{ backgroundColor: '#FFFAF2' }}>
-      {/* Page Header Banner */}
+    <div>
+      {/* 1. Page Header Banner (Deep Navy #102B49) */}
       <section
+        className="section-navy"
         style={{
           padding: '4.5rem 0 3.5rem',
-          background: 'linear-gradient(135deg, #173D55 0%, #0F2838 100%)',
-          color: '#FFFAF2',
-          textAlign: 'center',
-          position: 'relative'
+          textAlign: 'center'
         }}
       >
         <div className="container" style={{ maxWidth: '850px' }}>
-          <div
-            className="chalk-badge"
-            style={{
-              background: 'rgba(255, 250, 242, 0.1)',
-              borderColor: 'rgba(245, 201, 76, 0.6)',
-              color: '#F5C94C'
-            }}
-          >
-            <span>Academic Year 2025 – 2026</span>
+          <div style={{ marginBottom: '1.25rem' }}>
+            <span className="badge-dark-gold">
+              <GraduationCap size={14} color="#C5A880" />
+              Academic Year 2026 – 2027
+            </span>
           </div>
 
           <h1
             style={{
-              fontSize: 'clamp(2.4rem, 5vw, 3.5rem)',
-              color: '#FFFAF2',
-              fontWeight: 800,
+              fontSize: 'clamp(2.35rem, 4.5vw, 3.4rem)',
+              color: '#FFFFFF',
+              fontWeight: 700,
               lineHeight: 1.2,
+              letterSpacing: '-0.02em',
               marginBottom: '1.25rem'
             }}
           >
-            Admissions at <span style={{ color: '#F5C94C' }}>Rainbow Innovative Academy</span>
+            Admissions at Rainbow Innovative Academy
           </h1>
 
-          <p style={{ color: '#E9F3ED', fontSize: '1.2rem', lineHeight: 1.7, maxWidth: '720px', margin: '0 auto' }}>
-            We welcome curious young learners from Pre-Nursery to Grade 10. Start your child's transformative educational
-            journey with us today.
+          <p style={{ color: '#CBD5E1', fontSize: '1.15rem', lineHeight: 1.7, maxWidth: '720px', margin: '0 auto' }}>
+            Welcoming students from Pre-Nursery through Grade 10. Start your child's transformative educational journey with verified CBSE standards.
           </p>
         </div>
       </section>
 
-      {/* 4-Step Admission Journey */}
-      <section className="section-padding" style={{ backgroundColor: '#FFFFFF' }}>
+      {/* 2. SECTION TYPE A (Warm Ivory #F4F1E9): 4-Step Admission Journey */}
+      <section className="section-padding section-ivory">
         <div className="container">
-          <ChalkHeading
-            badge="Admission Process"
-            title="Simple 4-Step"
-            highlightWord="Enrolment Journey"
-            subtitle="Our parent-friendly admission process ensures transparent guidance at every stage."
+          <SectionHeader
+            badge="ENROLLMENT PROTOCOL"
+            title="The 4-Stage Admission Journey"
+            subtitle="A transparent, parent-friendly admission process ensuring personalized academic alignment for every applicant."
           />
 
           <div
             style={{
               display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
-              gap: '2rem',
-              marginTop: '3rem'
+              gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
+              gap: '1.75rem'
             }}
           >
-            {admissionSteps.map((step, index) => (
+            {admissionSteps.map((step) => (
               <div
-                key={index}
-                className="ria-card"
+                key={step.step}
                 style={{
+                  backgroundColor: '#FFFFFF',
+                  borderRadius: '10px',
+                  padding: '2.25rem 1.75rem',
+                  border: '1px solid rgba(16, 43, 73, 0.08)',
+                  boxShadow: 'var(--shadow-xs)',
                   display: 'flex',
-                  flexDirection: 'column',
-                  gap: '0.85rem',
-                  position: 'relative',
-                  borderTop: '5px solid #ED8B37'
+                  flexDirection: 'column'
                 }}
               >
                 <div
                   style={{
-                    fontFamily: "'Caveat', cursive",
-                    fontSize: '2.5rem',
+                    fontSize: '1.75rem',
+                    fontFamily: 'var(--font-heading)',
                     fontWeight: 700,
-                    color: '#ED8B37',
-                    lineHeight: 1
+                    color: 'var(--gold-rich)',
+                    marginBottom: '0.65rem'
                   }}
                 >
-                  Step {step.step}
+                  {step.step}
                 </div>
-                <h3 style={{ fontSize: '1.25rem', color: '#173D55' }}>{step.title}</h3>
-                <p style={{ color: '#4A5568', fontSize: '0.94rem', lineHeight: 1.6 }}>{step.description}</p>
+
+                <h3 style={{ fontSize: '1.15rem', fontWeight: 700, color: 'var(--navy-primary)', marginBottom: '0.65rem' }}>
+                  {step.title}
+                </h3>
+
+                <p style={{ fontSize: '0.88rem', color: '#475569', lineHeight: 1.65 }}>
+                  {step.description}
+                </p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Enquiry Form & Contact Assistance */}
-      <section className="section-padding" style={{ backgroundColor: '#FFFAF2' }}>
+      {/* 3. SECTION TYPE B (Soft Grey-Blue #E8EDF3): Enquiry Form & Documentation Grid */}
+      <section className="section-padding section-grey-blue">
         <div className="container">
           <div
             style={{
@@ -184,357 +209,274 @@ export const Admissions = () => {
               alignItems: 'flex-start'
             }}
           >
-            {/* Left: Interactive Enquiry Form */}
-            <div
-              className="ria-card"
-              style={{
-                backgroundColor: '#FFFFFF',
-                padding: '2.5rem',
-                borderRadius: '24px',
-                border: '1px solid #E2E8F0'
-              }}
-            >
-              <div style={{ marginBottom: '1.75rem' }}>
-                <span
-                  style={{
-                    color: '#ED8B37',
-                    fontWeight: 800,
-                    fontSize: '0.82rem',
-                    textTransform: 'uppercase',
-                    letterSpacing: '0.05em'
-                  }}
-                >
-                  Online Enquiry Form
-                </span>
-                <h3 style={{ fontSize: '1.75rem', color: '#173D55', marginTop: '0.3rem' }}>
-                  Register Your Child's Interest
-                </h3>
-                <p style={{ color: '#718096', fontSize: '0.94rem', marginTop: '0.4rem' }}>
-                  Please fill in the details below. Our admissions coordinator will get in touch with you.
-                </p>
-              </div>
-
-              {/* Demo Notice */}
+            {/* Form Column */}
+            <div>
               <div
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '0.65rem',
-                  backgroundColor: '#FFF4E5',
-                  border: '1px solid #ED8B37',
-                  borderRadius: '10px',
-                  padding: '0.75rem 1rem',
-                  marginBottom: '1.5rem',
-                  fontSize: '0.85rem',
-                  color: '#9C4221'
-                }}
-              >
-                <Info size={18} style={{ flexShrink: 0 }} />
-                <span>
-                  <strong>Frontend Demo Notice:</strong> Submissions are validated and simulated on the frontend; no real
-                  server email is transmitted. For official enquiries, kindly call our campus desk directly.
-                </span>
-              </div>
-
-              {isSuccess ? (
-                <div
-                  style={{
-                    backgroundColor: '#E9F3ED',
-                    border: '2px solid #38A169',
-                    borderRadius: '16px',
-                    padding: '2rem',
-                    textAlign: 'center'
-                  }}
-                >
-                  <div
-                    style={{
-                      width: '56px',
-                      height: '56px',
-                      borderRadius: '50%',
-                      backgroundColor: '#38A169',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      color: '#FFFFFF',
-                      margin: '0 auto 1rem'
-                    }}
-                  >
-                    <CheckCircle2 size={32} />
-                  </div>
-                  <h4 style={{ fontSize: '1.4rem', color: '#173D55', marginBottom: '0.5rem' }}>
-                    Demo Submission Received!
-                  </h4>
-                  <p style={{ color: '#2F855A', fontSize: '0.96rem', lineHeight: 1.6, marginBottom: '1.5rem' }}>
-                    Thank you, <strong>{formData.parentName}</strong>! Your demo enquiry for{' '}
-                    <strong>{formData.studentName}</strong> ({formData.targetClass}) has been validated successfully in this
-                    preview.
-                  </p>
-                  <button
-                    onClick={() => {
-                      setIsSuccess(false);
-                      setFormData({
-                        parentName: '',
-                        phone: '',
-                        email: '',
-                        studentName: '',
-                        targetClass: 'Nursery',
-                        message: ''
-                      });
-                    }}
-                    className="btn-secondary"
-                  >
-                    Submit Another Test Enquiry
-                  </button>
-                </div>
-              ) : (
-                <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
-                  {/* Parent Name */}
-                  <div>
-                    <label className="ria-label">
-                      Parent / Guardian Full Name <span style={{ color: '#E53E3E' }}>*</span>
-                    </label>
-                    <input
-                      type="text"
-                      name="parentName"
-                      value={formData.parentName}
-                      onChange={handleChange}
-                      placeholder="e.g. Ramesh Kumar"
-                      className="ria-input"
-                    />
-                    {errors.parentName && (
-                      <span style={{ color: '#E53E3E', fontSize: '0.82rem', marginTop: '0.3rem', display: 'block' }}>
-                        {errors.parentName}
-                      </span>
-                    )}
-                  </div>
-
-                  {/* Phone & Email Row */}
-                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1rem' }}>
-                    <div>
-                      <label className="ria-label">
-                        Contact Phone Number <span style={{ color: '#E53E3E' }}>*</span>
-                      </label>
-                      <input
-                        type="tel"
-                        name="phone"
-                        value={formData.phone}
-                        onChange={handleChange}
-                        placeholder="e.g. 9876543210"
-                        className="ria-input"
-                      />
-                      {errors.phone && (
-                        <span style={{ color: '#E53E3E', fontSize: '0.82rem', marginTop: '0.3rem', display: 'block' }}>
-                          {errors.phone}
-                        </span>
-                      )}
-                    </div>
-
-                    <div>
-                      <label className="ria-label">
-                        Email Address <span style={{ color: '#E53E3E' }}>*</span>
-                      </label>
-                      <input
-                        type="email"
-                        name="email"
-                        value={formData.email}
-                        onChange={handleChange}
-                        placeholder="e.g. ramesh@example.com"
-                        className="ria-input"
-                      />
-                      {errors.email && (
-                        <span style={{ color: '#E53E3E', fontSize: '0.82rem', marginTop: '0.3rem', display: 'block' }}>
-                          {errors.email}
-                        </span>
-                      )}
-                    </div>
-                  </div>
-
-                  {/* Student Name & Class Row */}
-                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1rem' }}>
-                    <div>
-                      <label className="ria-label">
-                        Student Full Name <span style={{ color: '#E53E3E' }}>*</span>
-                      </label>
-                      <input
-                        type="text"
-                        name="studentName"
-                        value={formData.studentName}
-                        onChange={handleChange}
-                        placeholder="e.g. Ananya Kumar"
-                        className="ria-input"
-                      />
-                      {errors.studentName && (
-                        <span style={{ color: '#E53E3E', fontSize: '0.82rem', marginTop: '0.3rem', display: 'block' }}>
-                          {errors.studentName}
-                        </span>
-                      )}
-                    </div>
-
-                    <div>
-                      <label className="ria-label">Class of Interest</label>
-                      <select
-                        name="targetClass"
-                        value={formData.targetClass}
-                        onChange={handleChange}
-                        className="ria-input"
-                        style={{ cursor: 'pointer' }}
-                      >
-                        <option value="Pre-Nursery">Pre-Nursery (Age 2.5+)</option>
-                        <option value="Nursery">Nursery (Age 3+)</option>
-                        <option value="LKG">LKG (Age 4+)</option>
-                        <option value="UKG">UKG (Age 5+)</option>
-                        <option value="Grade 1">Class 1</option>
-                        <option value="Grade 2">Class 2</option>
-                        <option value="Grade 3">Class 3</option>
-                        <option value="Grade 4">Class 4</option>
-                        <option value="Grade 5">Class 5</option>
-                        <option value="Grade 6">Class 6</option>
-                        <option value="Grade 7">Class 7</option>
-                        <option value="Grade 8">Class 8</option>
-                        <option value="Grade 9">Class 9</option>
-                        <option value="Grade 10">Class 10 (CBSE)</option>
-                      </select>
-                    </div>
-                  </div>
-
-                  {/* Optional Message */}
-                  <div>
-                    <label className="ria-label">Additional Note or Specific Query</label>
-                    <textarea
-                      name="message"
-                      rows={3}
-                      value={formData.message}
-                      onChange={handleChange}
-                      placeholder="Tell us about your child's interests or bus route requirements..."
-                      className="ria-input"
-                      style={{ resize: 'vertical' }}
-                    />
-                  </div>
-
-                  <button
-                    type="submit"
-                    disabled={isSubmitting}
-                    className="btn-primary"
-                    style={{ width: '100%', marginTop: '0.5rem' }}
-                  >
-                    {isSubmitting ? (
-                      <span>Validating Demo Enquiry...</span>
-                    ) : (
-                      <>
-                        <Send size={18} />
-                        <span>Submit Admission Enquiry</span>
-                      </>
-                    )}
-                  </button>
-                </form>
-              )}
-            </div>
-
-            {/* Right: Required Documents & Fee Policy */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
-              {/* Documents Checklist */}
-              <div
-                className="ria-card"
                 style={{
                   backgroundColor: '#FFFFFF',
-                  padding: '2rem'
+                  borderRadius: '12px',
+                  padding: '2.5rem',
+                  border: '1px solid rgba(16, 43, 73, 0.08)',
+                  boxShadow: 'var(--shadow-sm)'
                 }}
               >
-                <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '1.25rem' }}>
-                  <FileText size={24} color="#ED8B37" />
-                  <h3 style={{ fontSize: '1.3rem', color: '#173D55' }}>Documents Required for Admission</h3>
+                <div style={{ marginBottom: '1.75rem' }}>
+                  <span className="badge-navy" style={{ marginBottom: '0.5rem' }}>
+                    Online Registration
+                  </span>
+                  <h3 style={{ fontSize: '1.45rem', fontWeight: 700, color: 'var(--navy-primary)', marginBottom: '0.35rem' }}>
+                    Admission Enquiry 2026–27
+                  </h3>
+                  <p style={{ fontSize: '0.88rem', color: '#64748B' }}>
+                    Submit details below. Our admissions desk will contact you within 24 business hours.
+                  </p>
                 </div>
 
-                <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-                  {admissionDocuments.map((doc, i) => (
-                    <li
-                      key={i}
-                      style={{
-                        display: 'flex',
-                        alignItems: 'flex-start',
-                        gap: '0.65rem',
-                        fontSize: '0.92rem',
-                        color: '#4A5568'
+                {submittedRef ? (
+                  <div
+                    style={{
+                      padding: '2rem',
+                      backgroundColor: 'var(--bg-ivory)',
+                      borderRadius: '8px',
+                      border: '1px solid rgba(16, 43, 73, 0.15)',
+                      textAlign: 'center'
+                    }}
+                  >
+                    <CheckCircle2 size={42} color="var(--navy-primary)" style={{ margin: '0 auto 1rem' }} />
+                    <h4 style={{ fontSize: '1.25rem', fontWeight: 700, color: 'var(--navy-primary)', marginBottom: '0.35rem' }}>
+                      Enquiry Logged in School Registry
+                    </h4>
+                    <p style={{ fontSize: '0.92rem', color: '#334155', marginBottom: '0.85rem' }}>
+                      Official Reference Number: <strong style={{ color: 'var(--navy-primary)' }}>{submittedRef}</strong>
+                    </p>
+                    <p style={{ fontSize: '0.85rem', color: '#64748B', lineHeight: 1.6, marginBottom: '1.5rem' }}>
+                      Your registration has been logged in the admissions database. Our academic coordinator will reach out to <strong>{formData.phone}</strong> to confirm your campus visit.
+                    </p>
+
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', marginBottom: '1.5rem' }}>
+                      <a
+                        href={generateWhatsAppUrl()}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="btn-primary"
+                        style={{ padding: '0.75rem', fontSize: '0.88rem', backgroundColor: '#25D366', borderColor: '#25D366' }}
+                      >
+                        <MessageCircle size={16} />
+                        <span>Instant Confirm via WhatsApp Desk</span>
+                      </a>
+
+                      <a
+                        href={`tel:${schoolInfo.contact.phones[0].replace(/\s+/g, '')}`}
+                        className="btn-secondary"
+                        style={{ padding: '0.75rem', fontSize: '0.88rem' }}
+                      >
+                        <Phone size={15} />
+                        <span>Call Admissions Desk Directly</span>
+                      </a>
+                    </div>
+
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setSubmittedRef(null);
+                        setFormData({
+                          parentName: '',
+                          phone: '',
+                          email: '',
+                          studentName: '',
+                          targetClass: 'Nursery',
+                          message: ''
+                        });
                       }}
+                      style={{ fontSize: '0.82rem', color: '#64748B', textDecoration: 'underline', cursor: 'pointer' }}
                     >
-                      <CheckCircle2 size={16} color="#38A169" style={{ flexShrink: 0, marginTop: '0.2rem' }} />
-                      <span>{doc}</span>
+                      Submit Another Student Enquiry
+                    </button>
+                  </div>
+                ) : (
+                  <form onSubmit={handleSubmit} noValidate>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '1.15rem' }}>
+                      <div>
+                        <label className="ria-label">Parent / Guardian Full Name *</label>
+                        <input
+                          type="text"
+                          name="parentName"
+                          value={formData.parentName}
+                          onChange={handleChange}
+                          placeholder="e.g. Rajesh Kumar"
+                          className="ria-input"
+                        />
+                        {errors.parentName && (
+                          <span style={{ fontSize: '0.78rem', color: '#DC2626', marginTop: '0.25rem', display: 'block' }}>
+                            {errors.parentName}
+                          </span>
+                        )}
+                      </div>
+
+                      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+                        <div>
+                          <label className="ria-label">Mobile Number *</label>
+                          <input
+                            type="tel"
+                            name="phone"
+                            value={formData.phone}
+                            onChange={handleChange}
+                            placeholder="+91 98765 43210"
+                            className="ria-input"
+                          />
+                          {errors.phone && (
+                            <span style={{ fontSize: '0.78rem', color: '#DC2626', marginTop: '0.25rem', display: 'block' }}>
+                              {errors.phone}
+                            </span>
+                          )}
+                        </div>
+
+                        <div>
+                          <label className="ria-label">Email Address *</label>
+                          <input
+                            type="email"
+                            name="email"
+                            value={formData.email}
+                            onChange={handleChange}
+                            placeholder="name@email.com"
+                            className="ria-input"
+                          />
+                          {errors.email && (
+                            <span style={{ fontSize: '0.78rem', color: '#DC2626', marginTop: '0.25rem', display: 'block' }}>
+                              {errors.email}
+                            </span>
+                          )}
+                        </div>
+                      </div>
+
+                      <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 0.8fr', gap: '1rem' }}>
+                        <div>
+                          <label className="ria-label">Student's Full Name *</label>
+                          <input
+                            type="text"
+                            name="studentName"
+                            value={formData.studentName}
+                            onChange={handleChange}
+                            placeholder="e.g. Ananya Kumar"
+                            className="ria-input"
+                          />
+                          {errors.studentName && (
+                            <span style={{ fontSize: '0.78rem', color: '#DC2626', marginTop: '0.25rem', display: 'block' }}>
+                              {errors.studentName}
+                            </span>
+                          )}
+                        </div>
+
+                        <div>
+                          <label className="ria-label">Applying For *</label>
+                          <select
+                            name="targetClass"
+                            value={formData.targetClass}
+                            onChange={handleChange}
+                            className="ria-input"
+                          >
+                            <option value="Pre-Nursery">Pre-Nursery</option>
+                            <option value="Nursery">Nursery</option>
+                            <option value="LKG">LKG</option>
+                            <option value="UKG">UKG</option>
+                            <option value="Class 1">Class 1</option>
+                            <option value="Class 2">Class 2</option>
+                            <option value="Class 3">Class 3</option>
+                            <option value="Class 4">Class 4</option>
+                            <option value="Class 5">Class 5</option>
+                            <option value="Class 6">Class 6</option>
+                            <option value="Class 7">Class 7</option>
+                            <option value="Class 8">Class 8</option>
+                            <option value="Class 9">Class 9</option>
+                            <option value="Class 10">Class 10</option>
+                          </select>
+                        </div>
+                      </div>
+
+                      <div>
+                        <label className="ria-label">Questions or Bus Route Request (Optional)</label>
+                        <textarea
+                          name="message"
+                          rows="3"
+                          value={formData.message}
+                          onChange={handleChange}
+                          placeholder="Let us know if you require bus transport or have specific questions..."
+                          className="ria-input"
+                          style={{ resize: 'vertical' }}
+                        />
+                      </div>
+
+                      <button
+                        type="submit"
+                        disabled={isSubmitting}
+                        className="btn-primary"
+                        style={{ width: '100%', marginTop: '0.5rem', padding: '0.9rem' }}
+                      >
+                        <Send size={16} />
+                        <span>{isSubmitting ? 'Registering Enquiry...' : 'Submit Admission Enquiry'}</span>
+                      </button>
+
+                      <div style={{ fontSize: '0.76rem', color: '#64748B', textAlign: 'center', marginTop: '0.25rem' }}>
+                        Admissions desk phone: <a href={`tel:${schoolInfo.contact.phones[0].replace(/\s+/g, '')}`} style={{ color: 'var(--navy-primary)', fontWeight: 600 }}>{schoolInfo.contact.phones[0]}</a>
+                      </div>
+                    </div>
+                  </form>
+                )}
+              </div>
+            </div>
+
+            {/* Document Checklist Column */}
+            <div>
+              <div
+                style={{
+                  backgroundColor: '#FFFFFF',
+                  borderRadius: '12px',
+                  padding: '2.25rem',
+                  border: '1px solid rgba(16, 43, 73, 0.08)',
+                  boxShadow: 'var(--shadow-sm)',
+                  marginBottom: '1.75rem'
+                }}
+              >
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem', marginBottom: '1.15rem' }}>
+                  <FileText size={20} color="var(--gold-rich)" />
+                  <h3 style={{ fontSize: '1.2rem', fontWeight: 700, color: 'var(--navy-primary)' }}>
+                    Mandatory Documents Checklist
+                  </h3>
+                </div>
+
+                <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '0.65rem' }}>
+                  {admissionDocuments.map((doc, idx) => (
+                    <li key={idx} style={{ display: 'flex', alignItems: 'flex-start', gap: '0.65rem' }}>
+                      <CheckCircle2 size={16} color="var(--gold-rich)" style={{ flexShrink: 0, marginTop: '0.15rem' }} />
+                      <span style={{ fontSize: '0.88rem', color: '#334155', lineHeight: 1.5 }}>{doc}</span>
                     </li>
                   ))}
                 </ul>
               </div>
 
-              {/* Fee Information Policy */}
+              {/* Admissions Office Information */}
               <div
-                className="ria-card"
                 style={{
                   backgroundColor: '#FFFFFF',
-                  padding: '2rem',
-                  borderLeft: '5px solid #173D55'
+                  borderRadius: '12px',
+                  padding: '1.75rem',
+                  border: '1px solid rgba(16, 43, 73, 0.08)',
+                  boxShadow: 'var(--shadow-xs)'
                 }}
               >
-                <h4 style={{ fontSize: '1.2rem', color: '#173D55', marginBottom: '0.75rem' }}>
-                  Fee Structure Transparency
+                <h4 style={{ fontSize: '1.05rem', fontWeight: 700, color: 'var(--navy-primary)', marginBottom: '0.75rem' }}>
+                  Admissions Consultation Desk
                 </h4>
-                <p style={{ color: '#4A5568', fontSize: '0.94rem', lineHeight: 1.7, marginBottom: '1rem' }}>
-                  As per the official policy of Rainbow Innovative Academy, competitive and transparent fee schedules are
-                  provided directly to parents during the personal campus interaction session. This ensures customized
-                  clarity regarding class tier, bus transit zones, lab kits, and sports uniforms.
-                </p>
-                <p style={{ color: '#718096', fontSize: '0.88rem' }}>
-                  No hidden fees or unexpected midterm charges are levied.
-                </p>
-              </div>
-
-              {/* Direct Helpdesk Call Card */}
-              <div
-                style={{
-                  backgroundColor: '#173D55',
-                  color: '#FFFAF2',
-                  padding: '2rem',
-                  borderRadius: '20px',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  gap: '1rem'
-                }}
-              >
-                <h4 style={{ fontSize: '1.2rem', color: '#F5C94C' }}>Direct Admissions Helpline</h4>
-                <p style={{ color: '#E9F3ED', fontSize: '0.92rem', lineHeight: 1.6 }}>
-                  Prefer talking to our admissions counselor? Feel free to call us or visit between 8:30 AM and 4:30 PM.
-                </p>
-
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-                  {schoolInfo.contact.phones.map((phone) => (
-                    <a
-                      key={phone}
-                      href={`tel:${phone.replace(/\s+/g, '')}`}
-                      style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '0.6rem',
-                        color: '#FFFFFF',
-                        fontWeight: 700,
-                        fontSize: '1rem'
-                      }}
-                    >
-                      <Phone size={18} color="#ED8B37" />
-                      <span>{phone}</span>
-                    </a>
-                  ))}
-                  <a
-                    href={`mailto:${schoolInfo.contact.email}`}
-                    style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '0.6rem',
-                      color: '#E9F3ED',
-                      fontSize: '0.9rem',
-                      marginTop: '0.25rem'
-                    }}
-                  >
-                    <Mail size={16} color="#38A169" />
-                    <span>{schoolInfo.contact.email}</span>
-                  </a>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.55rem', fontSize: '0.86rem', color: '#334155' }}>
+                  <div>
+                    <strong>Campus Address: </strong>Erappa Garden, Rajappa Building, Budigere Cross, Konadasapura, Bengaluru – 560049
+                  </div>
+                  <div>
+                    <strong>Direct Lines: </strong>{schoolInfo.contact.phones[0]} / {schoolInfo.contact.phones[1]}
+                  </div>
+                  <div>
+                    <strong>Office Hours: </strong>Mon to Sat: 8:30 AM – 4:30 PM (Sun Closed)
+                  </div>
                 </div>
               </div>
             </div>
@@ -542,38 +484,85 @@ export const Admissions = () => {
         </div>
       </section>
 
-      {/* Admissions FAQ Section */}
-      <section className="section-padding" style={{ backgroundColor: '#FFFFFF' }}>
-        <div className="container" style={{ maxWidth: '900px' }}>
-          <ChalkHeading
-            badge="Common Inquiries"
-            title="Admissions"
-            highlightWord="FAQs"
-            subtitle="Clear answers to the most common questions regarding admission criteria, age limits, and bus routes."
+      {/* 4. SECTION TYPE C (Light Blue-Grey #DCE5EE): Frequently Asked Questions Accordion */}
+      <section className="section-padding section-blue-grey">
+        <div className="container" style={{ maxWidth: '880px' }}>
+          <SectionHeader
+            badge="PARENT QUERIES"
+            title="Frequently Asked Questions"
+            subtitle="Authoritative answers regarding CBSE affiliation, age criteria, security protocols, and student transport."
           />
 
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem', marginTop: '2.5rem' }}>
-            {faqs.map((faq, index) => (
-              <div
-                key={index}
-                style={{
-                  backgroundColor: '#FFFAF2',
-                  border: '1px solid rgba(23, 61, 85, 0.08)',
-                  borderRadius: '16px',
-                  padding: '1.75rem'
-                }}
-              >
-                <div style={{ display: 'flex', alignItems: 'flex-start', gap: '0.75rem', marginBottom: '0.65rem' }}>
-                  <HelpCircle size={22} color="#ED8B37" style={{ flexShrink: 0, marginTop: '0.15rem' }} />
-                  <h4 style={{ fontSize: '1.15rem', color: '#173D55', fontWeight: 700 }}>
-                    {faq.q}
-                  </h4>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.85rem' }}>
+            {faqs.map((faq, index) => {
+              const isOpen = openFaqIndex === index;
+              return (
+                <div
+                  key={index}
+                  style={{
+                    backgroundColor: '#FFFFFF',
+                    borderRadius: '8px',
+                    border: '1px solid rgba(16, 43, 73, 0.08)',
+                    overflow: 'hidden'
+                  }}
+                >
+                  <button
+                    type="button"
+                    onClick={() => setOpenFaqIndex(isOpen ? null : index)}
+                    style={{
+                      width: '100%',
+                      padding: '1.15rem 1.4rem',
+                      display: 'flex',
+                      justifyContent: 'space-between',
+                      alignItems: 'center',
+                      textAlign: 'left',
+                      fontFamily: 'var(--font-heading)',
+                      fontWeight: 600,
+                      fontSize: '0.96rem',
+                      color: 'var(--navy-primary)',
+                      gap: '1rem'
+                    }}
+                  >
+                    <span>{faq.q}</span>
+                    {isOpen ? <ChevronUp size={18} color="var(--gold-dark)" /> : <ChevronDown size={18} color="#64748B" />}
+                  </button>
+
+                  {isOpen && (
+                    <div style={{ padding: '0 1.4rem 1.15rem', color: '#475569', fontSize: '0.92rem', lineHeight: 1.7, borderTop: '1px solid #F1F5F9' }}>
+                      {faq.a}
+                    </div>
+                  )}
                 </div>
-                <p style={{ color: '#4A5568', fontSize: '0.96rem', lineHeight: 1.7, paddingLeft: '2.2rem' }}>
-                  {faq.a}
-                </p>
-              </div>
-            ))}
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* 5. FEATURED SECTION (Deep Navy #102B49): Desk Callout Banner */}
+      <section
+        className="section-navy"
+        style={{
+          padding: '4rem 0',
+          textAlign: 'center'
+        }}
+      >
+        <div className="container" style={{ maxWidth: '780px' }}>
+          <h2 style={{ fontSize: '1.85rem', fontWeight: 700, color: '#FFFFFF', marginBottom: '0.85rem' }}>
+            Visit Our Admissions Desk in Person
+          </h2>
+          <p style={{ color: '#CBD5E1', fontSize: '1rem', lineHeight: 1.65, marginBottom: '2rem' }}>
+            Collect the physical prospectus and syllabus guides from our Konadasapura campus desk. Open Monday through Saturday.
+          </p>
+          <div style={{ display: 'flex', justifyContent: 'center', gap: '1rem', flexWrap: 'wrap' }}>
+            <Link to="/contact" className="btn-gold">
+              <Calendar size={16} />
+              <span>Schedule Campus Visit</span>
+            </Link>
+            <a href={`tel:${schoolInfo.contact.phones[0].replace(/\s+/g, '')}`} className="btn-outline-white">
+              <Phone size={16} />
+              <span>Call: {schoolInfo.contact.phones[0]}</span>
+            </a>
           </div>
         </div>
       </section>
@@ -582,4 +571,3 @@ export const Admissions = () => {
 };
 
 export default Admissions;
-

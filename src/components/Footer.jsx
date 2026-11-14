@@ -1,348 +1,268 @@
-import React, { useState } from 'react';
-import { MapPin, Phone, Mail, Clock, ShieldCheck, Heart, Send, CheckCircle2 } from 'lucide-react';
+import React from 'react';
+import { Link } from 'react-router-dom';
+import { MapPin, Phone, Mail, Clock, ShieldCheck, ChevronRight, MessageCircle, ExternalLink } from 'lucide-react';
 import { schoolInfo } from '../data/schoolData';
-import { useRocket } from './RocketAnimation';
 
 export const Footer = () => {
-  const [newsletterEmail, setNewsletterEmail] = useState('');
-  const [subscribed, setSubscribed] = useState(false);
-  const { rocketNavigate } = useRocket();
-
-  const handleSubscribe = (e) => {
-    e.preventDefault();
-    if (newsletterEmail && newsletterEmail.includes('@')) {
-      setSubscribed(true);
-      setTimeout(() => setSubscribed(false), 5000);
-      setNewsletterEmail('');
-    }
-  };
-
-  const handleLinkClick = (path, e) => {
-    rocketNavigate(path, e);
-  };
-
   return (
     <footer
       style={{
-        backgroundColor: '#173D55',
-        color: '#FFFAF2',
+        backgroundColor: '#07172C',
+        color: '#CBD5E1',
         position: 'relative',
         overflow: 'hidden'
       }}
     >
-      {/* Decorative Rainbow top border stripe */}
-      <div className="rainbow-bar" />
+      {/* Subtle brand rainbow hairline */}
+      <div className="brand-rainbow-line" style={{ height: '2.5px' }} />
 
-      {/* Main Footer Content */}
-      <div className="container" style={{ padding: '4.5rem 1.5rem 3rem' }}>
+      {/* Main Footer Container */}
+      <div className="container" style={{ padding: '3.25rem 1.5rem 1.75rem' }}>
         <div
           style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
-            gap: '3rem',
-            marginBottom: '3.5rem'
+            gridTemplateColumns: 'repeat(auto-fit, minmax(230px, 1fr))',
+            gap: '2.25rem',
+            marginBottom: '2.5rem'
           }}
         >
-          {/* Column 1: School Identity & Official Crest */}
-          <div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.85rem', marginBottom: '1.25rem' }}>
+          {/* Col 1: Identity & Governance */}
+          <div style={{ maxWidth: '320px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '0.85rem' }}>
               <img
                 src="/images/school/ria-crest.svg"
-                alt="Rainbow Innovative Academy Official Crest"
-                style={{ width: '48px', height: '48px', objectFit: 'contain' }}
+                alt="Rainbow Innovative Academy Crest"
+                style={{ width: '42px', height: '42px', objectFit: 'contain' }}
               />
               <div>
-                <h3
-                  style={{
-                    color: '#FFFAF2',
-                    fontSize: '1.35rem',
-                    fontWeight: 800,
-                    letterSpacing: '-0.02em',
-                    lineHeight: 1.1
-                  }}
-                >
-                  Rainbow
-                </h3>
                 <span
                   style={{
-                    color: '#F5C94C',
-                    fontSize: '0.82rem',
+                    display: 'block',
+                    fontFamily: 'var(--font-heading)',
+                    fontSize: '1.08rem',
                     fontWeight: 700,
-                    letterSpacing: '0.08em',
-                    display: 'block'
+                    color: '#FFFFFF',
+                    lineHeight: 1.15
                   }}
                 >
-                  INNOVATIVE ACADEMY
+                  Rainbow Innovative Academy
+                </span>
+                <span
+                  style={{
+                    display: 'block',
+                    fontSize: '0.74rem',
+                    color: 'var(--gold-accent)',
+                    fontWeight: 500,
+                    letterSpacing: '0.04em'
+                  }}
+                >
+                  RIA Educational Trust · Estd. 2019
                 </span>
               </div>
             </div>
 
-            <p style={{ color: '#E9F3ED', fontSize: '0.95rem', lineHeight: 1.6, marginBottom: '1.25rem' }}>
-              “{schoolInfo.tagline}” — A premier CBSE-affiliated day school managed by the{' '}
-              <strong style={{ color: '#F5C94C' }}>{schoolInfo.trust}</strong>. Empowering young learners with creativity,
-              inquiry, and character.
+            <p style={{ color: '#94A3B8', fontSize: '0.86rem', lineHeight: 1.6, marginBottom: '1rem' }}>
+              A premier CBSE co-educational institution in Bengaluru dedicated to academic excellence, scientific curiosity, and moral character.
             </p>
 
             <div
               style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '0.5rem',
-                background: 'rgba(255, 250, 242, 0.08)',
-                border: '1px solid rgba(245, 201, 76, 0.4)',
-                padding: '0.5rem 0.85rem',
-                borderRadius: '8px',
-                fontSize: '0.82rem',
-                color: '#F5C94C'
+                padding: '0.65rem 0.85rem',
+                backgroundColor: 'rgba(255, 255, 255, 0.04)',
+                border: '1px solid rgba(255, 255, 255, 0.08)',
+                borderRadius: '6px',
+                fontSize: '0.78rem',
+                color: '#CBD5E1'
               }}
             >
-              <ShieldCheck size={16} />
-              <span>CBSE Affil. No: {schoolInfo.affiliation.affiliationNo} | Code: {schoolInfo.affiliation.schoolCode}</span>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', marginBottom: '0.2rem', color: '#E8D5B5', fontWeight: 600 }}>
+                <ShieldCheck size={14} color="#C5A880" />
+                <span>CBSE Affiliated Institution</span>
+              </div>
+              <div style={{ color: '#94A3B8' }}>
+                Affiliation: <span style={{ color: '#F1F5F9' }}>{schoolInfo.affiliation.affiliationNo}</span> · Code: <span style={{ color: '#F1F5F9' }}>{schoolInfo.affiliation.schoolCode}</span>
+              </div>
             </div>
           </div>
 
-          {/* Column 2: Quick Links with Rocket Navigation */}
+          {/* Col 2: Institutional Navigation */}
           <div>
             <h4
               style={{
-                color: '#FFFAF2',
-                fontSize: '1.15rem',
-                fontWeight: 700,
-                marginBottom: '1.25rem',
-                position: 'relative'
+                fontFamily: 'var(--font-heading)',
+                fontSize: '0.92rem',
+                fontWeight: 600,
+                color: '#FFFFFF',
+                letterSpacing: '0.04em',
+                marginBottom: '1rem',
+                textTransform: 'uppercase'
               }}
             >
-              Explore RIA
-              <span
-                style={{
-                  display: 'block',
-                  width: '32px',
-                  height: '3px',
-                  backgroundColor: '#ED8B37',
-                  borderRadius: '2px',
-                  marginTop: '0.4rem'
-                }}
-              />
+              Institutional
             </h4>
-
-            <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+            <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
               {[
                 { name: 'About RIA & Leadership', path: '/about' },
                 { name: 'Academic Curriculum (CBSE)', path: '/academics' },
-                { name: 'Campus Life & Activities', path: '/campus-life' },
-                { name: 'Admission Guidelines 2025-26', path: '/admissions' },
-                { name: 'Photo & Event Gallery', path: '/gallery' },
-                { name: 'Contact & Directions', path: '/contact' }
-              ].map((link) => (
-                <li key={link.path}>
-                  <a
-                    href={link.path}
-                    onClick={(e) => handleLinkClick(link.path, e)}
+                { name: 'Campus Facilities & Sports', path: '/campus-life' },
+                { name: 'Admissions 2026–27', path: '/admissions' },
+                { name: 'Campus Photo Gallery', path: '/gallery' },
+                { name: 'Contact & Campus Map', path: '/contact' }
+              ].map((item) => (
+                <li key={item.path}>
+                  <Link
+                    to={item.path}
                     style={{
-                      color: '#E9F3ED',
-                      fontSize: '0.95rem',
+                      color: '#94A3B8',
+                      fontSize: '0.86rem',
                       display: 'inline-flex',
                       alignItems: 'center',
-                      gap: '0.5rem',
-                      transition: 'color 0.2s ease, transform 0.2s ease',
-                      cursor: 'pointer'
+                      gap: '0.35rem',
+                      transition: 'color 0.2s ease'
                     }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.color = '#F5C94C';
-                      e.currentTarget.style.transform = 'translateX(4px)';
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.color = '#E9F3ED';
-                      e.currentTarget.style.transform = 'translateX(0)';
-                    }}
+                    onMouseEnter={(e) => (e.currentTarget.style.color = '#FFFFFF')}
+                    onMouseLeave={(e) => (e.currentTarget.style.color = '#94A3B8')}
                   >
-                    <span style={{ color: '#ED8B37' }}>›</span>
-                    <span>{link.name}</span>
-                  </a>
+                    <ChevronRight size={13} color="#C5A880" />
+                    <span>{item.name}</span>
+                  </Link>
                 </li>
               ))}
             </ul>
           </div>
 
-          {/* Column 3: Contact & Campus Coordinates */}
+          {/* Col 3: Academic Stages */}
           <div>
             <h4
               style={{
-                color: '#FFFAF2',
-                fontSize: '1.15rem',
-                fontWeight: 700,
-                marginBottom: '1.25rem'
+                fontFamily: 'var(--font-heading)',
+                fontSize: '0.92rem',
+                fontWeight: 600,
+                color: '#FFFFFF',
+                letterSpacing: '0.04em',
+                marginBottom: '1rem',
+                textTransform: 'uppercase'
               }}
             >
-              Campus Desk
-              <span
-                style={{
-                  display: 'block',
-                  width: '32px',
-                  height: '3px',
-                  backgroundColor: '#ED8B37',
-                  borderRadius: '2px',
-                  marginTop: '0.4rem'
-                }}
-              />
+              Academic Stages
             </h4>
+            <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '0.55rem' }}>
+              {[
+                { name: 'Kindergarten & Pre-Primary', sub: 'Pre-Nursery, Nursery, LKG, UKG' },
+                { name: 'Primary School', sub: 'Classes 1 to 5' },
+                { name: 'Middle School', sub: 'Classes 6 to 8' },
+                { name: 'Secondary High School', sub: 'Classes 9 & 10 (CBSE AISSE)' }
+              ].map((prog, i) => (
+                <li key={i}>
+                  <Link
+                    to="/academics"
+                    style={{
+                      display: 'block',
+                      color: '#94A3B8',
+                      transition: 'color 0.2s ease'
+                    }}
+                    onMouseEnter={(e) => (e.currentTarget.style.color = '#FFFFFF')}
+                    onMouseLeave={(e) => (e.currentTarget.style.color = '#94A3B8')}
+                  >
+                    <span style={{ display: 'block', fontSize: '0.86rem', color: '#E2E8F0', fontWeight: 500 }}>{prog.name}</span>
+                    <span style={{ display: 'block', fontSize: '0.74rem', color: '#64748B' }}>{prog.sub}</span>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
 
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', fontSize: '0.92rem' }}>
-              <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'flex-start' }}>
-                <MapPin size={18} style={{ color: '#ED8B37', flexShrink: 0, marginTop: '0.2rem' }} />
-                <span style={{ color: '#E9F3ED', lineHeight: 1.5 }}>
-                  {schoolInfo.contact.address}
+          {/* Col 4: Campus Location & Desk */}
+          <div>
+            <h4
+              style={{
+                fontFamily: 'var(--font-heading)',
+                fontSize: '0.92rem',
+                fontWeight: 600,
+                color: '#FFFFFF',
+                letterSpacing: '0.04em',
+                marginBottom: '1rem',
+                textTransform: 'uppercase'
+              }}
+            >
+              Admissions Office
+            </h4>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', fontSize: '0.84rem', color: '#94A3B8' }}>
+              <div style={{ display: 'flex', gap: '0.6rem' }}>
+                <MapPin size={16} color="#C5A880" style={{ flexShrink: 0, marginTop: '2px' }} />
+                <span>
+                  Erappa Garden, Rajappa Building, Budigere Cross, Konadasapura, Bengaluru – 560049
                 </span>
               </div>
 
-              <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'center' }}>
-                <Phone size={18} style={{ color: '#F5C94C', flexShrink: 0 }} />
-                <div style={{ display: 'flex', flexDirection: 'column' }}>
-                  {schoolInfo.contact.phones.map((p) => (
-                    <a
-                      key={p}
-                      href={`tel:${p.replace(/\s+/g, '')}`}
-                      style={{ color: '#FFFAF2', fontWeight: 600 }}
-                      onMouseEnter={(e) => (e.currentTarget.style.color = '#F5C94C')}
-                      onMouseLeave={(e) => (e.currentTarget.style.color = '#FFFAF2')}
-                    >
-                      {p}
-                    </a>
-                  ))}
+              <div style={{ display: 'flex', gap: '0.6rem' }}>
+                <Phone size={16} color="#C5A880" style={{ flexShrink: 0 }} />
+                <div>
+                  <a href={`tel:${schoolInfo.contact.phones[0].replace(/\s+/g, '')}`} style={{ display: 'block', color: '#F1F5F9' }}>
+                    {schoolInfo.contact.phones[0]}
+                  </a>
+                  <a href={`tel:${schoolInfo.contact.phones[1].replace(/\s+/g, '')}`} style={{ display: 'block', color: '#CBD5E1', fontSize: '0.78rem' }}>
+                    {schoolInfo.contact.phones[1]}
+                  </a>
                 </div>
               </div>
 
-              <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'center' }}>
-                <Mail size={18} style={{ color: '#38A169', flexShrink: 0 }} />
-                <a
-                  href={`mailto:${schoolInfo.contact.email}`}
-                  style={{ color: '#E9F3ED', wordBreak: 'break-all' }}
-                  onMouseEnter={(e) => (e.currentTarget.style.color = '#F5C94C')}
-                  onMouseLeave={(e) => (e.currentTarget.style.color = '#E9F3ED')}
-                >
+              <div style={{ display: 'flex', gap: '0.6rem' }}>
+                <Mail size={16} color="#C5A880" style={{ flexShrink: 0 }} />
+                <a href={`mailto:${schoolInfo.contact.email}`} style={{ color: '#F1F5F9' }}>
                   {schoolInfo.contact.email}
                 </a>
               </div>
 
-              <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'center' }}>
-                <Clock size={18} style={{ color: '#3182CE', flexShrink: 0 }} />
-                <span style={{ color: '#E9F3ED' }}>{schoolInfo.contact.officeHours}</span>
+              <div style={{ display: 'flex', gap: '0.6rem' }}>
+                <Clock size={16} color="#C5A880" style={{ flexShrink: 0 }} />
+                <span>Mon – Sat: 8:30 AM – 4:30 PM (Sun Closed)</span>
+              </div>
+
+              <div style={{ display: 'flex', gap: '0.75rem', marginTop: '0.35rem' }}>
+                <a
+                  href="https://wa.me/917090796666"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '0.35rem',
+                    color: '#C5A880',
+                    fontSize: '0.8rem',
+                    fontWeight: 600
+                  }}
+                >
+                  <MessageCircle size={14} />
+                  <span>WhatsApp Desk</span>
+                </a>
               </div>
             </div>
           </div>
-
-          {/* Column 4: Newsletter & Parent Updates */}
-          <div>
-            <h4
-              style={{
-                color: '#FFFAF2',
-                fontSize: '1.15rem',
-                fontWeight: 700,
-                marginBottom: '1.25rem'
-              }}
-            >
-              School Circulars
-              <span
-                style={{
-                  display: 'block',
-                  width: '32px',
-                  height: '3px',
-                  backgroundColor: '#ED8B37',
-                  borderRadius: '2px',
-                  marginTop: '0.4rem'
-                }}
-              />
-            </h4>
-
-            <p style={{ color: '#E9F3ED', fontSize: '0.92rem', marginBottom: '1rem', lineHeight: 1.5 }}>
-              Subscribe to receive admission schedules, school event dates, and academic announcements directly.
-            </p>
-
-            <form onSubmit={handleSubscribe} style={{ display: 'flex', flexDirection: 'column', gap: '0.6rem' }}>
-              <input
-                type="email"
-                placeholder="Enter parent email address"
-                value={newsletterEmail}
-                onChange={(e) => setNewsletterEmail(e.target.value)}
-                required
-                style={{
-                  width: '100%',
-                  padding: '0.75rem 1rem',
-                  borderRadius: '10px',
-                  border: '1px solid rgba(255, 250, 242, 0.2)',
-                  backgroundColor: 'rgba(255, 250, 242, 0.08)',
-                  color: '#FFFAF2',
-                  fontSize: '0.92rem',
-                  outline: 'none'
-                }}
-              />
-              <button
-                type="submit"
-                style={{
-                  backgroundColor: '#ED8B37',
-                  color: '#FFFFFF',
-                  padding: '0.75rem 1rem',
-                  borderRadius: '10px',
-                  fontWeight: 700,
-                  fontSize: '0.92rem',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  gap: '0.5rem',
-                  transition: 'background 0.2s ease',
-                  cursor: 'pointer'
-                }}
-                onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = '#db7621')}
-                onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = '#ED8B37')}
-              >
-                <span>Subscribe Updates</span>
-                <Send size={15} />
-              </button>
-            </form>
-
-            {subscribed && (
-              <div
-                style={{
-                  marginTop: '0.75rem',
-                  padding: '0.6rem 0.8rem',
-                  borderRadius: '8px',
-                  backgroundColor: 'rgba(56, 161, 105, 0.2)',
-                  border: '1px solid #38A169',
-                  color: '#E9F3ED',
-                  fontSize: '0.85rem',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '0.4rem'
-                }}
-              >
-                <CheckCircle2 size={15} color="#38A169" />
-                <span>Thank you! You are subscribed to RIA updates.</span>
-              </div>
-            )}
-          </div>
         </div>
 
-        {/* Bottom Bar: Copyright & Attribution */}
+        {/* Compact Bottom Bar */}
         <div
           style={{
-            borderTop: '1px solid rgba(255, 250, 242, 0.1)',
-            paddingTop: '2rem',
+            borderTop: '1px solid rgba(255, 255, 255, 0.08)',
+            paddingTop: '1.25rem',
             display: 'flex',
-            flexWrap: 'wrap',
             justifyContent: 'space-between',
             alignItems: 'center',
-            gap: '1rem',
-            fontSize: '0.85rem',
-            color: '#A0AEC0'
+            flexWrap: 'wrap',
+            gap: '0.75rem',
+            fontSize: '0.78rem',
+            color: '#64748B'
           }}
         >
           <div>
-            © {new Date().getFullYear()} Rainbow Innovative Academy. Managed by {schoolInfo.trust}. All rights reserved.
+            © {new Date().getFullYear()} Rainbow Innovative Academy. All rights reserved. Affiliated to CBSE, New Delhi (Affiliation No: 831372).
           </div>
-
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-            <span>Made with joyful care for RIA learners</span>
-            <Heart size={14} fill="#ED8B37" color="#ED8B37" />
+          <div style={{ display: 'flex', gap: '1.25rem' }}>
+            <Link to="/about" style={{ color: '#94A3B8' }}>About Us</Link>
+            <Link to="/academics" style={{ color: '#94A3B8' }}>Academics</Link>
+            <Link to="/admissions" style={{ color: '#94A3B8' }}>Admissions</Link>
+            <Link to="/contact" style={{ color: '#94A3B8' }}>Contact</Link>
           </div>
         </div>
       </div>
