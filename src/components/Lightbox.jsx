@@ -32,8 +32,8 @@ export const Lightbox = ({ item, total, currentIndex, onClose, onPrev, onNext })
           position: 'fixed',
           inset: 0,
           zIndex: 11000,
-          backgroundColor: 'rgba(7, 23, 44, 0.96)',
-          backdropFilter: 'blur(12px)',
+          backgroundColor: 'rgba(22, 14, 32, 0.97)',
+          backdropFilter: 'blur(16px)',
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
@@ -59,7 +59,7 @@ export const Lightbox = ({ item, total, currentIndex, onClose, onPrev, onNext })
           }}
           onClick={(e) => e.stopPropagation()}
         >
-          <div style={{ color: '#E8D5B5', fontSize: '0.85rem', fontWeight: 600, letterSpacing: '0.04em' }}>
+          <div style={{ color: 'var(--yellow-sunshine)', fontSize: '0.85rem', fontWeight: 600, letterSpacing: '0.04em' }}>
             {typeof currentIndex === 'number' && typeof total === 'number' ? (
               <span>Photograph {currentIndex + 1} of {total}</span>
             ) : (
@@ -82,7 +82,7 @@ export const Lightbox = ({ item, total, currentIndex, onClose, onPrev, onNext })
               cursor: 'pointer',
               transition: 'all 0.2s ease'
             }}
-            onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = 'var(--gold-rich)')}
+            onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = 'var(--coral-vibrant)')}
             onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.1)')}
             aria-label="Close Lightbox (Escape)"
           >
@@ -114,7 +114,7 @@ export const Lightbox = ({ item, total, currentIndex, onClose, onPrev, onNext })
             cursor: 'pointer',
             transition: 'all 0.2s ease'
           }}
-          onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = 'var(--gold-rich)')}
+          onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = 'var(--coral-vibrant)')}
           onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.12)')}
           aria-label="Previous photograph"
         >
@@ -145,7 +145,7 @@ export const Lightbox = ({ item, total, currentIndex, onClose, onPrev, onNext })
             cursor: 'pointer',
             transition: 'all 0.2s ease'
           }}
-          onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = 'var(--gold-rich)')}
+          onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = 'var(--coral-vibrant)')}
           onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.12)')}
           aria-label="Next photograph"
         >
@@ -164,15 +164,15 @@ export const Lightbox = ({ item, total, currentIndex, onClose, onPrev, onNext })
             maxHeight: '84vh',
             display: 'flex',
             flexDirection: 'column',
-            backgroundColor: '#0A1B2E',
+            backgroundColor: '#1E122A',
             borderRadius: '16px',
             overflow: 'hidden',
-            boxShadow: '0 25px 60px rgba(0,0,0,0.6)',
-            border: '1px solid rgba(255, 255, 255, 0.15)'
+            boxShadow: '0 25px 60px rgba(0,0,0,0.7)',
+            border: '1px solid rgba(185, 167, 255, 0.2)'
           }}
           onClick={(e) => e.stopPropagation()}
         >
-          <div style={{ flex: 1, overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: '#07172C' }}>
+          <div style={{ flex: 1, overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: '#130B1C' }}>
             <img
               src={item.image}
               alt={item.title}
@@ -188,14 +188,14 @@ export const Lightbox = ({ item, total, currentIndex, onClose, onPrev, onNext })
           <div
             style={{
               padding: '1.25rem 1.75rem',
-              backgroundColor: '#102B49',
-              borderTop: '1px solid rgba(255, 255, 255, 0.1)'
+              backgroundColor: '#21162E',
+              borderTop: '1px solid rgba(185, 167, 255, 0.15)'
             }}
           >
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem', marginBottom: '0.45rem' }}>
               <span
                 style={{
-                  background: 'var(--gold-rich)',
+                  background: 'var(--coral-vibrant)',
                   color: '#FFFFFF',
                   fontSize: '0.74rem',
                   fontWeight: 700,
@@ -211,8 +211,8 @@ export const Lightbox = ({ item, total, currentIndex, onClose, onPrev, onNext })
                 <span
                   key={idx}
                   style={{
-                    background: 'rgba(255, 255, 255, 0.08)',
-                    color: '#E8D5B5',
+                    background: 'rgba(185, 167, 255, 0.15)',
+                    color: 'var(--lavender-soft)',
                     fontSize: '0.74rem',
                     fontWeight: 500,
                     padding: '0.2rem 0.6rem',
@@ -227,7 +227,7 @@ export const Lightbox = ({ item, total, currentIndex, onClose, onPrev, onNext })
             <h3 style={{ color: '#FFFFFF', fontSize: '1.2rem', fontWeight: 700, marginBottom: '0.35rem' }}>
               {item.title}
             </h3>
-            <p style={{ color: '#CBD5E1', fontSize: '0.9rem', lineHeight: 1.5 }}>
+            <p style={{ color: '#E2D9EE', fontSize: '0.9rem', lineHeight: 1.5 }}>
               {item.description}
             </p>
           </div>

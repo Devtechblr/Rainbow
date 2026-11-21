@@ -1,46 +1,51 @@
 import React from 'react';
+import { motion } from 'framer-motion';
 
 /**
- * SectionHeader - Standardized Institutional Section Title
- * @param {string} badge - Eyebrow label, e.g. "ACADEMIC EXCELLENCE"
+ * SectionHeader - Modern Visual Section Title
+ * @param {string} badge - Eyebrow label, e.g. "EXPLORE OUR CAMPUS"
  * @param {string} title - Primary heading
- * @param {string} subtitle - Explanatory context
+ * @param {string} subtitle - Short supporting statement
  * @param {boolean} centered - Whether text is centered (default: true)
- * @param {string} badgeVariant - "gold" | "navy" (default: "gold")
- * @param {boolean} light - Light text mode for dark navy backgrounds
+ * @param {string} badgeVariant - "coral" | "lavender" | "yellow" (default: "coral")
+ * @param {boolean} light - Light text mode for dark plum backgrounds
  */
 export const SectionHeader = ({
   badge,
   title,
   subtitle,
   centered = true,
-  badgeVariant = 'gold',
+  badgeVariant = 'coral',
   light = false,
   className = ''
 }) => {
+  const getBadgeClass = () => {
+    if (light) {
+      if (badgeVariant === 'lavender') return 'badge-dark-lavender';
+      if (badgeVariant === 'yellow') return 'badge-dark-yellow';
+      return 'badge-dark-coral';
+    }
+    if (badgeVariant === 'lavender') return 'badge-lavender';
+    if (badgeVariant === 'yellow') return 'badge-yellow';
+    return 'badge-coral';
+  };
+
   return (
-    <div
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.5 }}
       className={`section-header ${className}`}
       style={{
         textAlign: centered ? 'center' : 'left',
-        maxWidth: centered ? '760px' : '100%',
+        maxWidth: centered ? '780px' : '100%',
         margin: centered ? '0 auto 3.5rem' : '0 0 2.5rem'
       }}
     >
       {badge && (
-        <div style={{ marginBottom: '0.85rem' }}>
-          <span
-            className={badgeVariant === 'navy' ? 'badge-navy' : 'badge-gold'}
-            style={
-              light
-                ? {
-                    background: 'rgba(255, 255, 255, 0.08)',
-                    borderColor: 'rgba(197, 168, 128, 0.4)',
-                    color: '#E8D5B5'
-                  }
-                : undefined
-            }
-          >
+        <div style={{ marginBottom: '1rem' }}>
+          <span className={getBadgeClass()}>
             {badge}
           </span>
         </div>
@@ -49,11 +54,11 @@ export const SectionHeader = ({
       {title && (
         <h2
           style={{
-            fontSize: 'clamp(1.85rem, 3.5vw, 2.5rem)',
-            color: light ? '#FFFFFF' : 'var(--navy-primary)',
-            fontWeight: 700,
-            lineHeight: 1.25,
-            letterSpacing: '-0.02em',
+            fontSize: 'clamp(2rem, 3.8vw, 2.75rem)',
+            color: light ? 'var(--cream-warm)' : 'var(--text-dark)',
+            fontWeight: 800,
+            lineHeight: 1.2,
+            letterSpacing: '-0.025em',
             marginBottom: subtitle ? '1rem' : '0'
           }}
         >
@@ -64,19 +69,18 @@ export const SectionHeader = ({
       {subtitle && (
         <p
           style={{
-            fontSize: 'clamp(1rem, 1.5vw, 1.1rem)',
-            color: light ? '#CBD5E1' : 'var(--text-muted)',
-            lineHeight: 1.65,
+            fontSize: 'clamp(1rem, 1.4vw, 1.15rem)',
+            color: light ? 'var(--text-light-muted)' : 'var(--text-muted)',
+            lineHeight: 1.7,
             margin: centered ? '0 auto' : '0',
-            maxWidth: '680px'
+            maxWidth: '640px'
           }}
         >
           {subtitle}
         </p>
       )}
-    </div>
+    </motion.div>
   );
 };
 
 export default SectionHeader;
-

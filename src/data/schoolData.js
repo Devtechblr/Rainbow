@@ -4,7 +4,7 @@ export const schoolInfo = {
   tagline: "Where Curious Minds Grow",
   subTagline: "A world of learning, growing, and discovering.",
   motto: "A joyful place to learn, explore, create, and shine.",
-  logo: "/images/school/ria-official-logo.svg",
+  logo: "/images/school/03_RIA_20logo.svg",
   crest: "/images/school/ria-crest.svg",
   affiliation: {
     board: "Central Board of Secondary Education (CBSE), New Delhi",
@@ -461,3 +461,134 @@ export const faqs = [
     a: "We conduct regular Parent-Teacher Meetings (PTMs), issue structured quarterly performance reports, maintain a transparent student diary, and share circulars via SMS, email, and direct teacher consultations."
   }
 ];
+
+export const schoolMilestones = [
+  {
+    year: "2019",
+    title: "Founding of RIA Educational Trust",
+    description: "Mrs. Varalakshmi B.S. established the RIA Educational Trust with the noble mission to build an inspiring learning sanctuary in Konadasapura, Bengaluru."
+  },
+  {
+    year: "2020",
+    title: "Campus Development & Smart Classrooms",
+    description: "Constructed the 4,000+ sq. meter green campus featuring interactive digital smart classrooms, kindergarten play zones, and secure sports spaces."
+  },
+  {
+    year: "2022",
+    title: "Science & IT Laboratories Inauguration",
+    description: "Equipped full-scale scientific laboratories for Physics, Chemistry, and Biology, alongside a dedicated high-speed computer coding center."
+  },
+  {
+    year: "2024",
+    title: "CBSE Secondary Affiliation & ISO 9001:2015",
+    description: "Granted formal CBSE Affiliation (Affiliation No: 831372, School Code: 46162) up to Class 10; awarded ISO 9001:2015 institutional quality certification."
+  },
+  {
+    year: "2026",
+    title: "Session 2026–2027 & Future Horizons",
+    description: "Welcoming students with 100% smart touchscreen classrooms, specialized sports coaching, GPS-monitored buses, and holistic NEP 2020 pedagogy."
+  }
+];
+
+export const mandatoryDisclosureData = {
+  generalInfo: [
+    { label: "Name of the School", value: "Rainbow Innovative Academy" },
+    { label: "CBSE Affiliation Number", value: "831372" },
+    { label: "School Code", value: "46162" },
+    { label: "Complete Address", value: "Erappa Garden, Rajappa Building, Budigere Cross, Konadasapura, Bengaluru, Karnataka – 560049" },
+    { label: "Principal Name & Qualification", value: "Mr. Manjunatha R.A. (M.B.A., B.Ed.)" },
+    { label: "School Official Email", value: "rainbowinnovativeacademy@gmail.com" },
+    { label: "Admissions & Desk Contact", value: "+91 70907 96666 / +91 70909 96666" },
+    { label: "Trust / Society Governing Body", value: "RIA Educational Trust (Estd. 2019)" },
+    { label: "Affiliation Status", value: "Affiliated up to Secondary Level (Class 10)" },
+    { label: "Academic Session Period", value: "April to March" }
+  ],
+  documents: [
+    {
+      id: "doc-1",
+      title: "Copies of Affiliation / Upgradation Letter & Recent Extension",
+      authority: "Central Board of Secondary Education (CBSE), New Delhi",
+      status: "Verified & Active (Affiliation No. 831372)",
+      note: "Formal grant order on CBSE SARAS portal"
+    },
+    {
+      id: "doc-2",
+      title: "Copies of Societies / Trust Registration & Renewal Certificate",
+      authority: "Registrar of Societies & Trusts, Govt of Karnataka",
+      status: "Registered & Verified (RIA Educational Trust)",
+      note: "Permanent trust constitution and governance bylaws"
+    },
+    {
+      id: "doc-3",
+      title: "Copy of No Objection Certificate (NOC) Issued by State Government",
+      authority: "Department of School Education, Govt of Karnataka",
+      status: "Verified & Issued",
+      note: "State Government formal consent for CBSE affiliation"
+    },
+    {
+      id: "doc-4",
+      title: "Copies of Recognition Certificate under RTE Act, 2009",
+      authority: "Department of Public Instruction, Karnataka",
+      status: "Valid & Current",
+      note: "Compliant with RTE Act regulations"
+    },
+    {
+      id: "doc-5",
+      title: "Copy of Valid Building Safety Certificate (NBC Norms)",
+      authority: "Competent Certified Structural Engineering Authority",
+      status: "Certified & Structurally Sound",
+      note: "Constructed to educational safety standards"
+    },
+    {
+      id: "doc-6",
+      title: "Copy of Valid Fire Safety Certificate Issued by Competent Authority",
+      authority: "Karnataka State Fire & Emergency Services",
+      status: "Inspected & Certified",
+      note: "Equipped with active hydrants, extinguishers and emergency exits"
+    },
+    {
+      id: "doc-7",
+      title: "Copy of Self Certification / DEO Certificate submitted for Affiliation",
+      authority: "District Education Officer (DEO) / School Management",
+      status: "Submitted & Verified",
+      note: "CBSE SARAS portal certified copy"
+    },
+    {
+      id: "doc-8",
+      title: "Copies of Valid Safe Drinking Water and Sanitary Condition Certificate",
+      authority: "Health & Public Health Engineering Authority",
+      status: "Certified Safe & Hygienic",
+      note: "RO drinking water & certified hygienic sanitation blocks"
+    }
+  ],
+  academicsAndCommittees: {
+    feeStructure: [
+      { stage: "Pre-Primary (Pre-Nursery, Nursery, LKG, UKG)", description: "Covers Montessori play-way learning kits, smart-board multimedia access, phonic materials, and co-curricular activities." },
+      { stage: "Primary (Classes 1 to 5)", description: "Covers CBSE curriculum delivery, computer lab instruction, sports education, library resource hub, and creative arts." },
+      { stage: "Middle School (Classes 6 to 8)", description: "Includes integrated science laboratory practicals, IT workstations, Olympiad foundation modules, and student club mentorship." },
+      { stage: "Secondary School (Classes 9 & 10)", description: "Comprehensive AISSE CBSE board examination curriculum, advanced science lab consumables, preparatory mock tests, and personalized mentoring." }
+    ],
+    academicCalendar: "Session 2026–2027 runs from April 2026 to March 2027. Mid-Term Assessments: September | Annual Examinations: February–March | Vacation breaks aligned with CBSE & Karnataka education calendar.",
+    smc: "The School Management Committee (SMC) operates pursuant to CBSE affiliation norms, comprising educationists, parent representatives, senior faculty, and RIA Educational Trust trustees.",
+    pta: "A vibrant Parent-Teacher Association (PTA) meets on a scheduled quarterly basis to foster transparent collaboration between parents and academic leadership.",
+    boardResults: "100% Pass Rate in Class 10 CBSE Board Examinations with distinction grades in Sciences, Mathematics, and Languages."
+  },
+  staffDetails: {
+    principal: "Mr. Manjunatha R.A., M.B.A., B.Ed.",
+    teacherStudentRatio: "1:25",
+    facultyCadre: "Fully qualified Post Graduate (PGT), Trained Graduate (TGT), and Primary (PRT) educators fulfilling NCTE and CBSE qualifications.",
+    specialEducator: "Qualified Special Educator on campus for inclusive student learning.",
+    wellnessCounselor: "Designated Student Counselor & Health/Wellness Mentor."
+  },
+  infrastructureDetails: [
+    { metric: "Total Campus Land Area", value: "4,000+ sq. meters lush green secure campus" },
+    { metric: "Classrooms", value: "Spacious, well-ventilated, 100% interactive smart touchscreen enabled" },
+    { metric: "Composite Science Laboratories", value: "Dedicated Physics, Chemistry, and Biology laboratories" },
+    { metric: "Computer & IT Lab", value: "Modern networked workstations with high-speed internet and coding software" },
+    { metric: "Library Hub", value: "Comprehensive collection of CBSE texts, encyclopedias, reference books, and periodicals" },
+    { metric: "Sports & Athletics", value: "Dedicated grounds for Cricket, Football, Basketball, Volleyball, Track, and Yoga" },
+    { metric: "Safe Transportation", value: "GPS-monitored school buses covering Bengaluru East with CCTV and female attendants" },
+    { metric: "Fire & Campus Security", value: "24/7 CCTV surveillance across all zones; certified fire alarm & hydrant systems" },
+    { metric: "Drinking Water & Sanitation", value: "Multi-stage RO purified drinking water; separate clean washrooms for boys, girls, and staff" }
+  ]
+};

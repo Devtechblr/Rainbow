@@ -1,419 +1,652 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { motion, AnimatePresence } from 'framer-motion';
 import {
   GraduationCap,
-  BookOpen,
-  ShieldCheck,
-  CheckCircle2,
   ArrowRight,
-  Phone,
-  Calendar,
-  Users,
-  Compass,
-  Award,
-  Clock,
   Sparkles,
-  MapPin
+  Tv,
+  FlaskConical,
+  Activity,
+  Palette,
+  MapPin,
+  Calendar,
+  CheckCircle2,
+  ShieldCheck,
+  BookOpen,
+  Cpu,
+  Bus,
+  Trophy,
+  Compass,
+  Layers,
+  ChevronRight
 } from 'lucide-react';
-import {
-  schoolInfo,
-  leadership,
-  academicPrograms,
-  facilitiesList,
-  galleryItems
-} from '../data/schoolData';
+import { schoolInfo } from '../data/schoolData';
 import SectionHeader from '../components/SectionHeader';
-import InteractiveCampus from '../components/InteractiveCampus';
 
 export const Home = () => {
+  const [activeZone, setActiveZone] = useState('academic');
+
+  const campusZones = [
+    {
+      id: 'academic',
+      title: 'Digital Academic Quad',
+      subtitle: 'Smart Classes & Collaborative Studios',
+      icon: Tv,
+      color: 'var(--coral-vibrant)',
+      badge: 'Interactive Learning',
+      headline: 'Classrooms Engineered for Active Engagement',
+      description:
+        'Every classroom is outfitted with high-definition touchscreen display panels, high-ventilation ergonomic layouts, and CBSE-aligned visual media that turns abstract concepts into hands-on student discoveries.',
+      stats: [
+        { label: 'Interactive Displays', value: '100% Digital' },
+        { label: 'Teacher-Student Ratio', value: '1:25 Optimal' },
+        { label: 'Air & Natural Light', value: 'Optimized Flow' }
+      ],
+      features: [
+        'Multimedia interactive touchscreens with animated curriculum',
+        'Ergonomic, flexible student seating for group collaboration',
+        'Dedicated reading nooks and language development corners'
+      ]
+    },
+    {
+      id: 'stem',
+      title: 'Scientific & IT Workbenches',
+      subtitle: 'Physics, Chemistry, Biology & Coding',
+      icon: FlaskConical,
+      color: 'var(--lavender-soft)',
+      badge: 'STEM & Discovery',
+      headline: 'Where Scientific Hypotheses Become Real Experience',
+      description:
+        'Comprehensive, laboratory suites equipped with standard reagents, precision optical microscopes, and electronic testing benches. Paired with a networked computer lab for algorithmic logic, Python, and digital literacy.',
+      stats: [
+        { label: 'Laboratories', value: 'Composite & IT' },
+        { label: 'Safety Protocol', value: 'Strict CBSE Standards' },
+        { label: 'Coding Curriculum', value: 'Classes 1–10' }
+      ],
+      features: [
+        'Dedicated physics optics, chemical apparatus & biology specimens',
+        'Networked desktop stations with high-speed filtered internet',
+        'Robotics & tinkering kits fostering algorithmic problem solving'
+      ]
+    },
+    {
+      id: 'athletics',
+      title: 'Athletics & Open Arena',
+      subtitle: 'Sports Grounds, Track & Yoga Pavilion',
+      icon: Activity,
+      color: 'var(--yellow-sunshine)',
+      badge: 'Physical Vitality',
+      headline: 'Building Stamina, Teamwork & Sportsmanship',
+      description:
+        'Over 4,000 square meters of campus space devoted to outdoor physical vitality. Students train daily under certified physical educators in football, cricket, basketball, track sprints, and mindful morning yoga.',
+      stats: [
+        { label: 'Open Campus', value: '4,000+ Sq. M' },
+        { label: 'Structured Sports', value: 'Daily Program' },
+        { label: 'Disciplines', value: '6+ Major Sports' }
+      ],
+      features: [
+        'Dedicated football turf, cricket nets & basketball courts',
+        'Standard athletics sprint lanes and long-jump landing pit',
+        'Morning yoga, aerobic agility routines & inter-house leagues'
+      ]
+    },
+    {
+      id: 'safety',
+      title: 'Safety, Care & Transit Hub',
+      subtitle: 'GPS Transport, Infirmary & 24/7 CCTV',
+      icon: ShieldCheck,
+      color: '#38A169',
+      badge: 'Student Safety',
+      headline: 'Uncompromising Child Safety & Care At Every Step',
+      description:
+        'A comprehensive protection grid with round-the-clock CCTV surveillance, perimeter security, background-verified personnel, campus first-aid infirmary, and a modern GPS-monitored bus fleet serving East Bengaluru.',
+      stats: [
+        { label: 'CCTV Coverage', value: '24/7 Active' },
+        { label: 'Bus Escorts', value: 'Female Attendants' },
+        { label: 'Medical Care', value: 'First-Aid Infirmary' }
+      ],
+      features: [
+        'GPS-tracked school buses covering Hoskote, Budigere & Whitefield',
+        'Fire-safety certified infrastructure and emergency exit plans',
+        'Trained medical staff and tie-ups with nearby healthcare centers'
+      ]
+    }
+  ];
+
+  const currentZone = campusZones.find((z) => z.id === activeZone) || campusZones[0];
+  const CurrentIcon = currentZone.icon;
+
   return (
-    <div>
-      {/* 1. HERO SECTION: Premium Split Hero (Text Left, Authentic Campus Photo Right) */}
+    <div style={{ position: 'relative', overflowX: 'hidden' }}>
+      {/* ==========================================================================
+          1. CINEMATIC HERO SECTION
+          (Full-width school drone video background with subtle dark overlay,
+           oversized typography, and Vibrant Coral CTA)
+          ========================================================================== */}
       <section
         style={{
-          backgroundColor: 'var(--bg-navy-featured)',
-          color: '#FFFFFF',
-          padding: '4.5rem 0',
-          position: 'relative'
+          position: 'relative',
+          minHeight: '88vh',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          backgroundColor: 'var(--plum-deep)',
+          color: 'var(--cream-warm)',
+          padding: '6.5rem 0 5.5rem',
+          overflow: 'hidden'
         }}
       >
-        <div className="container">
-          <div className="hero-split-grid">
-            {/* Left Column: Authoritative Institutional Messaging */}
-            <div>
-              {/* Affiliation & Admissions Pill */}
-              <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.65rem', marginBottom: '1.25rem', flexWrap: 'wrap' }}>
-                <span className="badge-dark-gold">
-                  <ShieldCheck size={13} color="#C5A880" />
-                  CBSE Affiliated · Affiliation No. {schoolInfo.affiliation.affiliationNo}
-                </span>
-                <span
-                  style={{
-                    padding: '0.35rem 0.75rem',
-                    backgroundColor: 'rgba(255, 255, 255, 0.08)',
-                    borderRadius: '4px',
-                    color: '#E2E8F0',
-                    fontSize: '0.78rem',
-                    fontWeight: 500,
-                    letterSpacing: '0.04em'
-                  }}
-                >
-                  Admissions 2026–27
-                </span>
-              </div>
+        {/* Full-Width School Drone Video Background */}
+        <div
+          style={{
+            position: 'absolute',
+            inset: 0,
+            width: '100%',
+            height: '100%',
+            overflow: 'hidden',
+            zIndex: 0
+          }}
+        >
+          <video
+            autoPlay
+            loop
+            muted
+            playsInline
+            poster="/images/school/hero-campus-banner.webp"
+            style={{
+              width: '100%',
+              height: '100%',
+              objectFit: 'cover',
+              objectPosition: 'center',
+              transform: 'scale(1.02)'
+            }}
+          >
+            <source src="/videos/school-drone.mp4" type="video/mp4" />
+          </video>
 
-              {/* Main Headline */}
-              <h1
-                style={{
-                  fontSize: 'clamp(1.9rem, 3.1vw, 2.65rem)',
-                  fontWeight: 700,
-                  color: '#FFFFFF',
-                  lineHeight: 1.22,
-                  letterSpacing: '-0.02em',
-                  marginBottom: '1.25rem'
-                }}
-              >
-                Cultivating Inquiring Minds, Academic Rigor & Ethical Leadership
-              </h1>
-
-              {/* Subtitle */}
-              <p
-                style={{
-                  fontSize: 'clamp(0.98rem, 1.35vw, 1.12rem)',
-                  color: '#CBD5E1',
-                  lineHeight: 1.7,
-                  marginBottom: '2rem',
-                  maxWidth: '560px'
-                }}
-              >
-                Rainbow Innovative Academy is a premier co-educational CBSE institution in Konadasapura, Bengaluru. We nurture conceptual mastery, scientific curiosity, and moral integrity from Nursery through Class 10.
-              </p>
-
-              {/* Action Buttons */}
-              <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', flexWrap: 'wrap', marginBottom: '1.75rem' }}>
-                <Link to="/admissions" className="btn-gold" style={{ padding: '0.9rem 1.85rem' }}>
-                  <GraduationCap size={18} />
-                  <span>Apply for Admission</span>
-                </Link>
-                <Link to="/about" className="btn-outline-white" style={{ padding: '0.9rem 1.75rem' }}>
-                  <span>Explore Our School</span>
-                  <ArrowRight size={16} />
-                </Link>
-              </div>
-
-              {/* Verified Desk Hotline */}
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem', fontSize: '0.88rem', color: '#94A3B8' }}>
-                <Phone size={15} color="#C5A880" />
-                <span>Admissions Desk: <strong style={{ color: '#F1F5F9' }}>{schoolInfo.contact.phones[0]}</strong></span>
-              </div>
-            </div>
-
-            {/* Right Column: Clean Authentic Campus Photograph (Unobstructed View) */}
-            <div>
-              <div
-                style={{
-                  position: 'relative',
-                  borderRadius: '16px',
-                  overflow: 'hidden',
-                  boxShadow: '0 20px 45px rgba(0, 0, 0, 0.35)',
-                  border: '1px solid rgba(255, 255, 255, 0.14)',
-                  backgroundColor: '#0c2138'
-                }}
-              >
-                {/* Clean School Facade Photograph */}
-                <div style={{ position: 'relative', width: '100%', overflow: 'hidden' }}>
-                  <img
-                    src="/images/school/campus-facade-main.webp"
-                    alt="Rainbow Innovative Academy Main Campus Building, Bengaluru"
-                    style={{
-                      width: '100%',
-                      height: 'auto',
-                      aspectRatio: '16 / 10',
-                      objectFit: 'cover',
-                      objectPosition: 'center',
-                      display: 'block'
-                    }}
-                  />
-                </div>
-
-                {/* Refined Institutional Caption Strip (Placed below photo to keep entire building completely visible) */}
-                <div
-                  style={{
-                    backgroundColor: '#07172C',
-                    padding: '1rem 1.35rem',
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                    borderTop: '1px solid rgba(255, 255, 255, 0.08)',
-                    flexWrap: 'wrap',
-                    gap: '0.65rem'
-                  }}
-                >
-                  <div>
-                    <span
-                      style={{
-                        fontSize: '0.72rem',
-                        color: '#C5A880',
-                        fontWeight: 600,
-                        textTransform: 'uppercase',
-                        letterSpacing: '0.06em',
-                        display: 'block',
-                        marginBottom: '0.15rem'
-                      }}
-                    >
-                      Verified Campus Infrastructure
-                    </span>
-                    <strong style={{ fontSize: '0.92rem', color: '#FFFFFF', fontWeight: 600 }}>
-                      4,000+ Sq. Meters Dedicated Learning Campus
-                    </strong>
-                  </div>
-                  <span
-                    style={{
-                      fontSize: '0.78rem',
-                      color: '#CBD5E1',
-                      display: 'inline-flex',
-                      alignItems: 'center',
-                      gap: '0.35rem',
-                      backgroundColor: 'rgba(255, 255, 255, 0.06)',
-                      padding: '0.35rem 0.75rem',
-                      borderRadius: '4px'
-                    }}
-                  >
-                    <MapPin size={13} color="#C5A880" />
-                    <span>Konadasapura, Bengaluru</span>
-                  </span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* 2. SECTION TYPE A (Warm Ivory #F4F1E9): Verified Institutional Pillars */}
-      <section
-        className="section-ivory"
-        style={{
-          borderBottom: '1px solid rgba(16, 43, 73, 0.08)',
-          padding: '2.5rem 0'
-        }}
-      >
-        <div className="container">
+          {/* Deep Plum Gradient Overlay for Maximum Readability */}
           <div
             style={{
+              position: 'absolute',
+              inset: 0,
+              background: `linear-gradient(
+                180deg,
+                rgba(33, 22, 46, 0.78) 0%,
+                rgba(33, 22, 46, 0.52) 45%,
+                rgba(33, 22, 46, 0.92) 100%
+              )`
+            }}
+          />
+
+          {/* Ambient Lighting Orbs */}
+          <div className="ambient-glow-coral" style={{ top: '-100px', right: '-100px' }} />
+          <div className="ambient-glow-lavender" style={{ bottom: '-150px', left: '-150px' }} />
+        </div>
+
+        {/* Hero Interactive Content Layer */}
+        <div className="container" style={{ position: 'relative', zIndex: 2, textAlign: 'center', maxWidth: '960px' }}>
+          {/* Top Admissions Badge (Affiliation strictly in top utility bar) */}
+          <motion.div
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            style={{ marginBottom: '1.5rem', display: 'inline-block' }}
+          >
+            <span className="badge-dark-yellow">
+              <Sparkles size={14} color="var(--yellow-sunshine)" />
+              <span>Admissions Open for Session 2026–2027 · Bengaluru</span>
+            </span>
+          </motion.div>
+
+          {/* Animated Oversized Headline */}
+          <motion.h1
+            initial={{ opacity: 0, y: 25 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.1 }}
+            style={{
+              fontSize: 'clamp(2.5rem, 5.8vw, 4.4rem)',
+              fontWeight: 800,
+              color: 'var(--cream-warm)',
+              lineHeight: 1.1,
+              letterSpacing: '-0.03em',
+              marginBottom: '1.5rem',
+              textShadow: '0 4px 30px rgba(0, 0, 0, 0.5)'
+            }}
+          >
+            Igniting Curiosity.{' '}
+            <span
+              style={{
+                background: 'linear-gradient(135deg, #FFD66B 0%, #FF705E 55%, #B9A7FF 100%)',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                display: 'inline-block'
+              }}
+            >
+              Inspiring Character.
+            </span>
+          </motion.h1>
+
+          {/* Concise Supporting Statement */}
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.2 }}
+            style={{
+              fontSize: 'clamp(1.05rem, 1.5vw, 1.25rem)',
+              color: 'var(--text-light-muted)',
+              lineHeight: 1.7,
+              marginBottom: '2.5rem',
+              maxWidth: '680px',
+              margin: '0 auto 2.5rem',
+              fontWeight: 400
+            }}
+          >
+            A premier CBSE day school in Konadasapura, Bengaluru. Bridging rigorous academic excellence with hands-on discovery from Nursery to Class 10.
+          </motion.p>
+
+          {/* Primary Action Buttons */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.3 }}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: '1.25rem',
+              flexWrap: 'wrap',
+              marginBottom: '3.5rem'
+            }}
+          >
+            <Link
+              to="/apply"
+              className="btn-coral"
+              style={{
+                padding: '1rem 2.4rem',
+                fontSize: '1.05rem',
+                gap: '0.65rem'
+              }}
+            >
+              <GraduationCap size={20} />
+              <span>Apply for Admission 2026–27</span>
+            </Link>
+
+            <Link
+              to="/gallery"
+              className="btn-outline-white"
+              style={{
+                padding: '1rem 2rem',
+                fontSize: '1.05rem',
+                gap: '0.65rem'
+              }}
+            >
+              <span>Explore Campus Life</span>
+              <ArrowRight size={18} />
+            </Link>
+          </motion.div>
+
+          {/* Quick Metrics Strip */}
+          <motion.div
+            initial={{ opacity: 0, y: 25 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.4 }}
+            style={{
               display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(230px, 1fr))',
-              gap: '1.75rem'
+              gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))',
+              gap: '1.25rem',
+              backgroundColor: 'rgba(33, 22, 46, 0.75)',
+              backdropFilter: 'blur(16px)',
+              padding: '1.5rem 2rem',
+              borderRadius: '20px',
+              border: '1px solid rgba(185, 167, 255, 0.2)',
+              boxShadow: 'var(--shadow-plum)'
             }}
           >
             {[
-              {
-                icon: ShieldCheck,
-                title: 'CBSE Affiliation',
-                detail: `No. ${schoolInfo.affiliation.affiliationNo} · Code: ${schoolInfo.affiliation.schoolCode}`,
-                sub: 'Up to Secondary (Class 10)'
-              },
-              {
-                icon: Compass,
-                title: '4,000+ Sq. Meters',
-                detail: 'Lush Green Campus',
-                sub: 'Konadasapura, Bengaluru'
-              },
-              {
-                icon: Users,
-                title: '1:25 Faculty Ratio',
-                detail: 'Individual Mentorship',
-                sub: 'Tailored Academic Attention'
-              },
-              {
-                icon: BookOpen,
-                title: 'Early Years to Class 10',
-                detail: 'Structured Curriculum',
-                sub: 'NCERT & NEP 2020 Aligned'
-              }
-            ].map((pillar, i) => {
-              const IconComponent = pillar.icon;
+              { label: 'Campus Area', val: '4,000+ Sq. M', sub: 'Lush Green Grounds' },
+              { label: 'Faculty Ratio', val: '1:25 Optimal', sub: 'Individual Attention' },
+              { label: 'Curriculum', val: 'Nursery to 10', sub: 'CBSE Secondary' },
+              { label: 'Infrastructure', val: '100% Digital', sub: 'Smart Touchscreens' }
+            ].map((stat, i) => (
+              <div key={i} style={{ textAlign: 'center' }}>
+                <div style={{ color: 'var(--yellow-sunshine)', fontSize: '0.74rem', textTransform: 'uppercase', letterSpacing: '0.08em', fontWeight: 700 }}>
+                  {stat.label}
+                </div>
+                <div style={{ color: '#FFFFFF', fontSize: '1.3rem', fontWeight: 800, margin: '0.2rem 0' }}>
+                  {stat.val}
+                </div>
+                <div style={{ color: 'var(--text-light-muted)', fontSize: '0.78rem' }}>
+                  {stat.sub}
+                </div>
+              </div>
+            ))}
+          </motion.div>
+        </div>
+      </section>
+
+      {/* ==========================================================================
+          2. SECOND SECTION: INTERACTIVE CAMPUS ECO-SYSTEM
+          (Creative redesign: Building photo removed to prevent repetition with
+           the drone video; replaced with a dynamic, interactive Campus Navigator)
+          ========================================================================== */}
+      <section className="section-padding section-cream" style={{ position: 'relative', overflow: 'hidden' }}>
+        <div className="container">
+          <SectionHeader
+            badge="4,000+ SQ. METERS OF EXCELLENCE"
+            badgeVariant="coral"
+            title="An Environment Engineered for Curiosity & Discovery"
+            subtitle="Set within Erappa Garden, Konadasapura, our green campus provides secure, distraction-free spaces engineered for academic exploration and active play."
+          />
+
+          {/* Interactive Zone Navigator Tabs */}
+          <div
+            style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
+              gap: '1rem',
+              marginBottom: '2.5rem'
+            }}
+          >
+            {campusZones.map((zone) => {
+              const isActive = zone.id === activeZone;
+              const ZoneIcon = zone.icon;
               return (
-                <div
-                  key={i}
+                <button
+                  key={zone.id}
+                  onClick={() => setActiveZone(zone.id)}
                   style={{
                     display: 'flex',
-                    alignItems: 'flex-start',
+                    alignItems: 'center',
                     gap: '1rem',
-                    backgroundColor: '#FFFFFF',
-                    padding: '1.25rem 1.5rem',
-                    borderRadius: '10px',
-                    border: '1px solid rgba(16, 43, 73, 0.06)',
-                    boxShadow: 'var(--shadow-xs)'
+                    padding: '1.15rem 1.35rem',
+                    borderRadius: '16px',
+                    backgroundColor: isActive ? 'var(--plum-deep)' : '#FFFFFF',
+                    color: isActive ? '#FFFFFF' : 'var(--text-dark)',
+                    border: '2px solid',
+                    borderColor: isActive ? zone.color : 'var(--border-light)',
+                    boxShadow: isActive ? '0 10px 25px rgba(33, 22, 46, 0.18)' : 'var(--shadow-xs)',
+                    cursor: 'pointer',
+                    textAlign: 'left',
+                    transition: 'all 0.25s ease',
+                    position: 'relative',
+                    overflow: 'hidden'
                   }}
                 >
                   <div
                     style={{
                       width: '42px',
                       height: '42px',
-                      borderRadius: '8px',
-                      backgroundColor: 'var(--navy-subtle)',
+                      borderRadius: '10px',
+                      backgroundColor: isActive ? 'rgba(255, 255, 255, 0.15)' : 'var(--cream-warm)',
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
-                      flexShrink: 0
+                      flexShrink: 0,
+                      color: isActive ? zone.color : 'var(--plum-deep)'
                     }}
                   >
-                    <IconComponent size={20} color="var(--navy-primary)" />
+                    <ZoneIcon size={22} />
                   </div>
                   <div>
-                    <h3 style={{ fontSize: '0.94rem', fontWeight: 700, color: 'var(--navy-primary)', marginBottom: '0.15rem' }}>
-                      {pillar.title}
-                    </h3>
-                    <p style={{ fontSize: '0.86rem', fontWeight: 600, color: '#334155', marginBottom: '0.1rem' }}>
-                      {pillar.detail}
-                    </p>
-                    <p style={{ fontSize: '0.78rem', color: '#64748B' }}>
-                      {pillar.sub}
-                    </p>
+                    <div style={{ fontSize: '0.98rem', fontWeight: 800, lineHeight: 1.25 }}>
+                      {zone.title}
+                    </div>
+                    <div
+                      style={{
+                        fontSize: '0.75rem',
+                        color: isActive ? 'rgba(255, 255, 255, 0.75)' : 'var(--text-muted)',
+                        marginTop: '0.2rem'
+                      }}
+                    >
+                      {zone.badge}
+                    </div>
                   </div>
-                </div>
+                  {isActive && (
+                    <motion.div
+                      layoutId="zoneIndicator"
+                      style={{
+                        position: 'absolute',
+                        left: 0,
+                        top: 0,
+                        bottom: 0,
+                        width: '4px',
+                        backgroundColor: zone.color
+                      }}
+                    />
+                  )}
+                </button>
               );
             })}
           </div>
-        </div>
-      </section>
 
-      {/* 3. SECTION TYPE B (Soft Grey-Blue #E8EDF3): Institutional Foundation & Leadership Welcome */}
-      <section className="section-padding section-grey-blue">
-        <div className="container">
-          <div
-            style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
-              gap: '3.5rem',
-              alignItems: 'center'
-            }}
-          >
-            {/* Left: Academic Philosophy & Ethos */}
-            <div>
-              <span className="badge-navy" style={{ marginBottom: '0.85rem' }}>
-                Institutional Overview
-              </span>
-              <h2
-                style={{
-                  fontSize: 'clamp(1.85rem, 3.2vw, 2.45rem)',
-                  fontWeight: 700,
-                  color: 'var(--navy-primary)',
-                  lineHeight: 1.25,
-                  marginBottom: '1.25rem'
-                }}
-              >
-                An Educational Sanctuary Built on Purpose, Discipline & Empathy
-              </h2>
-              <p style={{ color: '#475569', fontSize: '1rem', lineHeight: 1.75, marginBottom: '1.25rem' }}>
-                Established under the governance of the <strong>RIA Educational Trust</strong>, Rainbow Innovative Academy was founded with the clear objective of delivering academic excellence without compromising the joy of childhood discovery.
-              </p>
-              <p style={{ color: '#475569', fontSize: '1rem', lineHeight: 1.75, marginBottom: '1.75rem' }}>
-                Our 4,000+ sq. meter green campus in Konadasapura provides a secure, distraction-free environment where students develop critical thinking, scientific curiosity, and foundational leadership skills under qualified educators.
-              </p>
-
-              {/* Highlights Checklist */}
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '0.75rem', marginBottom: '2rem' }}>
-                {[
-                  'CBSE Syllabus with Smart Class Integration',
-                  'Dedicated Physics, Chemistry & Biology Labs',
-                  'Modern IT & Algorithmic Coding Workspace',
-                  'Structured Athletic Coaching & Open Grounds',
-                  'GPS-Monitored Safe School Bus Fleet',
-                  'Optimal 1:25 Teacher-Student Ratio'
-                ].map((item, i) => (
-                  <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '0.55rem' }}>
-                    <CheckCircle2 size={16} color="var(--gold-rich)" style={{ flexShrink: 0 }} />
-                    <span style={{ fontSize: '0.88rem', fontWeight: 500, color: '#334155' }}>{item}</span>
-                  </div>
-                ))}
-              </div>
-
-              <Link to="/about" className="btn-secondary">
-                <span>Read Full Leadership Message</span>
-                <ArrowRight size={16} />
-              </Link>
-            </div>
-
-            {/* Right: Authentic Leadership Profile Card */}
-            <div>
+          {/* Interactive Feature Stage (Dynamic Reveal) */}
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={currentZone.id}
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -16 }}
+              transition={{ duration: 0.3 }}
+              style={{
+                backgroundColor: '#FFFFFF',
+                borderRadius: '24px',
+                border: '1px solid var(--border-light)',
+                boxShadow: 'var(--shadow-lg)',
+                padding: 'clamp(2rem, 3.5vw, 3rem)',
+                position: 'relative',
+                overflow: 'hidden'
+              }}
+            >
+              {/* Subtle Ambient Decorative Corner Accent */}
               <div
                 style={{
-                  backgroundColor: '#FFFFFF',
-                  borderRadius: '12px',
-                  padding: '2.25rem',
-                  border: '1px solid rgba(16, 43, 73, 0.08)',
-                  boxShadow: 'var(--shadow-md)'
+                  position: 'absolute',
+                  top: '-40px',
+                  right: '-40px',
+                  width: '180px',
+                  height: '180px',
+                  borderRadius: '50%',
+                  background: currentZone.color,
+                  opacity: 0.08,
+                  pointerEvents: 'none'
+                }}
+              />
+
+              <div
+                style={{
+                  display: 'grid',
+                  gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
+                  gap: '2.5rem',
+                  alignItems: 'center'
                 }}
               >
-                <div style={{ display: 'flex', gap: '1.25rem', alignItems: 'center', marginBottom: '1.5rem' }}>
-                  <img
-                    src={leadership.founder.image}
-                    alt={leadership.founder.name}
+                {/* Left: Detailed Overview & Highlights */}
+                <div>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem', marginBottom: '1rem' }}>
+                    <span
+                      style={{
+                        backgroundColor: 'var(--cream-warm)',
+                        color: 'var(--plum-deep)',
+                        border: '1px solid var(--border-medium)',
+                        padding: '0.35rem 0.85rem',
+                        borderRadius: '50px',
+                        fontSize: '0.76rem',
+                        fontWeight: 700,
+                        letterSpacing: '0.04em',
+                        textTransform: 'uppercase',
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        gap: '0.4rem'
+                      }}
+                    >
+                      <CurrentIcon size={14} color="var(--coral-vibrant)" />
+                      <span>{currentZone.badge}</span>
+                    </span>
+                    <span style={{ fontSize: '0.84rem', color: 'var(--text-muted)', fontWeight: 500 }}>
+                      RIA Bengaluru Campus
+                    </span>
+                  </div>
+
+                  <h3
                     style={{
-                      width: '82px',
-                      height: '82px',
-                      borderRadius: '8px',
-                      objectFit: 'cover',
-                      border: '2px solid var(--gold-border)'
+                      fontSize: 'clamp(1.6rem, 2.5vw, 2.2rem)',
+                      fontWeight: 800,
+                      color: 'var(--text-dark)',
+                      lineHeight: 1.25,
+                      marginBottom: '1rem',
+                      letterSpacing: '-0.02em'
                     }}
-                  />
-                  <div>
-                    <h3 style={{ fontSize: '1.18rem', fontWeight: 700, color: 'var(--navy-primary)' }}>
-                      {leadership.founder.name}
-                    </h3>
-                    <p style={{ fontSize: '0.84rem', color: 'var(--gold-dark)', fontWeight: 600 }}>
-                      {leadership.founder.role}
-                    </p>
-                    <p style={{ fontSize: '0.78rem', color: '#64748B' }}>
-                      {leadership.founder.qualifications}
-                    </p>
+                  >
+                    {currentZone.headline}
+                  </h3>
+
+                  <p
+                    style={{
+                      color: 'var(--text-body)',
+                      fontSize: '1.02rem',
+                      lineHeight: 1.7,
+                      marginBottom: '1.75rem'
+                    }}
+                  >
+                    {currentZone.description}
+                  </p>
+
+                  {/* Feature Checkpoints */}
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '0.65rem', marginBottom: '2rem' }}>
+                    {currentZone.features.map((feat, idx) => (
+                      <div key={idx} style={{ display: 'flex', alignItems: 'flex-start', gap: '0.65rem' }}>
+                        <CheckCircle2
+                          size={18}
+                          color="var(--coral-vibrant)"
+                          style={{ flexShrink: 0, marginTop: '2px' }}
+                        />
+                        <span style={{ fontSize: '0.94rem', color: 'var(--text-dark)', fontWeight: 500 }}>
+                          {feat}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+
+                  <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
+                    <Link
+                      to="/gallery"
+                      className="btn-coral"
+                      style={{ padding: '0.8rem 1.6rem', fontSize: '0.92rem' }}
+                    >
+                      <span>Explore Photo Gallery</span>
+                      <ArrowRight size={16} />
+                    </Link>
+                    <Link
+                      to="/apply"
+                      className="btn-plum"
+                      style={{ padding: '0.8rem 1.6rem', fontSize: '0.92rem' }}
+                    >
+                      <span>Book a Campus Tour</span>
+                    </Link>
                   </div>
                 </div>
 
-                <blockquote
-                  style={{
-                    fontSize: '0.94rem',
-                    color: '#475569',
-                    lineHeight: 1.7,
-                    fontStyle: 'italic',
-                    borderLeft: '3px solid var(--gold-accent)',
-                    paddingLeft: '1rem',
-                    marginBottom: '1.5rem'
-                  }}
-                >
-                  "{leadership.founder.message}"
-                </blockquote>
-
+                {/* Right: Key Metric Blocks & Verified Hallmarks */}
                 <div
                   style={{
-                    borderTop: '1px solid #E2E8F0',
-                    paddingTop: '1.25rem',
+                    backgroundColor: 'var(--cream-warm)',
+                    borderRadius: '20px',
+                    padding: '2rem',
+                    border: '1px solid var(--border-light)',
                     display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'space-between',
-                    fontSize: '0.84rem'
+                    flexDirection: 'column',
+                    gap: '1.5rem'
                   }}
                 >
-                  <span style={{ color: '#64748B' }}>Principal: <strong>{leadership.principal.name}</strong> ({leadership.principal.qualifications})</span>
-                  <Link to="/about" style={{ color: 'var(--navy-primary)', fontWeight: 600, display: 'inline-flex', alignItems: 'center', gap: '0.25rem' }}>
-                    <span>Message</span>
-                    <ArrowRight size={14} />
-                  </Link>
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                    <span style={{ fontSize: '0.82rem', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.06em', color: 'var(--text-muted)' }}>
+                      Infrastructure Standards
+                    </span>
+                    <span
+                      style={{
+                        backgroundColor: '#FFFFFF',
+                        padding: '0.25rem 0.65rem',
+                        borderRadius: '50px',
+                        fontSize: '0.74rem',
+                        fontWeight: 700,
+                        color: 'var(--coral-vibrant)',
+                        border: '1px solid var(--border-light)'
+                      }}
+                    >
+                      CBSE Affiliated
+                    </span>
+                  </div>
+
+                  {/* 3 Metric Chips */}
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '1rem' }}>
+                    {currentZone.stats.map((st, i) => (
+                      <div
+                        key={i}
+                        style={{
+                          backgroundColor: '#FFFFFF',
+                          padding: '1.15rem 1.35rem',
+                          borderRadius: '14px',
+                          border: '1px solid var(--border-light)',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'space-between',
+                          boxShadow: 'var(--shadow-xs)'
+                        }}
+                      >
+                        <span style={{ fontSize: '0.92rem', color: 'var(--text-dark)', fontWeight: 600 }}>
+                          {st.label}
+                        </span>
+                        <span
+                          style={{
+                            fontSize: '1.15rem',
+                            fontWeight: 800,
+                            color: 'var(--plum-deep)',
+                            fontFamily: 'var(--font-heading)'
+                          }}
+                        >
+                          {st.value}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+
+                  {/* Campus Coordinates & Notice */}
+                  <div
+                    style={{
+                      padding: '1rem',
+                      backgroundColor: 'rgba(33, 22, 46, 0.05)',
+                      borderRadius: '12px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '0.75rem',
+                      fontSize: '0.84rem',
+                      color: 'var(--text-body)'
+                    }}
+                  >
+                    <MapPin size={20} color="var(--coral-vibrant)" style={{ flexShrink: 0 }} />
+                    <div>
+                      <strong>Location:</strong> Erappa Garden, Rajappa Building, Budigere Cross, Konadasapura, Bengaluru – 560049
+                    </div>
+                  </div>
                 </div>
               </div>
-            </div>
-          </div>
+            </motion.div>
+          </AnimatePresence>
         </div>
       </section>
 
-      {/* 4. SECTION TYPE C (Light Blue-Grey #DCE5EE): Academic Spectrum */}
-      <section className="section-padding section-blue-grey">
+      {/* ==========================================================================
+          3. FACILITIES SECTION: IMAGES STRICTLY MATCHING THEIR CONTENT
+          (Smart Classrooms, Scientific STEM Labs, Athletics & Sports, Performing Arts)
+          ========================================================================== */}
+      <section className="section-padding section-lavender">
         <div className="container">
           <SectionHeader
-            badge="ACADEMIC EXCELLENCE"
-            title="Curriculum & Learning Pathways"
-            subtitle="Structured around the CBSE academic framework, nurturing steady intellectual progression from early childhood through secondary board examinations."
+            badge="FOUR PILLARS"
+            badgeVariant="coral"
+            title="Designed for Modern, Curious Minds"
+            subtitle="Academic rigor balanced with hands-on technological fluencies, sports conditioning, and creative expression."
           />
 
           <div
@@ -423,237 +656,230 @@ export const Home = () => {
               gap: '1.75rem'
             }}
           >
-            {academicPrograms.map((program) => (
-              <div
-                key={program.id}
-                style={{
-                  backgroundColor: '#FFFFFF',
-                  borderRadius: '12px',
-                  overflow: 'hidden',
-                  border: '1px solid rgba(16, 43, 73, 0.08)',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  transition: 'all 0.25s ease',
-                  boxShadow: 'var(--shadow-xs)'
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.transform = 'translateY(-3px)';
-                  e.currentTarget.style.boxShadow = 'var(--shadow-md)';
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.transform = 'translateY(0)';
-                  e.currentTarget.style.boxShadow = 'var(--shadow-xs)';
-                }}
-              >
-                <div style={{ height: '170px', overflow: 'hidden', position: 'relative' }}>
-                  <img
-                    src={program.image}
-                    alt={program.title}
-                    style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                  />
-                  <span
-                    style={{
-                      position: 'absolute',
-                      top: '12px',
-                      left: '12px',
-                      backgroundColor: 'rgba(7, 23, 44, 0.88)',
-                      color: '#E8D5B5',
-                      fontSize: '0.72rem',
-                      fontWeight: 600,
-                      padding: '0.25rem 0.65rem',
-                      borderRadius: '4px',
-                      letterSpacing: '0.04em',
-                      textTransform: 'uppercase'
-                    }}
-                  >
-                    {program.badge}
-                  </span>
-                </div>
-
-                <div style={{ padding: '1.5rem', flex: 1, display: 'flex', flexDirection: 'column' }}>
-                  <h3 style={{ fontSize: '1.15rem', fontWeight: 700, color: 'var(--navy-primary)', marginBottom: '0.35rem' }}>
-                    {program.title}
-                  </h3>
-                  <div style={{ fontSize: '0.8rem', color: 'var(--gold-dark)', fontWeight: 600, marginBottom: '0.85rem' }}>
-                    {program.grades} · Age {program.ageGroup}
-                  </div>
-                  <p style={{ fontSize: '0.88rem', color: '#475569', lineHeight: 1.6, marginBottom: '1.25rem', flex: 1 }}>
-                    {program.description}
-                  </p>
-
-                  <Link
-                    to="/academics"
-                    style={{
-                      display: 'inline-flex',
-                      alignItems: 'center',
-                      gap: '0.4rem',
-                      fontSize: '0.88rem',
-                      fontWeight: 600,
-                      color: 'var(--navy-primary)',
-                      marginTop: 'auto'
-                    }}
-                  >
-                    <span>Explore Stage Details</span>
-                    <ArrowRight size={14} />
-                  </Link>
-                </div>
-              </div>
-            ))}
-          </div>
-
-          <div style={{ textAlign: 'center', marginTop: '2.75rem' }}>
-            <Link to="/academics" className="btn-primary">
-              <BookOpen size={16} />
-              <span>View Full CBSE Academic Structure</span>
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* 5. SECTION TYPE A (Warm Ivory #F4F1E9): Interactive Campus Facilities Experience */}
-      <section className="section-padding section-ivory">
-        <div className="container">
-          <SectionHeader
-            badge="INTERACTIVE CAMPUS TOUR"
-            title="Explore Our Campus Facilities"
-            subtitle="Click or tap any facility tab to inspect authentic photographs, equipment standards, and student resources across our 4,000+ sq. meter campus."
-          />
-
-          {/* Interactive Campus Showcase Component */}
-          <InteractiveCampus />
-        </div>
-      </section>
-
-      {/* 6. SECTION TYPE B (Soft Grey-Blue #E8EDF3): Curated Photo Gallery Preview */}
-      <section className="section-padding section-grey-blue">
-        <div className="container">
-          <SectionHeader
-            badge="CAMPUS LIFE IN ACTION"
-            title="Visual Tour of Rainbow Innovative Academy"
-            subtitle="Authentic moments of student discovery, scientific investigation, athletics, and cultural celebrations."
-          />
-
-          <div
-            style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
-              gap: '1.25rem'
-            }}
-          >
-            {galleryItems.slice(0, 4).map((item) => (
-              <div
-                key={item.id}
-                style={{
-                  position: 'relative',
-                  borderRadius: '10px',
-                  overflow: 'hidden',
-                  height: '240px',
-                  boxShadow: 'var(--shadow-xs)',
-                  border: '1px solid rgba(16, 43, 73, 0.08)'
-                }}
-              >
-                <img
-                  src={item.image}
-                  alt={item.title}
-                  style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                />
-                <div
+            {[
+              {
+                num: '01',
+                title: 'Smart Classrooms',
+                desc: 'Modern smart classroom with interactive digital boards and multimedia touchscreen displays where students actively learn.',
+                icon: Tv,
+                tag: 'Interactive Tech',
+                color: 'var(--coral-vibrant)',
+                image: '/images/school/hero-interactive-smartclass.webp'
+              },
+              {
+                num: '02',
+                title: 'Scientific STEM Labs',
+                desc: 'Students conducting science experiments and hands-on investigation in a properly equipped, modern science laboratory.',
+                icon: FlaskConical,
+                tag: 'STEM Inquiry',
+                color: 'var(--lavender-soft)',
+                image: '/images/school/highschool-science-lab.webp'
+              },
+              {
+                num: '03',
+                title: 'Athletics & Sports',
+                desc: 'Outdoor sports activities, athletic track heats, football, cricket, and physical training on the spacious campus playground.',
+                icon: Activity,
+                tag: 'Physical Health',
+                color: 'var(--yellow-sunshine)',
+                image: '/images/school/sports-athletics-field.jpg'
+              },
+              {
+                num: '04',
+                title: 'Performing & Fine Arts',
+                desc: 'Creative activities including painting, hands-on craft practice, pottery clay sculpting, classical dance, and music.',
+                icon: Palette,
+                tag: 'Creative Growth',
+                color: 'var(--coral-vibrant)',
+                image: '/images/school/primary-art-creative.webp'
+              }
+            ].map((pillar, i) => {
+              const IconComp = pillar.icon;
+              return (
+                <motion.div
+                  key={i}
+                  initial={{ opacity: 0, y: 25 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: i * 0.1 }}
+                  whileHover={{ y: -8 }}
+                  className="card-cream"
                   style={{
-                    position: 'absolute',
-                    inset: 0,
-                    background: 'linear-gradient(to top, rgba(7, 23, 44, 0.88) 0%, rgba(7, 23, 44, 0.1) 60%, transparent 100%)',
+                    padding: 0,
+                    overflow: 'hidden',
                     display: 'flex',
                     flexDirection: 'column',
-                    justifyContent: 'flex-end',
-                    padding: '1.25rem',
-                    color: '#FFFFFF'
+                    borderTop: `4px solid ${pillar.color}`
                   }}
                 >
-                  <span style={{ fontSize: '0.72rem', color: '#E8D5B5', fontWeight: 600, textTransform: 'uppercase' }}>
-                    {item.category}
-                  </span>
-                  <h4 style={{ fontSize: '0.98rem', fontWeight: 600, color: '#FFFFFF' }}>
-                    {item.title}
-                  </h4>
-                </div>
-              </div>
-            ))}
-          </div>
+                  <div style={{ height: '190px', overflow: 'hidden', position: 'relative' }}>
+                    <img
+                      src={pillar.image}
+                      alt={pillar.title}
+                      style={{
+                        width: '100%',
+                        height: '100%',
+                        objectFit: 'cover',
+                        transition: 'transform 0.4s ease'
+                      }}
+                    />
+                    <span
+                      style={{
+                        position: 'absolute',
+                        top: '12px',
+                        left: '12px',
+                        backgroundColor: 'rgba(33, 22, 46, 0.88)',
+                        color: 'var(--cream-warm)',
+                        fontSize: '0.72rem',
+                        fontWeight: 700,
+                        padding: '0.25rem 0.75rem',
+                        borderRadius: '50px',
+                        textTransform: 'uppercase',
+                        letterSpacing: '0.04em',
+                        backdropFilter: 'blur(6px)'
+                      }}
+                    >
+                      {pillar.tag}
+                    </span>
+                  </div>
 
-          <div style={{ textAlign: 'center', marginTop: '2.5rem' }}>
-            <Link to="/gallery" className="btn-secondary">
-              <span>Explore Complete Campus Gallery</span>
-              <ArrowRight size={16} />
-            </Link>
+                  <div style={{ padding: '1.75rem', flex: 1, display: 'flex', flexDirection: 'column' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.85rem' }}>
+                      <span style={{ fontSize: '1.4rem', fontWeight: 800, color: 'var(--text-muted)', fontFamily: 'var(--font-heading)' }}>
+                        {pillar.num}
+                      </span>
+                      <div
+                        style={{
+                          width: '36px',
+                          height: '36px',
+                          borderRadius: '50%',
+                          backgroundColor: 'var(--cream-surface)',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          color: 'var(--text-dark)'
+                        }}
+                      >
+                        <IconComp size={18} />
+                      </div>
+                    </div>
+
+                    <h3 style={{ fontSize: '1.25rem', fontWeight: 800, color: 'var(--text-dark)', marginBottom: '0.5rem' }}>
+                      {pillar.title}
+                    </h3>
+
+                    <p style={{ fontSize: '0.9rem', color: 'var(--text-body)', lineHeight: 1.6, marginBottom: '1.25rem', flex: 1 }}>
+                      {pillar.desc}
+                    </p>
+
+                    <Link
+                      to="/gallery"
+                      style={{
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        gap: '0.35rem',
+                        fontSize: '0.86rem',
+                        fontWeight: 700,
+                        color: 'var(--coral-vibrant)',
+                        marginTop: 'auto'
+                      }}
+                    >
+                      <span>Explore in Gallery</span>
+                      <ArrowRight size={14} />
+                    </Link>
+                  </div>
+                </motion.div>
+              );
+            })}
           </div>
         </div>
       </section>
 
-      {/* 7. FEATURED SECTION (Deep Navy #102B49): Admissions 2026–27 CTA */}
+      {/* ==========================================================================
+          4. ADMISSIONS CALL TO ACTION (Deep Plum #21162E)
+          (Duplicate "Admissions Open for Session 2026-2027" announcement banner
+           completely removed per instruction; clean, non-repetitive CTA layout)
+          ========================================================================== */}
       <section
-        className="section-navy"
+        className="section-plum"
         style={{
-          padding: '4.5rem 0',
-          position: 'relative'
+          padding: '6rem 0',
+          position: 'relative',
+          overflow: 'hidden'
         }}
       >
-        <div className="container" style={{ textAlign: 'center', maxWidth: '820px' }}>
-          <span className="badge-dark-gold" style={{ marginBottom: '1.25rem' }}>
-            Admissions Session 2026–2027
-          </span>
+        <div className="ambient-glow-coral" style={{ top: '-150px', right: '-100px' }} />
+        <div className="ambient-glow-yellow" style={{ bottom: '-150px', left: '-100px' }} />
 
+        <div className="container" style={{ textAlign: 'center', maxWidth: '820px', position: 'relative', zIndex: 1 }}>
           <h2
             style={{
-              fontSize: 'clamp(2rem, 3.8vw, 2.85rem)',
-              fontWeight: 700,
-              color: '#FFFFFF',
-              lineHeight: 1.25,
+              fontSize: 'clamp(2.2rem, 4.4vw, 3.2rem)',
+              fontWeight: 800,
+              color: 'var(--cream-warm)',
+              lineHeight: 1.18,
+              letterSpacing: '-0.025em',
               marginBottom: '1.25rem'
             }}
           >
-            Begin Your Child's Educational Journey at RIA
+            Give Your Child the Foundation for a Lifetime of Success
           </h2>
 
           <p
             style={{
-              fontSize: 'clamp(1rem, 1.4vw, 1.12rem)',
-              color: '#CBD5E1',
-              lineHeight: 1.7,
-              marginBottom: '2.25rem',
-              maxWidth: '680px',
-              margin: '0 auto 2.25rem'
+              fontSize: 'clamp(1rem, 1.4vw, 1.15rem)',
+              color: 'var(--text-light-muted)',
+              lineHeight: 1.75,
+              marginBottom: '2.5rem',
+              maxWidth: '660px',
+              margin: '0 auto 2.5rem'
             }}
           >
-            Enrollment is open for Pre-Primary through Class 10. We invite parents to tour our lush green campus in Konadasapura, meet our faculty, and inspect our interactive smart classrooms.
+            We invite parents to tour our green campus in Konadasapura, interact with our academic mentors, and inspect our modern smart classrooms in person.
           </p>
 
-          <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '1rem', flexWrap: 'wrap' }}>
-            <Link to="/admissions" className="btn-gold" style={{ padding: '0.9rem 2.25rem' }}>
-              <GraduationCap size={18} />
-              <span>Submit Admission Enquiry</span>
+          <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '1.25rem', flexWrap: 'wrap' }}>
+            <Link
+              to="/apply"
+              className="btn-coral"
+              style={{ padding: '1rem 2.5rem', fontSize: '1.05rem' }}
+            >
+              <GraduationCap size={20} />
+              <span>Apply Online for 2026–27</span>
             </Link>
-            <Link to="/contact" className="btn-outline-white" style={{ padding: '0.9rem 2rem' }}>
+
+            <Link
+              to="/admissions"
+              className="btn-outline-white"
+              style={{ padding: '1rem 2rem', fontSize: '1.05rem' }}
+            >
               <Calendar size={18} />
-              <span>Schedule Campus Visit</span>
+              <span>Admissions Process</span>
             </Link>
           </div>
 
           <div
             style={{
-              marginTop: '2.5rem',
-              paddingTop: '1.75rem',
-              borderTop: '1px solid rgba(255, 255, 255, 0.1)',
+              marginTop: '3.5rem',
+              paddingTop: '2rem',
+              borderTop: '1px solid rgba(185, 167, 255, 0.15)',
               display: 'flex',
               justifyContent: 'center',
               gap: '2.5rem',
               flexWrap: 'wrap',
-              fontSize: '0.86rem',
-              color: '#94A3B8'
+              fontSize: '0.88rem',
+              color: 'var(--text-light-muted)'
             }}
           >
-            <div>Admissions Desk: <strong style={{ color: '#F1F5F9' }}>+91 70907 96666</strong></div>
-            <div>School Office: <strong style={{ color: '#F1F5F9' }}>+91 70909 96666</strong></div>
-            <div>Hours: <strong style={{ color: '#F1F5F9' }}>Mon–Sat 8:30 AM – 4:30 PM</strong></div>
+            <div>
+              Admissions Desk: <strong style={{ color: '#FFFFFF' }}>{schoolInfo.contact.phones[0]}</strong>
+            </div>
+            <div>
+              School Office: <strong style={{ color: '#FFFFFF' }}>{schoolInfo.contact.phones[1]}</strong>
+            </div>
+            <div>
+              Hours: <strong style={{ color: '#FFFFFF' }}>{schoolInfo.contact.officeHours}</strong>
+            </div>
           </div>
         </div>
       </section>

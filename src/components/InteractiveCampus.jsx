@@ -36,7 +36,7 @@ export const InteractiveCampus = () => {
       style={{
         backgroundColor: '#FFFFFF',
         borderRadius: '16px',
-        border: '1px solid rgba(16, 43, 73, 0.08)',
+        border: '1px solid rgba(33, 22, 46, 0.08)',
         boxShadow: 'var(--shadow-md)',
         overflow: 'hidden'
       }}
@@ -46,10 +46,10 @@ export const InteractiveCampus = () => {
         style={{
           display: 'flex',
           overflowX: 'auto',
-          backgroundColor: 'var(--bg-grey-blue)',
-          borderBottom: '1px solid rgba(16, 43, 73, 0.08)',
+          backgroundColor: 'var(--cream-warm)',
+          borderBottom: '1px solid rgba(33, 22, 46, 0.08)',
           scrollbarWidth: 'none',
-          padding: '0.5rem 0.75rem',
+          padding: '0.6rem 0.75rem',
           gap: '0.5rem'
         }}
       >
@@ -69,16 +69,16 @@ export const InteractiveCampus = () => {
                 fontFamily: 'var(--font-heading)',
                 fontSize: '0.86rem',
                 fontWeight: isActive ? 600 : 500,
-                color: isActive ? '#FFFFFF' : 'var(--navy-primary)',
-                backgroundColor: isActive ? 'var(--navy-primary)' : 'transparent',
+                color: isActive ? '#FFFFFF' : 'var(--plum-deep)',
+                backgroundColor: isActive ? 'var(--plum-deep)' : 'transparent',
                 border: 'none',
                 cursor: 'pointer',
                 whiteSpace: 'nowrap',
                 transition: 'all 0.2s ease',
-                boxShadow: isActive ? '0 2px 8px rgba(16, 43, 73, 0.2)' : 'none'
+                boxShadow: isActive ? '0 4px 12px rgba(33, 22, 46, 0.25)' : 'none'
               }}
             >
-              <FacIcon size={16} color={isActive ? '#C5A880' : 'var(--navy-primary)'} />
+              <FacIcon size={16} color={isActive ? 'var(--yellow-sunshine)' : 'var(--plum-deep)'} />
               <span>{fac.title}</span>
             </button>
           );
@@ -103,7 +103,7 @@ export const InteractiveCampus = () => {
               borderRadius: '12px',
               overflow: 'hidden',
               boxShadow: 'var(--shadow-md)',
-              border: '1px solid rgba(16, 43, 73, 0.08)',
+              border: '1px solid rgba(33, 22, 46, 0.08)',
               position: 'relative'
             }}
           >
@@ -125,21 +125,21 @@ export const InteractiveCampus = () => {
                 position: 'absolute',
                 top: '16px',
                 left: '16px',
-                backgroundColor: 'rgba(7, 23, 44, 0.88)',
-                color: '#E8D5B5',
+                backgroundColor: 'rgba(33, 22, 46, 0.9)',
+                color: 'var(--yellow-sunshine)',
                 padding: '0.35rem 0.85rem',
-                borderRadius: '4px',
+                borderRadius: '6px',
                 fontSize: '0.74rem',
                 fontWeight: 600,
                 letterSpacing: '0.06em',
                 textTransform: 'uppercase',
-                backdropFilter: 'blur(4px)',
+                backdropFilter: 'blur(8px)',
                 display: 'inline-flex',
                 alignItems: 'center',
                 gap: '0.4rem'
               }}
             >
-              <ShieldCheck size={13} color="#C5A880" />
+              <ShieldCheck size={13} color="var(--yellow-sunshine)" />
               <span>{activeFacility.category} Infrastructure</span>
             </div>
 
@@ -149,12 +149,12 @@ export const InteractiveCampus = () => {
                 position: 'absolute',
                 bottom: '12px',
                 right: '12px',
-                backgroundColor: 'rgba(7, 23, 44, 0.75)',
-                color: '#CBD5E1',
+                backgroundColor: 'rgba(33, 22, 46, 0.85)',
+                color: '#FFFFFF',
                 padding: '0.25rem 0.65rem',
-                borderRadius: '4px',
+                borderRadius: '6px',
                 fontSize: '0.72rem',
-                backdropFilter: 'blur(4px)'
+                backdropFilter: 'blur(6px)'
               }}
             >
               RIA Bengaluru Campus
@@ -169,24 +169,24 @@ export const InteractiveCampus = () => {
               style={{
                 width: '36px',
                 height: '36px',
-                borderRadius: '6px',
-                backgroundColor: 'var(--navy-subtle)',
+                borderRadius: '8px',
+                backgroundColor: 'rgba(185, 167, 255, 0.2)',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                color: 'var(--navy-primary)'
+                color: 'var(--plum-deep)'
               }}
             >
               <IconComponent size={20} />
             </div>
-            <span className="badge-gold">Verified Campus Feature</span>
+            <span className="badge-lavender">Verified Campus Feature</span>
           </div>
 
           <h3
             style={{
               fontSize: '1.65rem',
               fontWeight: 700,
-              color: 'var(--navy-primary)',
+              color: 'var(--plum-deep)',
               lineHeight: 1.25,
               marginBottom: '0.85rem'
             }}
@@ -194,115 +194,115 @@ export const InteractiveCampus = () => {
             {activeFacility.title}
           </h3>
 
-          <p style={{ color: '#475569', fontSize: '0.98rem', lineHeight: 1.7, marginBottom: '1.5rem' }}>
+          <p style={{ color: 'var(--text-muted)', fontSize: '0.98rem', lineHeight: 1.7, marginBottom: '1.5rem' }}>
             {activeFacility.description}
           </p>
 
           <div
             style={{
-              backgroundColor: 'var(--bg-ivory)',
+              backgroundColor: 'var(--cream-warm)',
               padding: '1.25rem',
-              borderRadius: '8px',
-              border: '1px solid rgba(16, 43, 73, 0.08)',
+              borderRadius: '10px',
+              border: '1px solid rgba(33, 22, 46, 0.08)',
               marginBottom: '1.75rem'
             }}
           >
-            <h4 style={{ fontSize: '0.86rem', fontWeight: 700, color: 'var(--navy-primary)', textTransform: 'uppercase', letterSpacing: '0.04em', marginBottom: '0.5rem' }}>
+            <h4 style={{ fontSize: '0.86rem', fontWeight: 700, color: 'var(--plum-deep)', textTransform: 'uppercase', letterSpacing: '0.04em', marginBottom: '0.5rem' }}>
               Facility Highlights:
             </h4>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '0.45rem' }}>
               {activeFacility.id === 'smart-classes' && (
                 <>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.88rem', color: '#334155' }}>
-                    <CheckCircle2 size={15} color="var(--gold-rich)" />
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.88rem', color: 'var(--text-main)' }}>
+                    <CheckCircle2 size={15} color="var(--coral-vibrant)" />
                     <span>Touchscreen interactive multimedia display boards</span>
                   </div>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.88rem', color: '#334155' }}>
-                    <CheckCircle2 size={15} color="var(--gold-rich)" />
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.88rem', color: 'var(--text-main)' }}>
+                    <CheckCircle2 size={15} color="var(--coral-vibrant)" />
                     <span>CBSE-aligned audiovisual curriculum animations</span>
                   </div>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.88rem', color: '#334155' }}>
-                    <CheckCircle2 size={15} color="var(--gold-rich)" />
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.88rem', color: 'var(--text-main)' }}>
+                    <CheckCircle2 size={15} color="var(--coral-vibrant)" />
                     <span>High-ventilation ergonomic seating layouts</span>
                   </div>
                 </>
               )}
               {activeFacility.id === 'science-labs' && (
                 <>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.88rem', color: '#334155' }}>
-                    <CheckCircle2 size={15} color="var(--gold-rich)" />
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.88rem', color: 'var(--text-main)' }}>
+                    <CheckCircle2 size={15} color="var(--coral-vibrant)" />
                     <span>Dedicated Physics, Chemistry, and Biology workbenches</span>
                   </div>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.88rem', color: '#334155' }}>
-                    <CheckCircle2 size={15} color="var(--gold-rich)" />
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.88rem', color: 'var(--text-main)' }}>
+                    <CheckCircle2 size={15} color="var(--coral-vibrant)" />
                     <span>High-precision optical microscopes and standard reagents</span>
                   </div>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.88rem', color: '#334155' }}>
-                    <CheckCircle2 size={15} color="var(--gold-rich)" />
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.88rem', color: 'var(--text-main)' }}>
+                    <CheckCircle2 size={15} color="var(--coral-vibrant)" />
                     <span>Strict safety protocols and protective gear for secondary practicals</span>
                   </div>
                 </>
               )}
               {activeFacility.id === 'computer-lab' && (
                 <>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.88rem', color: '#334155' }}>
-                    <CheckCircle2 size={15} color="var(--gold-rich)" />
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.88rem', color: 'var(--text-main)' }}>
+                    <CheckCircle2 size={15} color="var(--coral-vibrant)" />
                     <span>Individual networked desktop workstations with high-speed LAN</span>
                   </div>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.88rem', color: '#334155' }}>
-                    <CheckCircle2 size={15} color="var(--gold-rich)" />
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.88rem', color: 'var(--text-main)' }}>
+                    <CheckCircle2 size={15} color="var(--coral-vibrant)" />
                     <span>Algorithmic logic, Python fundamentals, and digital literacy</span>
                   </div>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.88rem', color: '#334155' }}>
-                    <CheckCircle2 size={15} color="var(--gold-rich)" />
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.88rem', color: 'var(--text-main)' }}>
+                    <CheckCircle2 size={15} color="var(--coral-vibrant)" />
                     <span>Filtered internet access and cyber safety instruction</span>
                   </div>
                 </>
               )}
               {activeFacility.id === 'library' && (
                 <>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.88rem', color: '#334155' }}>
-                    <CheckCircle2 size={15} color="var(--gold-rich)" />
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.88rem', color: 'var(--text-main)' }}>
+                    <CheckCircle2 size={15} color="var(--coral-vibrant)" />
                     <span>CBSE reference encyclopedias, journals, and fiction classics</span>
                   </div>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.88rem', color: '#334155' }}>
-                    <CheckCircle2 size={15} color="var(--gold-rich)" />
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.88rem', color: 'var(--text-main)' }}>
+                    <CheckCircle2 size={15} color="var(--coral-vibrant)" />
                     <span>Dedicated quiet study alcoves and reading club discussions</span>
                   </div>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.88rem', color: '#334155' }}>
-                    <CheckCircle2 size={15} color="var(--gold-rich)" />
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.88rem', color: 'var(--text-main)' }}>
+                    <CheckCircle2 size={15} color="var(--coral-vibrant)" />
                     <span>Age-stratified book borrowing system from Grade 1 to 10</span>
                   </div>
                 </>
               )}
               {activeFacility.id === 'sports-ground' && (
                 <>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.88rem', color: '#334155' }}>
-                    <CheckCircle2 size={15} color="var(--gold-rich)" />
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.88rem', color: 'var(--text-main)' }}>
+                    <CheckCircle2 size={15} color="var(--coral-vibrant)" />
                     <span>Spacious outdoor grounds for Football, Cricket, Basketball & Volleyball</span>
                   </div>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.88rem', color: '#334155' }}>
-                    <CheckCircle2 size={15} color="var(--gold-rich)" />
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.88rem', color: 'var(--text-main)' }}>
+                    <CheckCircle2 size={15} color="var(--coral-vibrant)" />
                     <span>Standard athletics track races and inter-house sporting tournaments</span>
                   </div>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.88rem', color: '#334155' }}>
-                    <CheckCircle2 size={15} color="var(--gold-rich)" />
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.88rem', color: 'var(--text-main)' }}>
+                    <CheckCircle2 size={15} color="var(--coral-vibrant)" />
                     <span>Morning yoga, aerobic conditioning, and badminton training</span>
                   </div>
                 </>
               )}
               {activeFacility.id === 'transport' && (
                 <>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.88rem', color: '#334155' }}>
-                    <CheckCircle2 size={15} color="var(--gold-rich)" />
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.88rem', color: 'var(--text-main)' }}>
+                    <CheckCircle2 size={15} color="var(--coral-vibrant)" />
                     <span>Fleet of GPS-monitored buses covering Hoskote, Konadasapura & Whitefield</span>
                   </div>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.88rem', color: '#334155' }}>
-                    <CheckCircle2 size={15} color="var(--gold-rich)" />
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.88rem', color: 'var(--text-main)' }}>
+                    <CheckCircle2 size={15} color="var(--coral-vibrant)" />
                     <span>Mandatory trained female attendant and verified driver on every route</span>
                   </div>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.88rem', color: '#334155' }}>
-                    <CheckCircle2 size={15} color="var(--gold-rich)" />
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.88rem', color: 'var(--text-main)' }}>
+                    <CheckCircle2 size={15} color="var(--coral-vibrant)" />
                     <span>Speed governors and scheduled arrival alerts for parents</span>
                   </div>
                 </>
@@ -311,11 +311,11 @@ export const InteractiveCampus = () => {
           </div>
 
           <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
-            <Link to="/gallery" className="btn-secondary" style={{ padding: '0.65rem 1.35rem', fontSize: '0.88rem' }}>
+            <Link to="/gallery" className="btn-lavender" style={{ padding: '0.65rem 1.35rem', fontSize: '0.88rem' }}>
               <span>View in Photo Gallery</span>
               <ArrowRight size={14} />
             </Link>
-            <Link to="/contact" className="btn-primary" style={{ padding: '0.65rem 1.35rem', fontSize: '0.88rem' }}>
+            <Link to="/apply" className="btn-coral" style={{ padding: '0.65rem 1.35rem', fontSize: '0.88rem' }}>
               <span>Schedule Campus Visit</span>
             </Link>
           </div>
