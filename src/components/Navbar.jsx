@@ -34,10 +34,23 @@ export const Navbar = () => {
     setMobileMenuOpen(false);
   }, [location.pathname]);
 
+  // Prevent background scrolling when mobile menu is open
+  useEffect(() => {
+    if (mobileMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [mobileMenuOpen]);
+
   return (
     <>
-      {/* Top Institutional Bar: Deep Plum #21162E with Sunshine Yellow badge & Warm Cream text */}
+      {/* Top Institutional Utility Bar: Deep Plum #21162E */}
       <div
+        className="top-utility-bar"
         style={{
           backgroundColor: 'var(--plum-deep)',
           color: 'var(--cream-warm)',
@@ -53,12 +66,12 @@ export const Navbar = () => {
             justifyContent: 'space-between',
             alignItems: 'center',
             flexWrap: 'wrap',
-            padding: '0.45rem 1.5rem',
-            gap: '0.75rem'
+            padding: '0.45rem 1.25rem',
+            gap: '0.5rem'
           }}
         >
           {/* Left: Admissions & CBSE Affiliation info */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.85rem', flexWrap: 'wrap' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', flexWrap: 'wrap' }}>
             <span
               style={{
                 display: 'inline-flex',
@@ -80,7 +93,7 @@ export const Navbar = () => {
               <span>Admissions Open 2026–27</span>
             </span>
             <span style={{ color: 'var(--text-light-muted)', fontSize: '0.78rem', whiteSpace: 'nowrap' }} className="hide-sm">
-              CBSE Affiliation No: <strong style={{ color: '#FFFFFF' }}>{schoolInfo.affiliation.affiliationNo}</strong> · School Code: <strong style={{ color: '#FFFFFF' }}>{schoolInfo.affiliation.schoolCode}</strong>
+              CBSE Affiliation: <strong style={{ color: '#FFFFFF' }}>{schoolInfo.affiliation.affiliationNo}</strong> · Code: <strong style={{ color: '#FFFFFF' }}>{schoolInfo.affiliation.schoolCode}</strong>
             </span>
           </div>
 
@@ -89,8 +102,8 @@ export const Navbar = () => {
             style={{
               display: 'flex',
               alignItems: 'center',
-              gap: '1.25rem',
-              fontSize: '0.8rem',
+              gap: '1rem',
+              fontSize: '0.78rem',
               color: 'var(--text-light-muted)',
               whiteSpace: 'nowrap'
             }}
@@ -99,7 +112,7 @@ export const Navbar = () => {
               href={`tel:${schoolInfo.contact.phones[0].replace(/\s+/g, '')}`}
               style={{ display: 'inline-flex', alignItems: 'center', gap: '0.35rem', color: '#FFFFFF', transition: 'color 0.2s' }}
             >
-              <Phone size={13} style={{ color: 'var(--coral-vibrant)' }} />
+              <Phone size={12} style={{ color: 'var(--coral-vibrant)' }} />
               <span>{schoolInfo.contact.phones[0]}</span>
             </a>
             <span style={{ opacity: 0.3 }} className="hide-mobile">|</span>
@@ -108,7 +121,7 @@ export const Navbar = () => {
               style={{ display: 'inline-flex', alignItems: 'center', gap: '0.35rem', color: 'var(--text-light-muted)', transition: 'color 0.2s' }}
               className="hide-mobile"
             >
-              <Mail size={13} style={{ color: 'var(--coral-vibrant)' }} />
+              <Mail size={12} style={{ color: 'var(--coral-vibrant)' }} />
               <span>{schoolInfo.contact.email}</span>
             </a>
           </div>
@@ -120,29 +133,30 @@ export const Navbar = () => {
 
       {/* Main Sticky Header with Warm Cream background */}
       <header
+        className="main-header"
         style={{
           position: 'sticky',
           top: 0,
           left: 0,
           right: 0,
           zIndex: 990,
-          backgroundColor: isScrolled ? 'rgba(255, 248, 240, 0.97)' : 'rgba(255, 248, 240, 0.92)',
+          backgroundColor: isScrolled ? 'rgba(255, 248, 240, 0.98)' : 'rgba(255, 248, 240, 0.95)',
           backdropFilter: 'blur(16px)',
-          boxShadow: isScrolled ? '0 10px 30px rgba(33, 22, 46, 0.08)' : '0 1px 0 rgba(33, 22, 46, 0.05)',
+          boxShadow: isScrolled ? '0 8px 24px rgba(33, 22, 46, 0.08)' : '0 1px 0 rgba(33, 22, 46, 0.06)',
           transition: 'all 0.3s ease'
         }}
       >
         <div
-          className="container"
+          className="container header-container"
           style={{
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-between',
-            height: isScrolled ? '74px' : '84px',
+            height: isScrolled ? '72px' : '82px',
             transition: 'height 0.3s ease'
           }}
         >
-          {/* Complete Logo: No separate text, original proportions strictly preserved */}
+          {/* Complete Official Logo: Exact provided asset, original proportions strictly preserved */}
           <Link
             to="/"
             style={{
@@ -154,15 +168,16 @@ export const Navbar = () => {
             aria-label="Rainbow Innovative Academy - Home"
           >
             <img
-              src="/images/school/03_RIA_20logo.svg"
+              src="/images/school/official-ria-logo.jpg"
               alt="Rainbow Innovative Academy"
               style={{
-                height: isScrolled ? '46px' : '52px',
+                height: isScrolled ? '54px' : '62px',
                 width: 'auto',
-                maxWidth: '280px',
+                maxWidth: '100%',
                 objectFit: 'contain',
                 transition: 'height 0.3s ease',
-                display: 'block'
+                display: 'block',
+                mixBlendMode: 'multiply'
               }}
               className="header-official-logo"
             />
@@ -247,25 +262,27 @@ export const Navbar = () => {
               display: 'none',
               padding: '0.5rem',
               color: 'var(--plum-deep)',
-              cursor: 'pointer'
+              cursor: 'pointer',
+              borderRadius: '8px',
+              backgroundColor: 'rgba(33, 22, 46, 0.05)'
             }}
           >
-            {mobileMenuOpen ? <X size={28} /> : <Menu size={28} />}
+            {mobileMenuOpen ? <X size={26} /> : <Menu size={26} />}
           </button>
         </div>
       </header>
 
-      {/* Mobile Drawer */}
+      {/* Mobile Drawer Navigation */}
       {mobileMenuOpen && (
         <div
+          className="mobile-drawer-overlay"
           style={{
             position: 'fixed',
-            top: '74px',
             left: 0,
             right: 0,
             bottom: 0,
-            backgroundColor: 'rgba(33, 22, 46, 0.75)',
-            backdropFilter: 'blur(10px)',
+            backgroundColor: 'rgba(33, 22, 46, 0.7)',
+            backdropFilter: 'blur(8px)',
             zIndex: 980
           }}
           onClick={() => setMobileMenuOpen(false)}
@@ -274,15 +291,15 @@ export const Navbar = () => {
             style={{
               backgroundColor: 'var(--cream-warm)',
               width: '100%',
-              maxHeight: 'calc(100vh - 74px)',
+              maxHeight: 'calc(100vh - 68px)',
               overflowY: 'auto',
-              padding: '1.75rem 1.5rem 2.5rem',
-              boxShadow: '0 25px 50px rgba(23, 14, 33, 0.3)',
+              padding: '1.5rem 1.25rem 2rem',
+              boxShadow: '0 20px 40px rgba(23, 14, 33, 0.3)',
               borderBottom: '3px solid var(--coral-vibrant)'
             }}
             onClick={(e) => e.stopPropagation()}
           >
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', marginBottom: '1.75rem' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.35rem', marginBottom: '1.5rem' }}>
               {navLinks.map((link) => {
                 const isActive = location.pathname === link.path;
                 return (
@@ -294,39 +311,39 @@ export const Navbar = () => {
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'space-between',
-                      padding: '0.85rem 1rem',
-                      borderRadius: '8px',
+                      padding: '0.8rem 1rem',
+                      borderRadius: '10px',
                       fontFamily: 'var(--font-heading)',
-                      fontWeight: isActive ? 700 : 500,
-                      fontSize: '1rem',
+                      fontWeight: isActive ? 700 : 600,
+                      fontSize: '0.96rem',
                       color: isActive ? 'var(--coral-vibrant)' : 'var(--text-dark)',
-                      backgroundColor: isActive ? 'rgba(255, 112, 94, 0.08)' : 'transparent',
+                      backgroundColor: isActive ? 'rgba(255, 112, 94, 0.1)' : 'transparent',
                       textDecoration: 'none'
                     }}
                   >
                     <span>{link.name}</span>
-                    <ChevronRight size={17} color={isActive ? 'var(--coral-vibrant)' : '#A392B8'} />
+                    <ChevronRight size={17} color={isActive ? 'var(--coral-vibrant)' : 'var(--text-muted)'} />
                   </Link>
                 );
               })}
             </div>
 
             {/* Mobile Action: Single Apply Now button */}
-            <div style={{ borderTop: '1px solid rgba(33, 22, 46, 0.1)', paddingTop: '1.5rem', display: 'flex', flexDirection: 'column', gap: '0.85rem' }}>
+            <div style={{ borderTop: '1px solid rgba(33, 22, 46, 0.1)', paddingTop: '1.25rem', display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
               <Link
                 to="/apply"
                 onClick={() => setMobileMenuOpen(false)}
                 className="btn-coral"
-                style={{ width: '100%', textAlign: 'center', justifyContent: 'center' }}
+                style={{ width: '100%', textAlign: 'center', justifyContent: 'center', padding: '0.85rem 1.5rem' }}
               >
                 <GraduationCap size={18} />
                 <span>Apply Now (Session 2026–27)</span>
               </Link>
-              
+
               <a
                 href={`tel:${schoolInfo.contact.phones[0].replace(/\s+/g, '')}`}
                 className="btn-plum"
-                style={{ width: '100%', textAlign: 'center', justifyContent: 'center' }}
+                style={{ width: '100%', textAlign: 'center', justifyContent: 'center', padding: '0.85rem 1.5rem' }}
               >
                 <Phone size={15} />
                 <span>Call Admissions: {schoolInfo.contact.phones[0]}</span>
@@ -336,28 +353,54 @@ export const Navbar = () => {
         </div>
       )}
 
-      {/* Responsive Header Queries */}
+      {/* Responsive Header CSS */}
       <style>{`
+        .mobile-drawer-overlay {
+          top: 72px;
+        }
         @media (max-width: 1080px) {
           .desktop-nav {
             display: none !important;
           }
           .mobile-toggle {
-            display: block !important;
+            display: flex !important;
+            align-items: center;
+            justify-content: center;
           }
         }
-        @media (max-width: 600px) {
+        @media (max-width: 768px) {
+          .header-container {
+            height: 68px !important;
+          }
           .header-official-logo {
-            height: 38px !important;
-            max-width: 195px !important;
+            height: 50px !important;
+          }
+          .mobile-drawer-overlay {
+            top: 68px !important;
+          }
+        }
+        @media (max-width: 480px) {
+          .header-container {
+            height: 62px !important;
+          }
+          .header-official-logo {
+            height: 44px !important;
+            max-width: 200px !important;
+          }
+          .mobile-drawer-overlay {
+            top: 62px !important;
           }
           .hide-sm {
             display: none !important;
           }
-        }
-        @media (max-width: 480px) {
           .hide-mobile {
             display: none !important;
+          }
+        }
+        @media (max-width: 360px) {
+          .header-official-logo {
+            height: 40px !important;
+            max-width: 175px !important;
           }
         }
       `}</style>

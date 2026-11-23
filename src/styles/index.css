@@ -127,11 +127,29 @@ button {
   padding: 0 1.5rem;
 }
 
+@media (max-width: 600px) {
+  .container {
+    padding: 0 1.15rem;
+  }
+}
+
+@media (max-width: 380px) {
+  .container {
+    padding: 0 0.95rem;
+  }
+}
+
 .container-narrow {
   width: 100%;
   max-width: 900px;
   margin: 0 auto;
   padding: 0 1.5rem;
+}
+
+@media (max-width: 600px) {
+  .container-narrow {
+    padding: 0 1.15rem;
+  }
 }
 
 .section-padding {
@@ -140,7 +158,13 @@ button {
 
 @media (max-width: 768px) {
   .section-padding {
-    padding: 4rem 0;
+    padding: 3.75rem 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .section-padding {
+    padding: 3rem 0;
   }
 }
 
@@ -443,6 +467,18 @@ button {
   position: relative;
 }
 
+@media (max-width: 600px) {
+  .card-cream {
+    padding: 1.5rem 1.25rem;
+  }
+}
+
+@media (max-width: 380px) {
+  .card-cream {
+    padding: 1.25rem 1rem;
+  }
+}
+
 .card-cream:hover {
   transform: translateY(-5px);
   box-shadow: var(--shadow-lg);
@@ -458,6 +494,31 @@ button {
   box-shadow: var(--shadow-plum);
   transition: all var(--transition-normal);
   position: relative;
+}
+
+@media (max-width: 600px) {
+  .card-plum {
+    padding: 1.5rem 1.25rem;
+  }
+}
+
+@media (max-width: 380px) {
+  .card-plum {
+    padding: 1.25rem 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .btn-coral,
+  .btn-plum,
+  .btn-lavender,
+  .btn-yellow,
+  .btn-outline-white,
+  .btn-outline-coral {
+    padding: 0.85rem 1.4rem;
+    font-size: 0.92rem;
+    max-width: 100%;
+  }
 }
 
 .card-plum:hover {

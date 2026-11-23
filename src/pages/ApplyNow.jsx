@@ -204,8 +204,8 @@ export const ApplyNow = () => {
           <div
             style={{
               display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
-              gap: '3.5rem',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 300px), 1fr))',
+              gap: 'clamp(2rem, 4vw, 3.5rem)',
               alignItems: 'start'
             }}
           >
@@ -295,7 +295,7 @@ export const ApplyNow = () => {
               <div
                 className="card-cream"
                 style={{
-                  padding: '2.5rem',
+                  padding: 'clamp(1.25rem, 4vw, 2.5rem)',
                   borderTop: '5px solid var(--coral-vibrant)'
                 }}
               >
@@ -331,7 +331,7 @@ export const ApplyNow = () => {
                         )}
                       </div>
 
-                      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+                      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 180px), 1fr))', gap: '1rem' }}>
                         <div>
                           <label className="ria-label" htmlFor="phone">
                             Phone Number <span style={{ color: 'var(--coral-vibrant)' }}>*</span>
@@ -373,7 +373,7 @@ export const ApplyNow = () => {
                         </div>
                       </div>
 
-                      <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 0.8fr', gap: '1rem' }}>
+                      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 180px), 1fr))', gap: '1rem' }}>
                         <div>
                           <label className="ria-label" htmlFor="studentName">
                             Student Name <span style={{ color: 'var(--coral-vibrant)' }}>*</span>
@@ -507,20 +507,30 @@ export const ApplyNow = () => {
                           backgroundColor: '#25D366',
                           borderColor: '#25D366',
                           color: '#FFFFFF',
-                          padding: '0.9rem',
-                          fontWeight: 700
+                          padding: '0.9rem 1rem',
+                          fontWeight: 700,
+                          wordBreak: 'break-word',
+                          textAlign: 'center',
+                          justifyContent: 'center',
+                          fontSize: 'clamp(0.82rem, 3vw, 0.95rem)'
                         }}
                       >
-                        <MessageCircle size={18} />
+                        <MessageCircle size={18} style={{ flexShrink: 0 }} />
                         <span>Dispatch to Official WhatsApp (+91 70907 96666)</span>
                       </a>
 
                       <a
                         href={getMailtoUrl()}
                         className="btn-plum"
-                        style={{ padding: '0.9rem' }}
+                        style={{
+                          padding: '0.9rem 1rem',
+                          wordBreak: 'break-word',
+                          textAlign: 'center',
+                          justifyContent: 'center',
+                          fontSize: 'clamp(0.82rem, 3vw, 0.95rem)'
+                        }}
                       >
-                        <Mail size={18} />
+                        <Mail size={18} style={{ flexShrink: 0 }} />
                         <span>Email to rainbowinnovativeacademy@gmail.com</span>
                       </a>
                     </div>

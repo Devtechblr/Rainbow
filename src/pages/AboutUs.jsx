@@ -123,7 +123,7 @@ export const AboutUs = () => {
           <div
             style={{
               display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 300px), 1fr))',
               gap: '2rem',
               alignItems: 'stretch'
             }}
@@ -375,8 +375,8 @@ export const AboutUs = () => {
             <div
               style={{
                 display: 'grid',
-                gridTemplateColumns: 'repeat(auto-fit, minmax(170px, 1fr))',
-                gap: '1rem'
+                gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 140px), 1fr))',
+                gap: '0.85rem'
               }}
             >
               {schoolMilestones.map((m, idx) => {
@@ -626,7 +626,7 @@ export const AboutUs = () => {
           <div
             style={{
               display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 280px), 1fr))',
               gap: '2.5rem',
               alignItems: 'center',
               marginTop: '2rem'
@@ -821,10 +821,10 @@ export const AboutUs = () => {
                 borderRadius: '28px',
                 border: '1px solid var(--border-light)',
                 boxShadow: 'var(--shadow-lg)',
-                padding: 'clamp(2rem, 3.5vw, 3rem)',
+                padding: 'clamp(1.5rem, 3.5vw, 3rem)',
                 display: 'grid',
-                gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
-                gap: '3rem',
+                gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 280px), 1fr))',
+                gap: '2.5rem',
                 alignItems: 'center'
               }}
             >
@@ -834,7 +834,7 @@ export const AboutUs = () => {
                   style={{
                     width: '100%',
                     maxWidth: '340px',
-                    height: '420px',
+                    height: 'clamp(320px, 48vw, 420px)',
                     borderRadius: '22px',
                     overflow: 'hidden',
                     margin: '0 auto',
@@ -915,7 +915,7 @@ export const AboutUs = () => {
                 <div
                   style={{
                     display: 'grid',
-                    gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))',
+                    gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 180px), 1fr))',
                     gap: '1rem',
                     paddingTop: '1.25rem',
                     borderTop: '1px solid var(--border-light)'
@@ -944,10 +944,10 @@ export const AboutUs = () => {
                 borderRadius: '28px',
                 border: '1px solid var(--border-light)',
                 boxShadow: 'var(--shadow-lg)',
-                padding: 'clamp(2rem, 3.5vw, 3rem)',
+                padding: 'clamp(1.5rem, 3.5vw, 3rem)',
                 display: 'grid',
-                gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
-                gap: '3rem',
+                gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 280px), 1fr))',
+                gap: '2.5rem',
                 alignItems: 'center'
               }}
             >
@@ -992,7 +992,7 @@ export const AboutUs = () => {
                 <div
                   style={{
                     display: 'grid',
-                    gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))',
+                    gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 180px), 1fr))',
                     gap: '1rem',
                     paddingTop: '1.25rem',
                     borderTop: '1px solid var(--border-light)'
@@ -1015,7 +1015,7 @@ export const AboutUs = () => {
                   style={{
                     width: '100%',
                     maxWidth: '340px',
-                    height: '420px',
+                    height: 'clamp(320px, 48vw, 420px)',
                     borderRadius: '22px',
                     overflow: 'hidden',
                     margin: '0 auto',
@@ -1074,7 +1074,7 @@ export const AboutUs = () => {
           <div
             style={{
               display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 250px), 1fr))',
               gap: '1.5rem'
             }}
           >

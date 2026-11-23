@@ -146,7 +146,7 @@ export const Admissions = () => {
           <div
             style={{
               display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 240px), 1fr))',
               gap: '1.25rem',
               marginBottom: '2.5rem'
             }}
@@ -160,7 +160,7 @@ export const Admissions = () => {
                   style={{
                     display: 'flex',
                     flexDirection: 'column',
-                    padding: '1.5rem',
+                    padding: 'clamp(1rem, 3vw, 1.5rem)',
                     borderRadius: '20px',
                     backgroundColor: isActive ? 'var(--plum-deep)' : '#FFFFFF',
                     color: isActive ? '#FFFFFF' : 'var(--text-dark)',
@@ -288,8 +288,8 @@ export const Admissions = () => {
           <div
             style={{
               display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
-              gap: '2.5rem',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 280px), 1fr))',
+              gap: '2rem',
               alignItems: 'start'
             }}
           >
@@ -300,7 +300,7 @@ export const Admissions = () => {
                 borderRadius: '24px',
                 border: '1px solid var(--border-light)',
                 boxShadow: 'var(--shadow-md)',
-                padding: '2.25rem'
+                padding: 'clamp(1.25rem, 3.5vw, 2.25rem)'
               }}
             >
               <span className="badge-yellow" style={{ marginBottom: '1rem' }}>
@@ -380,7 +380,7 @@ export const Admissions = () => {
                 borderRadius: '24px',
                 border: '1px solid var(--border-light)',
                 boxShadow: 'var(--shadow-md)',
-                padding: '2.25rem'
+                padding: 'clamp(1.25rem, 3.5vw, 2.25rem)'
               }}
             >
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>

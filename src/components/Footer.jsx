@@ -18,11 +18,11 @@ export const Footer = () => {
       <div className="brand-palette-line" />
 
       {/* Main Footer Container */}
-      <div className="container" style={{ padding: '4.5rem 1.5rem 2rem' }}>
+      <div className="container footer-container" style={{ padding: '4.5rem 1.5rem 2rem' }}>
         <div
           style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 240px), 1fr))',
             gap: '2.5rem',
             marginBottom: '3rem'
           }}
@@ -33,20 +33,20 @@ export const Footer = () => {
               <Link to="/" style={{ display: 'inline-block' }}>
                 <div
                   style={{
-                    backgroundColor: 'var(--cream-warm)',
-                    padding: '0.5rem 0.9rem',
+                    backgroundColor: '#FFFFFF',
+                    padding: '0.5rem 0.85rem',
                     borderRadius: '12px',
                     display: 'inline-block',
                     boxShadow: '0 8px 20px rgba(0, 0, 0, 0.3)'
                   }}
                 >
                   <img
-                    src="/images/school/03_RIA_20logo.svg"
+                    src="/images/school/official-ria-logo.jpg"
                     alt="Rainbow Innovative Academy"
                     style={{
-                      height: '42px',
+                      height: '46px',
                       width: 'auto',
-                      maxWidth: '230px',
+                      maxWidth: '220px',
                       objectFit: 'contain',
                       display: 'block'
                     }}
@@ -264,6 +264,19 @@ export const Footer = () => {
           </div>
         </div>
       </div>
+
+      <style>{`
+        @media (max-width: 600px) {
+          .footer-container {
+            padding: 3rem 1.25rem 1.5rem !important;
+          }
+        }
+        @media (max-width: 380px) {
+          .footer-container {
+            padding: 2.5rem 0.95rem 1.25rem !important;
+          }
+        }
+      `}</style>
     </footer>
   );
 };

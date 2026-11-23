@@ -169,7 +169,7 @@ export const MandatoryDisclosure = () => {
           <div
             style={{
               display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(210px, 1fr))',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 150px), 1fr))',
               gap: '1.25rem',
               textAlign: 'center'
             }}
@@ -308,11 +308,11 @@ export const MandatoryDisclosure = () => {
                 </div>
 
                 {openSections.general && (
-                  <div style={{ padding: '2rem' }}>
+                  <div style={{ padding: 'clamp(1.25rem, 3vw, 2rem)' }}>
                     <div
                       style={{
                         display: 'grid',
-                        gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+                        gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 250px), 1fr))',
                         gap: '1.25rem'
                       }}
                     >
@@ -547,7 +547,7 @@ export const MandatoryDisclosure = () => {
                 </div>
 
                 {openSections.academics && (
-                  <div style={{ padding: '2rem' }}>
+                  <div style={{ padding: 'clamp(1.25rem, 3vw, 2rem)' }}>
                     <h4 style={{ fontSize: '1.1rem', fontWeight: 800, color: 'var(--text-dark)', marginBottom: '1.25rem' }}>
                       1. Approved Fee Structure Guidelines (Session 2026–2027)
                     </h4>
@@ -555,7 +555,7 @@ export const MandatoryDisclosure = () => {
                     <div
                       style={{
                         display: 'grid',
-                        gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))',
+                        gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 220px), 1fr))',
                         gap: '1.25rem',
                         marginBottom: '2.5rem'
                       }}
@@ -588,7 +588,7 @@ export const MandatoryDisclosure = () => {
                     <div
                       style={{
                         display: 'grid',
-                        gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
+                        gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 260px), 1fr))',
                         gap: '1.5rem'
                       }}
                     >
@@ -691,11 +691,11 @@ export const MandatoryDisclosure = () => {
                 </div>
 
                 {openSections.staff && (
-                  <div style={{ padding: '2rem' }}>
+                  <div style={{ padding: 'clamp(1.25rem, 3vw, 2rem)' }}>
                     <div
                       style={{
                         display: 'grid',
-                        gridTemplateColumns: 'repeat(auto-fit, minmax(230px, 1fr))',
+                        gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 150px), 1fr))',
                         gap: '1.25rem'
                       }}
                     >
@@ -796,11 +796,11 @@ export const MandatoryDisclosure = () => {
                 </div>
 
                 {openSections.infrastructure && (
-                  <div style={{ padding: '2rem' }}>
+                  <div style={{ padding: 'clamp(1.25rem, 3vw, 2rem)' }}>
                     <div
                       style={{
                         display: 'grid',
-                        gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+                        gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 250px), 1fr))',
                         gap: '1.25rem'
                       }}
                     >

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
@@ -13,19 +13,58 @@ import {
   Calendar,
   CheckCircle2,
   ShieldCheck,
-  BookOpen,
-  Cpu,
-  Bus,
-  Trophy,
-  Compass,
-  Layers,
-  ChevronRight
+  Play,
+  Pause,
+  Volume2,
+  VolumeX,
+  Compass
 } from 'lucide-react';
 import { schoolInfo } from '../data/schoolData';
 import SectionHeader from '../components/SectionHeader';
 
 export const Home = () => {
   const [activeZone, setActiveZone] = useState('academic');
+  const [isPlaying, setIsPlaying] = useState(true);
+  const [isMuted, setIsMuted] = useState(true);
+  const videoRef = useRef(null);
+
+  // Guarantee mobile autoplay compliance and responsive playback
+  useEffect(() => {
+    const video = videoRef.current;
+    if (video) {
+      video.defaultMuted = true;
+      video.muted = true;
+      video.setAttribute('playsinline', 'true');
+      video.setAttribute('webkit-playsinline', 'true');
+      const promise = video.play();
+      if (promise !== undefined) {
+        promise
+          .then(() => setIsPlaying(true))
+          .catch(() => {
+            // Autoplay blocked by mobile battery/data saver policy
+            setIsPlaying(false);
+          });
+      }
+    }
+  }, []);
+
+  const togglePlay = () => {
+    const video = videoRef.current;
+    if (!video) return;
+    if (video.paused) {
+      video.play().then(() => setIsPlaying(true)).catch(() => {});
+    } else {
+      video.pause();
+      setIsPlaying(false);
+    }
+  };
+
+  const toggleMute = () => {
+    const video = videoRef.current;
+    if (!video) return;
+    video.muted = !video.muted;
+    setIsMuted(video.muted);
+  };
 
   const campusZones = [
     {
@@ -58,7 +97,7 @@ export const Home = () => {
       badge: 'STEM & Discovery',
       headline: 'Where Scientific Hypotheses Become Real Experience',
       description:
-        'Comprehensive, laboratory suites equipped with standard reagents, precision optical microscopes, and electronic testing benches. Paired with a networked computer lab for algorithmic logic, Python, and digital literacy.',
+        'Comprehensive laboratory suites equipped with standard reagents, precision optical microscopes, and electronic testing benches. Paired with a networked computer lab for algorithmic logic, Python, and digital literacy.',
       stats: [
         { label: 'Laboratories', value: 'Composite & IT' },
         { label: 'Safety Protocol', value: 'Strict CBSE Standards' },
@@ -121,10 +160,12 @@ export const Home = () => {
     <div style={{ position: 'relative', overflowX: 'hidden' }}>
       {/* ==========================================================================
           1. CINEMATIC HERO SECTION
-          (Full-width school drone video background with subtle dark overlay,
-           oversized typography, and Vibrant Coral CTA)
+          (Desktop: Full-width background drone video with dark Plum overlay.
+           Mobile: Dedicated 16:9 responsive video container with play/pause controls,
+           avoiding vertical cropping while preserving the full drone footage)
           ========================================================================== */}
       <section
+        className="hero-section"
         style={{
           position: 'relative',
           minHeight: '88vh',
@@ -133,65 +174,38 @@ export const Home = () => {
           justifyContent: 'center',
           backgroundColor: 'var(--plum-deep)',
           color: 'var(--cream-warm)',
-          padding: '6.5rem 0 5.5rem',
+          padding: '5.5rem 0 4.5rem',
           overflow: 'hidden'
         }}
       >
-        {/* Full-Width School Drone Video Background */}
-        <div
-          style={{
-            position: 'absolute',
-            inset: 0,
-            width: '100%',
-            height: '100%',
-            overflow: 'hidden',
-            zIndex: 0
-          }}
-        >
-          <video
-            autoPlay
-            loop
-            muted
-            playsInline
-            poster="/images/school/hero-campus-banner.webp"
-            style={{
-              width: '100%',
-              height: '100%',
-              objectFit: 'cover',
-              objectPosition: 'center',
-              transform: 'scale(1.02)'
-            }}
-          >
-            <source src="/videos/school-drone.mp4" type="video/mp4" />
-          </video>
-
-          {/* Deep Plum Gradient Overlay for Maximum Readability */}
+        {/* Background Video Wrapper (Active on Desktop) */}
+        <div className="hero-desktop-video-backdrop">
           <div
             style={{
               position: 'absolute',
               inset: 0,
               background: `linear-gradient(
                 180deg,
-                rgba(33, 22, 46, 0.78) 0%,
-                rgba(33, 22, 46, 0.52) 45%,
-                rgba(33, 22, 46, 0.92) 100%
-              )`
+                rgba(33, 22, 46, 0.82) 0%,
+                rgba(33, 22, 46, 0.58) 45%,
+                rgba(33, 22, 46, 0.94) 100%
+              )`,
+              zIndex: 1
             }}
           />
-
           {/* Ambient Lighting Orbs */}
-          <div className="ambient-glow-coral" style={{ top: '-100px', right: '-100px' }} />
-          <div className="ambient-glow-lavender" style={{ bottom: '-150px', left: '-150px' }} />
+          <div className="ambient-glow-coral" style={{ top: '-100px', right: '-100px', zIndex: 1 }} />
+          <div className="ambient-glow-lavender" style={{ bottom: '-150px', left: '-150px', zIndex: 1 }} />
         </div>
 
         {/* Hero Interactive Content Layer */}
         <div className="container" style={{ position: 'relative', zIndex: 2, textAlign: 'center', maxWidth: '960px' }}>
-          {/* Top Admissions Badge (Affiliation strictly in top utility bar) */}
+          {/* Top Admissions Badge (Affiliation strictly kept in top info bar) */}
           <motion.div
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            style={{ marginBottom: '1.5rem', display: 'inline-block' }}
+            style={{ marginBottom: '1.25rem', display: 'inline-block' }}
           >
             <span className="badge-dark-yellow">
               <Sparkles size={14} color="var(--yellow-sunshine)" />
@@ -204,13 +218,14 @@ export const Home = () => {
             initial={{ opacity: 0, y: 25 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.1 }}
+            className="hero-headline"
             style={{
-              fontSize: 'clamp(2.5rem, 5.8vw, 4.4rem)',
+              fontSize: 'clamp(2.1rem, 5.2vw, 4.2rem)',
               fontWeight: 800,
               color: 'var(--cream-warm)',
-              lineHeight: 1.1,
+              lineHeight: 1.15,
               letterSpacing: '-0.03em',
-              marginBottom: '1.5rem',
+              marginBottom: '1.25rem',
               textShadow: '0 4px 30px rgba(0, 0, 0, 0.5)'
             }}
           >
@@ -232,43 +247,92 @@ export const Home = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.2 }}
+            className="hero-subtext"
             style={{
-              fontSize: 'clamp(1.05rem, 1.5vw, 1.25rem)',
+              fontSize: 'clamp(0.98rem, 1.4vw, 1.2rem)',
               color: 'var(--text-light-muted)',
-              lineHeight: 1.7,
-              marginBottom: '2.5rem',
+              lineHeight: 1.65,
+              marginBottom: '2rem',
               maxWidth: '680px',
-              margin: '0 auto 2.5rem',
+              margin: '0 auto 2rem',
               fontWeight: 400
             }}
           >
             A premier CBSE day school in Konadasapura, Bengaluru. Bridging rigorous academic excellence with hands-on discovery from Nursery to Class 10.
           </motion.p>
 
+          {/* ======================================================================
+              HERO VIDEO CONTAINER
+              (On Desktop: positioned in background.
+               On Mobile: sits in-flow with 16:9 aspect ratio, fully visible school building,
+               touch controls for play/pause and mute/unmute, avoiding awkward cropping)
+              ====================================================================== */}
+          <div className="hero-video-container">
+            <video
+              ref={videoRef}
+              autoPlay
+              loop
+              muted
+              playsInline
+              poster="/images/school/hero-campus-banner.webp"
+              className="hero-main-video"
+            >
+              <source src="/videos/school-drone.mp4" type="video/mp4" />
+            </video>
+
+            {/* Video Interactive Controls & Overlay Info */}
+            <div className="hero-video-controls">
+              <span className="hero-video-badge">
+                <span className="pulse-dot" />
+                Aerial Campus Tour
+              </span>
+
+              <div style={{ display: 'flex', gap: '0.45rem' }}>
+                <button
+                  type="button"
+                  onClick={togglePlay}
+                  aria-label={isPlaying ? 'Pause video' : 'Play video'}
+                  className="hero-video-btn"
+                >
+                  {isPlaying ? <Pause size={15} /> : <Play size={15} />}
+                </button>
+                <button
+                  type="button"
+                  onClick={toggleMute}
+                  aria-label={isMuted ? 'Unmute video' : 'Mute video'}
+                  className="hero-video-btn"
+                >
+                  {isMuted ? <VolumeX size={15} /> : <Volume2 size={15} />}
+                </button>
+              </div>
+            </div>
+          </div>
+
           {/* Primary Action Buttons */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.3 }}
+            className="hero-buttons-wrapper"
             style={{
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              gap: '1.25rem',
+              gap: '1rem',
               flexWrap: 'wrap',
-              marginBottom: '3.5rem'
+              marginBottom: '2.5rem'
             }}
           >
             <Link
               to="/apply"
               className="btn-coral"
               style={{
-                padding: '1rem 2.4rem',
-                fontSize: '1.05rem',
+                padding: '0.9rem 2.2rem',
+                fontSize: '1rem',
                 gap: '0.65rem'
               }}
             >
-              <GraduationCap size={20} />
+              <GraduationCap size={19} />
               <span>Apply for Admission 2026–27</span>
             </Link>
 
@@ -276,13 +340,13 @@ export const Home = () => {
               to="/gallery"
               className="btn-outline-white"
               style={{
-                padding: '1rem 2rem',
-                fontSize: '1.05rem',
+                padding: '0.9rem 1.85rem',
+                fontSize: '1rem',
                 gap: '0.65rem'
               }}
             >
               <span>Explore Campus Life</span>
-              <ArrowRight size={18} />
+              <ArrowRight size={17} />
             </Link>
           </motion.div>
 
@@ -291,13 +355,14 @@ export const Home = () => {
             initial={{ opacity: 0, y: 25 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
+            className="hero-metrics-strip"
             style={{
               display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))',
-              gap: '1.25rem',
-              backgroundColor: 'rgba(33, 22, 46, 0.75)',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 150px), 1fr))',
+              gap: '1rem',
+              backgroundColor: 'rgba(33, 22, 46, 0.78)',
               backdropFilter: 'blur(16px)',
-              padding: '1.5rem 2rem',
+              padding: '1.25rem 1.5rem',
               borderRadius: '20px',
               border: '1px solid rgba(185, 167, 255, 0.2)',
               boxShadow: 'var(--shadow-plum)'
@@ -309,14 +374,14 @@ export const Home = () => {
               { label: 'Curriculum', val: 'Nursery to 10', sub: 'CBSE Secondary' },
               { label: 'Infrastructure', val: '100% Digital', sub: 'Smart Touchscreens' }
             ].map((stat, i) => (
-              <div key={i} style={{ textAlign: 'center' }}>
-                <div style={{ color: 'var(--yellow-sunshine)', fontSize: '0.74rem', textTransform: 'uppercase', letterSpacing: '0.08em', fontWeight: 700 }}>
+              <div key={i} style={{ textAlign: 'center', padding: '0.4rem' }}>
+                <div style={{ color: 'var(--yellow-sunshine)', fontSize: '0.72rem', textTransform: 'uppercase', letterSpacing: '0.08em', fontWeight: 700 }}>
                   {stat.label}
                 </div>
-                <div style={{ color: '#FFFFFF', fontSize: '1.3rem', fontWeight: 800, margin: '0.2rem 0' }}>
+                <div style={{ color: '#FFFFFF', fontSize: '1.22rem', fontWeight: 800, margin: '0.15rem 0' }}>
                   {stat.val}
                 </div>
-                <div style={{ color: 'var(--text-light-muted)', fontSize: '0.78rem' }}>
+                <div style={{ color: 'var(--text-light-muted)', fontSize: '0.74rem' }}>
                   {stat.sub}
                 </div>
               </div>
@@ -343,7 +408,7 @@ export const Home = () => {
           <div
             style={{
               display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 220px), 1fr))',
               gap: '1rem',
               marginBottom: '2.5rem'
             }}
@@ -358,8 +423,8 @@ export const Home = () => {
                   style={{
                     display: 'flex',
                     alignItems: 'center',
-                    gap: '1rem',
-                    padding: '1.15rem 1.35rem',
+                    gap: '0.85rem',
+                    padding: '1rem 1.15rem',
                     borderRadius: '16px',
                     backgroundColor: isActive ? 'var(--plum-deep)' : '#FFFFFF',
                     color: isActive ? '#FFFFFF' : 'var(--text-dark)',
@@ -375,8 +440,8 @@ export const Home = () => {
                 >
                   <div
                     style={{
-                      width: '42px',
-                      height: '42px',
+                      width: '40px',
+                      height: '40px',
                       borderRadius: '10px',
                       backgroundColor: isActive ? 'rgba(255, 255, 255, 0.15)' : 'var(--cream-warm)',
                       display: 'flex',
@@ -386,17 +451,17 @@ export const Home = () => {
                       color: isActive ? zone.color : 'var(--plum-deep)'
                     }}
                   >
-                    <ZoneIcon size={22} />
+                    <ZoneIcon size={20} />
                   </div>
                   <div>
-                    <div style={{ fontSize: '0.98rem', fontWeight: 800, lineHeight: 1.25 }}>
+                    <div style={{ fontSize: '0.94rem', fontWeight: 800, lineHeight: 1.25 }}>
                       {zone.title}
                     </div>
                     <div
                       style={{
-                        fontSize: '0.75rem',
+                        fontSize: '0.74rem',
                         color: isActive ? 'rgba(255, 255, 255, 0.75)' : 'var(--text-muted)',
-                        marginTop: '0.2rem'
+                        marginTop: '0.15rem'
                       }}
                     >
                       {zone.badge}
@@ -433,7 +498,7 @@ export const Home = () => {
                 borderRadius: '24px',
                 border: '1px solid var(--border-light)',
                 boxShadow: 'var(--shadow-lg)',
-                padding: 'clamp(2rem, 3.5vw, 3rem)',
+                padding: 'clamp(1.5rem, 3.5vw, 3rem)',
                 position: 'relative',
                 overflow: 'hidden'
               }}
@@ -456,22 +521,22 @@ export const Home = () => {
               <div
                 style={{
                   display: 'grid',
-                  gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
-                  gap: '2.5rem',
+                  gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 280px), 1fr))',
+                  gap: '2rem',
                   alignItems: 'center'
                 }}
               >
                 {/* Left: Detailed Overview & Highlights */}
                 <div>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem', marginBottom: '1rem' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem', marginBottom: '1rem', flexWrap: 'wrap' }}>
                     <span
                       style={{
                         backgroundColor: 'var(--cream-warm)',
                         color: 'var(--plum-deep)',
                         border: '1px solid var(--border-medium)',
-                        padding: '0.35rem 0.85rem',
+                        padding: '0.3rem 0.8rem',
                         borderRadius: '50px',
-                        fontSize: '0.76rem',
+                        fontSize: '0.74rem',
                         fontWeight: 700,
                         letterSpacing: '0.04em',
                         textTransform: 'uppercase',
@@ -483,14 +548,14 @@ export const Home = () => {
                       <CurrentIcon size={14} color="var(--coral-vibrant)" />
                       <span>{currentZone.badge}</span>
                     </span>
-                    <span style={{ fontSize: '0.84rem', color: 'var(--text-muted)', fontWeight: 500 }}>
+                    <span style={{ fontSize: '0.82rem', color: 'var(--text-muted)', fontWeight: 500 }}>
                       RIA Bengaluru Campus
                     </span>
                   </div>
 
                   <h3
                     style={{
-                      fontSize: 'clamp(1.6rem, 2.5vw, 2.2rem)',
+                      fontSize: 'clamp(1.4rem, 2.4vw, 2.1rem)',
                       fontWeight: 800,
                       color: 'var(--text-dark)',
                       lineHeight: 1.25,
@@ -504,16 +569,16 @@ export const Home = () => {
                   <p
                     style={{
                       color: 'var(--text-body)',
-                      fontSize: '1.02rem',
+                      fontSize: '0.98rem',
                       lineHeight: 1.7,
-                      marginBottom: '1.75rem'
+                      marginBottom: '1.5rem'
                     }}
                   >
                     {currentZone.description}
                   </p>
 
                   {/* Feature Checkpoints */}
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '0.65rem', marginBottom: '2rem' }}>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '0.65rem', marginBottom: '1.75rem' }}>
                     {currentZone.features.map((feat, idx) => (
                       <div key={idx} style={{ display: 'flex', alignItems: 'flex-start', gap: '0.65rem' }}>
                         <CheckCircle2
@@ -521,26 +586,26 @@ export const Home = () => {
                           color="var(--coral-vibrant)"
                           style={{ flexShrink: 0, marginTop: '2px' }}
                         />
-                        <span style={{ fontSize: '0.94rem', color: 'var(--text-dark)', fontWeight: 500 }}>
+                        <span style={{ fontSize: '0.92rem', color: 'var(--text-dark)', fontWeight: 500 }}>
                           {feat}
                         </span>
                       </div>
                     ))}
                   </div>
 
-                  <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
+                  <div style={{ display: 'flex', gap: '0.85rem', flexWrap: 'wrap' }}>
                     <Link
                       to="/gallery"
                       className="btn-coral"
-                      style={{ padding: '0.8rem 1.6rem', fontSize: '0.92rem' }}
+                      style={{ padding: '0.75rem 1.45rem', fontSize: '0.9rem' }}
                     >
                       <span>Explore Photo Gallery</span>
-                      <ArrowRight size={16} />
+                      <ArrowRight size={15} />
                     </Link>
                     <Link
                       to="/apply"
                       className="btn-plum"
-                      style={{ padding: '0.8rem 1.6rem', fontSize: '0.92rem' }}
+                      style={{ padding: '0.75rem 1.45rem', fontSize: '0.9rem' }}
                     >
                       <span>Book a Campus Tour</span>
                     </Link>
@@ -552,23 +617,23 @@ export const Home = () => {
                   style={{
                     backgroundColor: 'var(--cream-warm)',
                     borderRadius: '20px',
-                    padding: '2rem',
+                    padding: 'clamp(1.25rem, 3vw, 1.75rem)',
                     border: '1px solid var(--border-light)',
                     display: 'flex',
                     flexDirection: 'column',
-                    gap: '1.5rem'
+                    gap: '1.25rem'
                   }}
                 >
-                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                    <span style={{ fontSize: '0.82rem', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.06em', color: 'var(--text-muted)' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '0.5rem' }}>
+                    <span style={{ fontSize: '0.8rem', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.06em', color: 'var(--text-muted)' }}>
                       Infrastructure Standards
                     </span>
                     <span
                       style={{
                         backgroundColor: '#FFFFFF',
-                        padding: '0.25rem 0.65rem',
+                        padding: '0.2rem 0.65rem',
                         borderRadius: '50px',
-                        fontSize: '0.74rem',
+                        fontSize: '0.72rem',
                         fontWeight: 700,
                         color: 'var(--coral-vibrant)',
                         border: '1px solid var(--border-light)'
@@ -579,14 +644,14 @@ export const Home = () => {
                   </div>
 
                   {/* 3 Metric Chips */}
-                  <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '1rem' }}>
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '0.75rem' }}>
                     {currentZone.stats.map((st, i) => (
                       <div
                         key={i}
                         style={{
                           backgroundColor: '#FFFFFF',
-                          padding: '1.15rem 1.35rem',
-                          borderRadius: '14px',
+                          padding: '0.95rem 1.15rem',
+                          borderRadius: '12px',
                           border: '1px solid var(--border-light)',
                           display: 'flex',
                           alignItems: 'center',
@@ -594,12 +659,12 @@ export const Home = () => {
                           boxShadow: 'var(--shadow-xs)'
                         }}
                       >
-                        <span style={{ fontSize: '0.92rem', color: 'var(--text-dark)', fontWeight: 600 }}>
+                        <span style={{ fontSize: '0.88rem', color: 'var(--text-dark)', fontWeight: 600 }}>
                           {st.label}
                         </span>
                         <span
                           style={{
-                            fontSize: '1.15rem',
+                            fontSize: '1.05rem',
                             fontWeight: 800,
                             color: 'var(--plum-deep)',
                             fontFamily: 'var(--font-heading)'
@@ -614,19 +679,19 @@ export const Home = () => {
                   {/* Campus Coordinates & Notice */}
                   <div
                     style={{
-                      padding: '1rem',
+                      padding: '0.85rem 1rem',
                       backgroundColor: 'rgba(33, 22, 46, 0.05)',
                       borderRadius: '12px',
                       display: 'flex',
                       alignItems: 'center',
-                      gap: '0.75rem',
-                      fontSize: '0.84rem',
+                      gap: '0.65rem',
+                      fontSize: '0.82rem',
                       color: 'var(--text-body)'
                     }}
                   >
-                    <MapPin size={20} color="var(--coral-vibrant)" style={{ flexShrink: 0 }} />
+                    <MapPin size={18} color="var(--coral-vibrant)" style={{ flexShrink: 0 }} />
                     <div>
-                      <strong>Location:</strong> Erappa Garden, Rajappa Building, Budigere Cross, Konadasapura, Bengaluru – 560049
+                      <strong>Location:</strong> Erappa Garden, Budigere Cross, Konadasapura, Bengaluru – 560049
                     </div>
                   </div>
                 </div>
@@ -638,7 +703,6 @@ export const Home = () => {
 
       {/* ==========================================================================
           3. FACILITIES SECTION: IMAGES STRICTLY MATCHING THEIR CONTENT
-          (Smart Classrooms, Scientific STEM Labs, Athletics & Sports, Performing Arts)
           ========================================================================== */}
       <section className="section-padding section-lavender">
         <div className="container">
@@ -652,8 +716,8 @@ export const Home = () => {
           <div
             style={{
               display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
-              gap: '1.75rem'
+              gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 250px), 1fr))',
+              gap: '1.5rem'
             }}
           >
             {[
@@ -702,7 +766,7 @@ export const Home = () => {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.5, delay: i * 0.1 }}
-                  whileHover={{ y: -8 }}
+                  whileHover={{ y: -6 }}
                   className="card-cream"
                   style={{
                     padding: 0,
@@ -712,7 +776,7 @@ export const Home = () => {
                     borderTop: `4px solid ${pillar.color}`
                   }}
                 >
-                  <div style={{ height: '190px', overflow: 'hidden', position: 'relative' }}>
+                  <div style={{ height: '180px', overflow: 'hidden', position: 'relative' }}>
                     <img
                       src={pillar.image}
                       alt={pillar.title}
@@ -743,15 +807,15 @@ export const Home = () => {
                     </span>
                   </div>
 
-                  <div style={{ padding: '1.75rem', flex: 1, display: 'flex', flexDirection: 'column' }}>
-                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.85rem' }}>
-                      <span style={{ fontSize: '1.4rem', fontWeight: 800, color: 'var(--text-muted)', fontFamily: 'var(--font-heading)' }}>
+                  <div style={{ padding: '1.5rem', flex: 1, display: 'flex', flexDirection: 'column' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.75rem' }}>
+                      <span style={{ fontSize: '1.3rem', fontWeight: 800, color: 'var(--text-muted)', fontFamily: 'var(--font-heading)' }}>
                         {pillar.num}
                       </span>
                       <div
                         style={{
-                          width: '36px',
-                          height: '36px',
+                          width: '34px',
+                          height: '34px',
                           borderRadius: '50%',
                           backgroundColor: 'var(--cream-surface)',
                           display: 'flex',
@@ -760,15 +824,15 @@ export const Home = () => {
                           color: 'var(--text-dark)'
                         }}
                       >
-                        <IconComp size={18} />
+                        <IconComp size={17} />
                       </div>
                     </div>
 
-                    <h3 style={{ fontSize: '1.25rem', fontWeight: 800, color: 'var(--text-dark)', marginBottom: '0.5rem' }}>
+                    <h3 style={{ fontSize: '1.2rem', fontWeight: 800, color: 'var(--text-dark)', marginBottom: '0.45rem' }}>
                       {pillar.title}
                     </h3>
 
-                    <p style={{ fontSize: '0.9rem', color: 'var(--text-body)', lineHeight: 1.6, marginBottom: '1.25rem', flex: 1 }}>
+                    <p style={{ fontSize: '0.88rem', color: 'var(--text-body)', lineHeight: 1.6, marginBottom: '1.25rem', flex: 1 }}>
                       {pillar.desc}
                     </p>
 
@@ -797,13 +861,11 @@ export const Home = () => {
 
       {/* ==========================================================================
           4. ADMISSIONS CALL TO ACTION (Deep Plum #21162E)
-          (Duplicate "Admissions Open for Session 2026-2027" announcement banner
-           completely removed per instruction; clean, non-repetitive CTA layout)
           ========================================================================== */}
       <section
         className="section-plum"
         style={{
-          padding: '6rem 0',
+          padding: '5.5rem 0',
           position: 'relative',
           overflow: 'hidden'
         }}
@@ -814,12 +876,12 @@ export const Home = () => {
         <div className="container" style={{ textAlign: 'center', maxWidth: '820px', position: 'relative', zIndex: 1 }}>
           <h2
             style={{
-              fontSize: 'clamp(2.2rem, 4.4vw, 3.2rem)',
+              fontSize: 'clamp(2rem, 4vw, 3rem)',
               fontWeight: 800,
               color: 'var(--cream-warm)',
-              lineHeight: 1.18,
+              lineHeight: 1.2,
               letterSpacing: '-0.025em',
-              marginBottom: '1.25rem'
+              marginBottom: '1.15rem'
             }}
           >
             Give Your Child the Foundation for a Lifetime of Success
@@ -827,47 +889,47 @@ export const Home = () => {
 
           <p
             style={{
-              fontSize: 'clamp(1rem, 1.4vw, 1.15rem)',
+              fontSize: 'clamp(0.96rem, 1.3vw, 1.12rem)',
               color: 'var(--text-light-muted)',
-              lineHeight: 1.75,
-              marginBottom: '2.5rem',
+              lineHeight: 1.7,
+              marginBottom: '2.25rem',
               maxWidth: '660px',
-              margin: '0 auto 2.5rem'
+              margin: '0 auto 2.25rem'
             }}
           >
             We invite parents to tour our green campus in Konadasapura, interact with our academic mentors, and inspect our modern smart classrooms in person.
           </p>
 
-          <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '1.25rem', flexWrap: 'wrap' }}>
+          <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '1rem', flexWrap: 'wrap' }}>
             <Link
               to="/apply"
               className="btn-coral"
-              style={{ padding: '1rem 2.5rem', fontSize: '1.05rem' }}
+              style={{ padding: '0.95rem 2.25rem', fontSize: '1rem' }}
             >
-              <GraduationCap size={20} />
+              <GraduationCap size={19} />
               <span>Apply Online for 2026–27</span>
             </Link>
 
             <Link
               to="/admissions"
               className="btn-outline-white"
-              style={{ padding: '1rem 2rem', fontSize: '1.05rem' }}
+              style={{ padding: '0.95rem 1.85rem', fontSize: '1rem' }}
             >
-              <Calendar size={18} />
+              <Calendar size={17} />
               <span>Admissions Process</span>
             </Link>
           </div>
 
           <div
             style={{
-              marginTop: '3.5rem',
-              paddingTop: '2rem',
+              marginTop: '3rem',
+              paddingTop: '1.75rem',
               borderTop: '1px solid rgba(185, 167, 255, 0.15)',
               display: 'flex',
               justifyContent: 'center',
-              gap: '2.5rem',
+              gap: '2rem',
               flexWrap: 'wrap',
-              fontSize: '0.88rem',
+              fontSize: '0.86rem',
               color: 'var(--text-light-muted)'
             }}
           >
@@ -883,6 +945,166 @@ export const Home = () => {
           </div>
         </div>
       </section>
+
+      {/* Responsive Video & Hero Layout CSS */}
+      <style>{`
+        /* Desktop styles: Video acts as full-bleed backdrop */
+        @media (min-width: 769px) {
+          .hero-desktop-video-backdrop {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 0;
+          }
+          .hero-video-container {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 0;
+          }
+          .hero-main-video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            transform: scale(1.02);
+          }
+          .hero-video-controls {
+            position: absolute;
+            bottom: 24px;
+            right: 28px;
+            z-index: 5;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            background: rgba(33, 22, 46, 0.7);
+            backdrop-filter: blur(8px);
+            padding: 0.4rem 0.75rem;
+            border-radius: 50px;
+            border: 1px solid rgba(185, 167, 255, 0.25);
+          }
+        }
+
+        /* Mobile & Tablet styles: Intelligent 16:9 in-flow showcase */
+        @media (max-width: 768px) {
+          .hero-desktop-video-backdrop {
+            display: none;
+          }
+          .hero-section {
+            padding: 3.5rem 0 3.5rem !important;
+            min-height: auto !important;
+          }
+          .hero-headline {
+            font-size: 2rem !important;
+            line-height: 1.2 !important;
+            margin-bottom: 0.85rem !important;
+          }
+          .hero-subtext {
+            font-size: 0.95rem !important;
+            line-height: 1.55 !important;
+            margin-bottom: 1.25rem !important;
+          }
+          .hero-video-container {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            margin: 0 auto 1.75rem;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+            border: 2px solid rgba(255, 214, 107, 0.35);
+            background-color: #000000;
+          }
+          .hero-main-video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            display: block;
+          }
+          .hero-video-controls {
+            position: absolute;
+            bottom: 10px;
+            left: 10px;
+            right: 10px;
+            display: flex;
+            justifyContent: space-between;
+            align-items: center;
+            z-index: 3;
+            pointer-events: auto;
+          }
+          .hero-metrics-strip {
+            padding: 1rem !important;
+            grid-template-columns: repeat(2, 1fr) !important;
+            gap: 0.75rem !important;
+          }
+        }
+
+        @media (max-width: 480px) {
+          .hero-buttons-wrapper {
+            flex-direction: column !important;
+            width: 100%;
+          }
+          .hero-buttons-wrapper a {
+            width: 100% !important;
+            text-align: center;
+            justify-content: center;
+          }
+          .hero-metrics-strip {
+            grid-template-columns: repeat(2, 1fr) !important;
+          }
+        }
+
+        /* Video controls styling */
+        .hero-video-btn {
+          width: 32px;
+          height: 32px;
+          border-radius: 50%;
+          background: rgba(33, 22, 46, 0.85);
+          color: #FFFFFF;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          border: 1px solid rgba(255, 255, 255, 0.25);
+          transition: all 0.2s;
+          cursor: pointer;
+        }
+        .hero-video-btn:hover {
+          background: var(--coral-vibrant);
+          color: #FFFFFF;
+        }
+        .hero-video-badge {
+          display: inline-flex;
+          align-items: center;
+          gap: 0.35rem;
+          background: rgba(33, 22, 46, 0.85);
+          color: var(--yellow-sunshine);
+          border: 1px solid rgba(255, 214, 107, 0.3);
+          font-size: 0.72rem;
+          font-weight: 700;
+          padding: 0.25rem 0.65rem;
+          border-radius: 50px;
+          letter-spacing: 0.04em;
+          text-transform: uppercase;
+          backdrop-filter: blur(6px);
+        }
+        .pulse-dot {
+          width: 7px;
+          height: 7px;
+          border-radius: 50%;
+          background-color: var(--coral-vibrant);
+          display: inline-block;
+          animation: pulseAnim 1.6s infinite;
+        }
+        @keyframes pulseAnim {
+          0%, 100% { opacity: 1; transform: scale(1); }
+          50% { opacity: 0.4; transform: scale(0.85); }
+        }
+      `}</style>
     </div>
   );
 };
